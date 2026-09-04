@@ -15,6 +15,11 @@ public class Member
     [StringLength(150)]
     public string Name { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Membership type is required.")]
+    [StringLength(20)]
+    [Display(Name = "Membership Type")]
+    public string MembershipType { get; set; } = MemberType.Student;
+
     [StringLength(100)]
     public string? Department { get; set; }
 

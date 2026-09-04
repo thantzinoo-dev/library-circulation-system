@@ -1,0 +1,207 @@
+@page
+@model School_Library_Management.Pages.Books.IndexModel
+@{
+    ViewData["Title"] = "Books";
+}
+
+<section class="space-y-6">
+    <div class="page-motion page-motion-header flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Books</h1>
+            <p class="mt-1 text-sm text-ink-500">Manage the library catalogue and copy availability.</p>
+        </div>
+        <a asp-page="./Create"
+           class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 focus-visible:ring-offset-2">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" />
+            </svg>
+            Add book
+        </a>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+    {
+        <div class="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800" role="status">
+            @Model.StatusMessage
+        </div>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    <div class="page-motion page-motion-table rounded-xl border border-line-200 bg-white">
+        <div class="border-b border-line-200 p-4 sm:p-5">
+            <form method="get" class="flex flex-col gap-3 sm:flex-row" role="search">
+                <div class="relative min-w-0 flex-1">
+                    <svg class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="m20 20-4-4" />
+                    </svg>
+                    <label asp-for="Search" class="sr-only">Search books</label>
+                    <input asp-for="Search"
+                           class="min-h-10 w-full rounded-lg border border-line-300 bg-white py-2 pl-10 pr-3 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15"
+                           placeholder="Search ISBN, title, author, category, or language" />
+                </div>
+                <button type="submit" class="min-h-10 rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 hover:bg-blue-50 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                    Search
+                </button>
+                @if (Model.Search is not null)
+                {
+                    <a asp-page="./Index" class="inline-flex min-h-10 items-center justify-center rounded-lg px-3 text-sm font-medium text-ink-500 hover:bg-slate-50 hover:text-ink-900">Clear</a>
+                }
+            </form>
+        </div>
+
+        @if (Model.Books.Count == 0)
+        {
+            <div class="flex min-h-72 flex-col items-center justify-center px-6 py-12 text-center">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-brand-600" aria-hidden="true">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" />
+                        <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z" />
+                    </svg>
+                </span>
+                <h2 class="mt-4 text-base font-semibold text-ink-900">@(Model.Search is null ? "No books yet" : "No matching books")</h2>
+                <p class="mt-1 max-w-md text-sm text-ink-500">
+                    @(Model.Search is null ? "Add the first book to start building the library catalogue." : "Try a different title, author, ISBN, category, or language.")
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[800px] text-left text-sm">
+                    <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-ink-500">
+                        <tr>
+                            <th class="px-5 py-3">ISBN</th>
+                            <th class="px-5 py-3">Title</th>
+                            <th class="px-5 py-3">Author</th>
+                            <th class="px-5 py-3">Category</th>
+                            <th class="px-5 py-3">Language</th>
+                            <th class="px-5 py-3 text-center">Year</th>
+                            <th class="px-5 py-3 text-center">Copies</th>
+                            <th class="px-5 py-3 text-center">Available</th>
+                            <th class="px-5 py-3 text-right"><span class="sr-only">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-line-200">
+                        @foreach (var book in Model.Books)
+                        {
+                            <tr class="text-ink-700 hover:bg-slate-50/70">
+                                <td class="whitespace-nowrap px-5 py-4 font-mono text-xs text-ink-500">@(book.ISBN ?? "—")</td>
+                                <td class="max-w-64 px-5 py-4 font-semibold text-ink-900">@book.Title</td>
+                                <td class="px-5 py-4">@book.Author</td>
+                                <td class="px-5 py-4">@(book.Category ?? "—")</td>
+                                <td class="px-5 py-4">@(book.Language ?? "—")</td>
+                                <td class="px-5 py-4 text-center">@book.PublishedYear</td>
+                                <td class="px-5 py-4 text-center">@book.TotalCopies</td>
+                                <td class="px-5 py-4 text-center">
+                                    <span class="inline-flex min-w-9 justify-center rounded-full px-2.5 py-1 text-xs font-semibold @(book.AvailableCopies > 0 ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700")">
+                                        @book.AvailableCopies
+                                    </span>
+                                </td>
+                                <td class="whitespace-nowrap px-5 py-4 text-right">
+                                    <div class="flex justify-end gap-1">
+                                        <a asp-page="./Edit" asp-route-id="@book.Id" class="rounded-lg px-3 py-2 text-sm font-semibold text-brand-600 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">Edit</a>
+                                        <form method="post" asp-page-handler="Delete" asp-route-id="@book.Id" data-delete-form data-book-title="@book.Title">
+                                            <button type="submit" class="rounded-lg px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer / Pagination -->
+            <div class="flex flex-col gap-4 border-t border-line-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <p class="text-sm text-ink-500">
+                    Showing <span class="font-medium text-ink-900">@Model.StartItem</span> to <span class="font-medium text-ink-900">@Model.EndItem</span> of <span class="font-medium text-ink-900">@Model.TotalItems</span> books
+                </p>
+
+                @if (Model.TotalPages > 1)
+                {
+                    <nav class="flex items-center gap-1" aria-label="Pagination">
+                        <!-- First -->
+                        <a asp-page="./Index"
+                           asp-route-PageIndex="1"
+                           asp-route-Search="@Model.Search"
+                           class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(Model.PageIndex == 1 ? "pointer-events-none opacity-40" : null)"
+                           aria-label="First page"
+                           title="First page">
+                            «
+                        </a>
+
+                        <!-- Previous -->
+                        <a asp-page="./Index"
+                           asp-route-PageIndex="@(Model.PageIndex - 1)"
+                           asp-route-Search="@Model.Search"
+                           class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasPreviousPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Previous page"
+                           title="Previous page">
+                            ‹
+                        </a>
+
+                        <!-- Page numbers -->
+                        @{
+                            var startPage = Math.Max(1, Model.PageIndex - 2);
+                            var endPage = Math.Min(Model.TotalPages, startPage + 4);
+                            if (endPage - startPage < 4)
+                            {
+                                startPage = Math.Max(1, endPage - 4);
+                            }
+                        }
+
+                        @for (var p = startPage; p <= endPage; p++)
+                        {
+                            var isCurrent = p == Model.PageIndex;
+                            if (isCurrent)
+                            {
+                                <span class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg bg-brand-600 px-2.5 text-xs font-bold text-white shadow-sm" aria-current="page">
+                                    @p
+                                </span>
+                            }
+                            else
+                            {
+                                <a asp-page="./Index"
+                                   asp-route-PageIndex="@p"
+                                   asp-route-Search="@Model.Search"
+                                   class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2.5 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50">
+                                    @p
+                                </a>
+                            }
+                        }
+
+                        <!-- Next -->
+                        <a asp-page="./Index"
+                           asp-route-PageIndex="@(Model.PageIndex + 1)"
+                           asp-route-Search="@Model.Search"
+                           class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasNextPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Next page"
+                           title="Next page">
+                            ›
+                        </a>
+
+                        <!-- Last -->
+                        <a asp-page="./Index"
+                           asp-route-PageIndex="@Model.TotalPages"
+                           asp-route-Search="@Model.Search"
+                           class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(Model.PageIndex == Model.TotalPages ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Last page"
+                           title="Last page">
+                            »
+                        </a>
+                    </nav>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/books.js" asp-append-version="true"></script>
+}

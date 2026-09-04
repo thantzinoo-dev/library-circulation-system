@@ -1,33 +1,52 @@
 @{
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
-    const string navigationItemClasses = "flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium text-ink-700 transition-colors hover:bg-blue-50 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30";
-    const string activeNavigationItemClasses = "bg-blue-50 text-brand-600";
+    var isBooksPage = currentPage?.StartsWith("/Books", StringComparison.OrdinalIgnoreCase) == true;
+    var isMembersPage = currentPage?.StartsWith("/Members", StringComparison.OrdinalIgnoreCase) == true;
+    const string navigationItemClasses = "flex h-10 w-full items-center gap-3 rounded-lg px-3 text-[15px] font-medium text-ink-700 transition-[background-color,color,padding] duration-150 ease-out hover:bg-blue-50 hover:text-brand-600 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 group-data-[collapsed=true]/sidebar:h-10 group-data-[collapsed=true]/sidebar:w-10 group-data-[collapsed=true]/sidebar:justify-center group-data-[collapsed=true]/sidebar:gap-0 group-data-[collapsed=true]/sidebar:px-0 group-data-[collapsed=true]/sidebar:mx-auto";
+    const string activeNavigationItemClasses = "bg-blue-100/80 text-brand-700 font-semibold shadow-[inset_0_0_0_1px_rgba(0,72,198,0.16)]";
 }
 
 <aside id="app-sidebar"
-       class="app-sidebar flex h-dvh w-[278px] shrink-0 flex-col border-r border-line-200 bg-white transition-[width] duration-200"
+       class="app-sidebar group/sidebar flex h-dvh w-[278px] shrink-0 flex-col border-r border-line-200 bg-white transition-[width] duration-300 ease-out data-[collapsed=true]:w-20 data-[ready=false]:transition-none"
        data-app-sidebar
        data-collapsed="false"
+       data-ready="false"
        aria-label="Primary navigation">
-    <div class="flex h-20 shrink-0 items-center gap-3 px-5" data-sidebar-brand>
-        <span class="flex h-11 w-11 shrink-0 items-center justify-center text-brand-600" aria-hidden="true">
-            <svg class="h-10 w-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 8.5h13.5A5.5 5.5 0 0 1 24 14v25c-2.6-3-6.2-4.5-10.8-4.5H5v-26Z"
-                      stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
-                <path d="M43 8.5H29.5A5.5 5.5 0 0 0 24 14v25c2.6-3 6.2-4.5 10.8-4.5H43v-26Z"
-                      stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
-                <path d="M10 15h7M10 20h7M31 15h7M31 20h7" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" />
+    <div class="flex h-20 shrink-0 items-center justify-between border-b border-line-200 px-4 transition-[height,gap,padding] duration-300 ease-out group-data-[collapsed=true]/sidebar:h-auto group-data-[collapsed=true]/sidebar:flex-col group-data-[collapsed=true]/sidebar:justify-center group-data-[collapsed=true]/sidebar:gap-2.5 group-data-[collapsed=true]/sidebar:px-2 group-data-[collapsed=true]/sidebar:pt-5.5 group-data-[collapsed=true]/sidebar:pb-4" data-sidebar-brand>
+        <div class="flex min-w-0 flex-1 items-center gap-3 group-data-[collapsed=true]/sidebar:flex-initial group-data-[collapsed=true]/sidebar:justify-center">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center text-brand-600 transition-[width,height] duration-300 ease-out group-data-[collapsed=true]/sidebar:h-10 group-data-[collapsed=true]/sidebar:w-10" data-sidebar-brand-mark aria-hidden="true">
+                <svg class="h-10 w-10 transition-[width,height] duration-300 ease-out group-data-[collapsed=true]/sidebar:h-9 group-data-[collapsed=true]/sidebar:w-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 8.5h13.5A5.5 5.5 0 0 1 24 14v25c-2.6-3-6.2-4.5-10.8-4.5H5v-26Z"
+                          stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                    <path d="M43 8.5H29.5A5.5 5.5 0 0 0 24 14v25c2.6-3 6.2-4.5 10.8-4.5H43v-26Z"
+                          stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                    <path d="M10 15h7M10 20h7M31 15h7M31 20h7" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" />
+                </svg>
+            </span>
+            <span class="sidebar-label min-w-0 flex-1 leading-tight" data-sidebar-label>
+                <span class="block truncate text-[17px] font-bold text-ink-900">School Library</span>
+                <span class="mt-0.5 block truncate text-[13px] text-ink-500">Management System</span>
+            </span>
+        </div>
+        <button type="button"
+                class="sidebar-toggle flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line-300 bg-white text-ink-700 transition-[width,height,color,background-color,border-color,box-shadow] duration-200 ease-out hover:border-line-400 hover:bg-blue-50 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 group-data-[collapsed=true]/sidebar:h-8 group-data-[collapsed=true]/sidebar:w-8"
+                data-sidebar-toggle
+                aria-controls="app-sidebar"
+                aria-expanded="true"
+                aria-label="Collapse sidebar"
+                title="Collapse sidebar">
+            <svg class="sidebar-toggle-icon h-5 w-5"
+                 style="transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1); transform-origin: center center;"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m13 7-5 5 5 5M18 7l-5 5 5 5" />
             </svg>
-        </span>
-        <span class="sidebar-label min-w-0 leading-tight" data-sidebar-label>
-            <span class="block truncate text-[17px] font-bold text-ink-900">School Library</span>
-            <span class="mt-0.5 block truncate text-[13px] text-ink-500">Management System</span>
-        </span>
+        </button>
     </div>
 
-    <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-4" aria-label="Library sections">
-        <ul class="space-y-1">
+    <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-4 group-data-[collapsed=true]/sidebar:px-2 group-data-[collapsed=true]/sidebar:py-3.5" aria-label="Library sections">
+        <ul class="space-y-1.5">
             <li>
                 <a asp-page="/Index"
                    class="@navigationItemClasses @(currentPage == "/Index" ? activeNavigationItemClasses : null)"
@@ -42,7 +61,10 @@
                 </a>
             </li>
             <li>
-                <a href="/Books" class="@navigationItemClasses" title="Books">
+                <a asp-page="/Books/Index"
+                   class="@navigationItemClasses @(isBooksPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isBooksPage ? "page" : null)"
+                   title="Books">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" />
@@ -52,7 +74,10 @@
                 </a>
             </li>
             <li>
-                <a href="/Members" class="@navigationItemClasses" title="Members">
+                <a asp-page="/Members/Index"
+                   class="@navigationItemClasses @(isMembersPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isMembersPage ? "page" : null)"
+                   title="Members">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="9" cy="8" r="3" />
@@ -105,10 +130,10 @@
         </ul>
     </nav>
 
-    <div class="shrink-0 border-t border-line-200 p-3" data-account-root>
+    <div class="shrink-0 border-t border-line-200 p-3 group-data-[collapsed=true]/sidebar:px-2 group-data-[collapsed=true]/sidebar:py-3" data-account-root>
         <button id="account-menu-trigger"
                 type="button"
-                class="account-trigger flex min-h-[58px] w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+                class="account-trigger flex min-h-[58px] w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-[background-color,color,gap,padding] duration-200 ease-out hover:bg-blue-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 group-data-[collapsed=true]/sidebar:min-h-0 group-data-[collapsed=true]/sidebar:h-10 group-data-[collapsed=true]/sidebar:w-10 group-data-[collapsed=true]/sidebar:justify-center group-data-[collapsed=true]/sidebar:gap-0 group-data-[collapsed=true]/sidebar:p-0 group-data-[collapsed=true]/sidebar:mx-auto"
                 data-account-trigger
                 aria-haspopup="menu"
                 aria-controls="account-menu"
@@ -128,10 +153,12 @@
         </button>
 
         <div id="account-menu"
-             class="fixed z-50 max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-xl border border-line-300 bg-white p-1.5 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.24)]"
+             class="account-menu fixed z-50 max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-xl border border-line-300 bg-white p-1.5 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.24)]"
              data-account-menu
+             data-state="closed"
              role="menu"
              aria-labelledby="account-menu-trigger"
+             inert
              hidden>
             <div class="flex items-center gap-3 px-2.5 py-2.5" role="presentation">
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[15px] font-bold text-white"

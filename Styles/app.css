@@ -9,7 +9,7 @@
   replacements.
 */
 @theme {
-  --font-sans: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Left branding panel: rich blue (#0049C7 sampled at several points). */
   --color-brand-700: #0049c7;
@@ -37,37 +37,220 @@
   --color-line-400: #c8cad6;
 }
 
-/*
-  Small amount of custom CSS, only where Tailwind utilities alone would be
-  awkward: the reference uses a plain square checkbox with a blue checked state.
-*/
+@layer base {
+  :root {
+    --motion-fast: 150ms;
+    --motion-normal: 200ms;
+    --motion-layout: 300ms;
+    --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-state: ease-in-out;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+
+}
+
+/* Sidebar state and layout motion. Width is intentionally handled by
+   Tailwind data-state utilities on the sidebar to keep cascade precedence. */
 @layer components {
-  .app-sidebar[data-collapsed="true"] {
-    width: 5rem;
+  .sidebar-label {
+    max-width: 14rem;
+    overflow: hidden;
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+    white-space: nowrap;
+    transition:
+      max-width var(--motion-layout) var(--ease-enter),
+      opacity var(--motion-normal) ease-out,
+      transform var(--motion-normal) ease-out,
+      visibility 0s linear 0s;
   }
 
-  .app-sidebar[data-collapsed="true"] [data-sidebar-label] {
+  .app-sidebar[data-collapsed="true"] .sidebar-label {
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-0.25rem);
+    visibility: hidden;
+    transition:
+      max-width var(--motion-layout) var(--ease-enter),
+      opacity var(--motion-fast) ease-out,
+      transform var(--motion-fast) ease-out,
+      visibility 0s linear var(--motion-normal);
+  }
+
+  /* Collapsed sidebar clean scrollbar removal */
+  .app-sidebar[data-collapsed="true"] nav {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .app-sidebar[data-collapsed="true"] nav::-webkit-scrollbar {
     display: none;
-  }
-
-  .app-sidebar[data-collapsed="true"] nav a,
-  .app-sidebar[data-collapsed="true"] .account-trigger {
-    justify-content: center;
-  }
-
-  .app-sidebar[data-collapsed="true"] [data-sidebar-brand] {
-    justify-content: center;
-    padding-inline: 0.75rem;
-  }
-
-  .app-sidebar[data-collapsed="true"] .account-trigger {
-    padding-inline: 0.5rem;
   }
 
   [data-account-trigger][aria-expanded="true"] .account-chevron {
     transform: rotate(180deg);
   }
 
+  .app-content {
+    transition: margin-left var(--motion-layout) var(--ease-enter);
+  }
+
+  @media (max-width: 900px) {
+    .app-sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 40;
+      max-width: calc(100vw - 2.5rem);
+      box-shadow: 12px 0 32px -20px rgb(16 24 40 / 0.4);
+    }
+
+    .app-sidebar[data-collapsed="true"] {
+      box-shadow: none;
+    }
+
+    .app-content {
+      margin-left: 5rem;
+    }
+  }
+
+  /* Account popover motion. Dynamic coordinates remain owned by sidebar.js. */
+  .account-menu {
+    transform-origin: bottom left;
+    opacity: 0;
+    transform: translateY(0.25rem) scale(0.97);
+    transition:
+      opacity 180ms ease-out,
+      transform 180ms var(--ease-enter);
+  }
+
+  .account-menu[data-state="open"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Dashboard composition responds to its real content width. */
+  .dashboard-shell {
+    container: dashboard / inline-size;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-fees-card {
+    display: none;
+    opacity: 0;
+    transform: translateY(0.375rem) scale(0.97);
+    transition: opacity 200ms ease-out, transform 200ms var(--ease-enter), display 200ms allow-discrete;
+  }
+
+  html[data-sidebar-collapsed="true"] .dashboard-fees-card {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  @starting-style {
+    html[data-sidebar-collapsed="true"] .dashboard-fees-card {
+      opacity: 0;
+      transform: translateY(0.375rem) scale(0.97);
+    }
+  }
+
+  .dashboard-widget-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @container dashboard (min-width: 36rem) {
+    .dashboard-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container dashboard (min-width: 48rem) {
+    .dashboard-stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @container dashboard (min-width: 52rem) {
+    .dashboard-stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @container dashboard (min-width: 58rem) {
+    .dashboard-widget-grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(21.25rem, 0.92fr);
+    }
+  }
+
+  @container dashboard (min-width: 64rem) {
+    html[data-sidebar-collapsed="true"] .dashboard-stats {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  /* Dashboard entrance motion stays below 400ms including stagger. */
+  .dashboard-motion,
+  .dashboard-stats > article {
+    opacity: 0;
+    transform: translateY(0.375rem);
+    animation: dashboard-enter 220ms var(--ease-enter) forwards;
+  }
+
+  .dashboard-motion-header {
+    animation-delay: 0ms;
+  }
+
+  .dashboard-stats > article:nth-child(1) { animation-delay: 40ms; }
+  .dashboard-stats > article:nth-child(2) { animation-delay: 55ms; }
+  .dashboard-stats > article:nth-child(3) { animation-delay: 70ms; }
+  .dashboard-stats > article:nth-child(4) { animation-delay: 85ms; }
+  .dashboard-stats > article:nth-child(5) { animation-delay: 100ms; }
+  .dashboard-stats > article.dashboard-fees-card { animation: none; }
+
+  /* Interactive chart dots with smooth scale and highlight */
+  .chart-dot {
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: r 150ms ease-out, stroke-width 150ms ease-out, fill 150ms ease-out, filter 150ms ease-out;
+  }
+
+  .chart-dot:hover,
+  .chart-dot:focus-visible {
+    r: 6.5;
+    stroke-width: 2.5;
+    stroke: #ffffff;
+    fill: #0048c6;
+    outline: none;
+    filter: drop-shadow(0 2px 4px rgba(0, 72, 198, 0.35));
+  }
+
+  .dashboard-motion-analytics {
+    animation-delay: 110ms;
+  }
+
+  .dashboard-motion-lower {
+    animation-delay: 140ms;
+  }
+
+  @keyframes dashboard-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Login-specific control. */
   .login-checkbox {
     appearance: none;
     -webkit-appearance: none;
@@ -93,11 +276,384 @@
     outline: 2px solid var(--color-brand-600);
     outline-offset: 2px;
   }
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    .app-sidebar,
-    .account-chevron {
-      transition-duration: 0.01ms;
-    }
+/* Shared interaction motion. Kept unlayered so it consistently augments
+   component-specific Tailwind transition utilities. */
+:where(button, a[class*="rounded"]) {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-state);
+}
+
+:where(button, a[class*="rounded"]):not(:disabled):active {
+  transform: scale(0.98);
+}
+
+:where(input, select, textarea) {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: var(--motion-normal);
+  transition-timing-function: var(--ease-state);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    transition-delay: 0ms;
+  }
+
+  .dashboard-motion,
+  .dashboard-stats > article {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Global Minimal Scrollbar (Modern SaaS UI)
+   ========================================================================== */
+*::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+*::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.4) !important;
+  border-radius: 9999px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.7) !important;
+}
+
+*::-webkit-scrollbar-button,
+::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+*::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* Non-WebKit fallback (e.g. Firefox) */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(148, 163, 184, 0.4) transparent !important;
+  }
+}
+
+/* ==========================================================================
+   Collapsed Sidebar: Pixel-Accurate Layout & Spacing
+   ========================================================================== */
+.app-sidebar[data-collapsed="true"] {
+  width: 5rem !important; /* 80px */
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-brand] {
+  height: auto !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: 1.25rem !important; /* 20px breathing room from top edge */
+  padding-bottom: 0.875rem !important; /* 14px */
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+  gap: 0.625rem !important; /* 10px small gap between logo and toggle */
+  border-bottom: 1px solid var(--color-line-200) !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-brand] > div {
+  flex: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-brand-mark] {
+  height: 2.5rem !important; /* 40px */
+  width: 2.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-brand-mark] svg {
+  height: 2.25rem !important; /* 36px crisp prominent logo */
+  width: 2.25rem !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-brand] .sidebar-label {
+  display: none !important;
+}
+
+[data-sidebar-toggle] svg,
+.sidebar-toggle-icon {
+  display: block;
+  transform-origin: center center !important;
+  transform-box: fill-box;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.app-sidebar[data-ready="false"] [data-sidebar-toggle] svg,
+.app-sidebar[data-ready="false"] .sidebar-toggle-icon {
+  transition: none !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-sidebar-toggle] {
+  height: 2rem !important; /* 32px */
+  width: 2rem !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html[data-sidebar-collapsed="true"] [data-sidebar-toggle] svg,
+html[data-sidebar-collapsed="true"] .sidebar-toggle-icon,
+[data-app-sidebar][data-collapsed="true"] [data-sidebar-toggle] svg,
+[data-app-sidebar][data-collapsed="true"] .sidebar-toggle-icon,
+.app-sidebar[data-collapsed="true"] [data-sidebar-toggle] svg,
+.app-sidebar[data-collapsed="true"] .sidebar-toggle-icon {
+  transform: rotate(180deg) !important;
+}
+
+.app-sidebar[data-collapsed="true"] nav {
+  padding: 0.875rem 0.5rem !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.app-sidebar[data-collapsed="true"] nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+.app-sidebar[data-collapsed="true"] nav a {
+  height: 2.5rem !important; /* 40px */
+  width: 2.5rem !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  gap: 0 !important;
+}
+
+.app-sidebar[data-collapsed="true"] nav a .sidebar-label {
+  display: none !important;
+}
+
+.app-sidebar[data-collapsed="true"] nav a svg {
+  height: 1.25rem !important; /* 20px - clean, balanced, not tiny */
+  width: 1.25rem !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-account-root] {
+  padding: 0.75rem 0.5rem !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-account-trigger] {
+  min-height: 0 !important;
+  height: 2.5rem !important; /* 40px */
+  width: 2.5rem !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  justify-content: center !important;
+  gap: 0 !important;
+}
+
+.app-sidebar[data-collapsed="true"] [data-account-trigger] .sidebar-label {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Shadcn-like Custom Select Component
+   ========================================================================== */
+.shadcn-select-wrapper {
+  position: relative !important;
+  display: inline-block !important;
+}
+
+.shadcn-select-trigger {
+  display: flex !important;
+  min-height: 2.375rem !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.625rem !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid var(--color-line-300) !important;
+  background-color: #ffffff !important;
+  padding: 0.45rem 0.75rem !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  color: var(--color-ink-900) !important;
+  outline: none !important;
+  box-shadow: 0 1px 2px 0 rgb(16 24 40 / 0.04) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  text-align: left !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+.shadcn-select-trigger:hover {
+  border-color: var(--color-line-400) !important;
+}
+
+.shadcn-select-trigger:focus-visible,
+.shadcn-select-trigger[aria-expanded="true"] {
+  border-color: var(--color-brand-600) !important;
+  box-shadow: 0 0 0 3px rgba(0, 72, 198, 0.15) !important;
+}
+
+.shadcn-select-menu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 50 !important;
+  margin-top: 0.25rem !important;
+  min-width: 10.5rem !important;
+  border-radius: 0.625rem !important;
+  border: 1px solid var(--color-line-200) !important;
+  background-color: #ffffff !important;
+  padding: 0.25rem !important;
+  box-shadow: 0 10px 25px -5px rgb(16 24 40 / 0.12), 0 8px 10px -6px rgb(16 24 40 / 0.05) !important;
+  opacity: 0 !important;
+  transform: translateY(-0.25rem) scale(0.97) !important;
+  pointer-events: none !important;
+  transition: opacity 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  max-height: 15rem !important;
+  overflow-y: auto !important;
+}
+
+.shadcn-select-menu[data-state="open"] {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+.shadcn-select-option {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.5rem !important;
+  padding: 0.45rem 0.625rem !important;
+  font-size: 0.8125rem !important;
+  white-space: nowrap !important;
+  border-radius: 0.375rem !important;
+  color: var(--color-ink-700) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: background-color 100ms ease, color 100ms ease !important;
+}
+
+.shadcn-select-option:hover,
+.shadcn-select-option[data-focused="true"] {
+  background-color: #eff6ff !important;
+  color: var(--color-brand-600) !important;
+}
+
+.shadcn-select-option[aria-selected="true"] {
+  background-color: #eff6ff !important;
+  color: var(--color-brand-600) !important;
+  font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   Controlled, Clean Horizontal Table Scrollbars
+   ========================================================================== */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 5px !important;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.35) !important;
+  border-radius: 9999px !important;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.6) !important;
+}
+
+.overflow-x-auto::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ==========================================================================
+   Native select clean modern appearance (fallback)
+   ========================================================================== */
+select:not([data-shadcn-initialized="true"]) {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23747fa5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m6 9 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-position: right 0.625rem center !important;
+  background-repeat: no-repeat !important;
+  background-size: 1rem 1rem !important;
+  padding-right: 2.25rem !important;
+}
+
+/* ==========================================================================
+   Page Entrance Animations (Consistent SaaS motion across all pages)
+   ========================================================================== */
+.page-motion,
+.page-motion-header,
+.page-motion-filter,
+.page-motion-content,
+.page-motion-table {
+  opacity: 0;
+  transform: translateY(0.375rem);
+  animation: page-enter 220ms var(--ease-enter) forwards;
+}
+
+.page-motion-header {
+  animation-delay: 0ms;
+}
+
+.page-motion-filter {
+  animation-delay: 45ms;
+}
+
+.page-motion-content,
+.page-motion-table {
+  animation-delay: 90ms;
+}
+
+@keyframes page-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-motion,
+  .page-motion-header,
+  .page-motion-filter,
+  .page-motion-content,
+  .page-motion-table {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 }

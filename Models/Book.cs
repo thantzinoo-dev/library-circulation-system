@@ -6,10 +6,10 @@ public class Book
 {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "ISBN is required.")]
     [StringLength(20)]
+    [RegularExpression(@"^(?:\d{9}[\dXx]|\d{13})$", ErrorMessage = "Enter a valid 10- or 13-digit ISBN.")]
     [Display(Name = "ISBN")]
-    public string ISBN { get; set; } = string.Empty;
+    public string? ISBN { get; set; }
 
     [Required(ErrorMessage = "Title is required.")]
     [StringLength(200)]

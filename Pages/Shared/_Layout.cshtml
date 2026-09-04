@@ -1,32 +1,26 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - School Library Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
 </head>
 <body class="h-full overflow-hidden bg-surface-page font-sans text-ink-900 antialiased">
     <div class="flex h-dvh min-h-0 overflow-hidden">
         <partial name="_Sidebar" />
 
-        <div class="flex min-w-0 flex-1 flex-col">
-            <header class="flex h-16 shrink-0 items-center border-b border-line-200 bg-white px-4 sm:px-6">
-                <button type="button"
-                        class="flex h-10 w-10 items-center justify-center rounded-lg border border-line-300 bg-white text-ink-700 transition-colors hover:border-line-400 hover:bg-blue-50 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
-                        data-sidebar-toggle
-                        aria-controls="app-sidebar"
-                        aria-expanded="true"
-                        aria-label="Collapse sidebar"
-                        title="Collapse sidebar">
-                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="m13 7-5 5 5 5M18 7l-5 5 5 5" />
-                    </svg>
-                </button>
-            </header>
+        <button type="button"
+                class="fixed inset-0 z-30 bg-slate-950/20 backdrop-blur-[1px]"
+                data-sidebar-backdrop
+                aria-label="Close expanded sidebar"
+                hidden></button>
 
-            <main class="min-h-0 flex-1 overflow-y-auto px-6 py-8">
+        <div class="app-content flex min-w-0 flex-1 flex-col" data-app-content>
+            <main class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6 sm:py-8">
                 <div class="mx-auto w-full max-w-[1600px]">
                     @RenderBody()
                 </div>
@@ -34,6 +28,7 @@
         </div>
     </div>
 
+    <script src="~/js/custom-select.js" asp-append-version="true"></script>
     <script src="~/js/sidebar.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

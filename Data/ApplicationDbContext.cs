@@ -20,7 +20,9 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Book>(entity =>
         {
-            entity.HasIndex(b => b.ISBN).IsUnique();
+            entity.HasIndex(b => b.ISBN)
+                  .IsUnique()
+                  .HasFilter("[ISBN] IS NOT NULL");
 
             entity.Property(b => b.TotalCopies).HasDefaultValue(1);
             entity.Property(b => b.AvailableCopies).HasDefaultValue(1);
@@ -41,6 +43,9 @@ public class ApplicationDbContext : DbContext
         {
             entity.HasIndex(m => m.StudentId).IsUnique();
 
+            entity.Property(m => m.MembershipType)
+                  .HasMaxLength(20)
+                  .HasDefaultValue(MemberType.Student);
             entity.Property(m => m.IsActive).HasDefaultValue(true);
             entity.Property(m => m.CreatedAt).HasDefaultValueSql("SYSUTCDATETIME()");
         });

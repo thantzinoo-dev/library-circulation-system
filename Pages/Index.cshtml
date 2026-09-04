@@ -4,23 +4,23 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="min-w-0">
-    <section class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" aria-labelledby="dashboard-title">
+<div class="dashboard-shell min-w-0">
+    <section class="dashboard-motion dashboard-motion-header flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" aria-labelledby="dashboard-title">
         <div class="min-w-0">
             <h1 id="dashboard-title" class="text-[28px] font-bold leading-tight tracking-[-0.02em] text-ink-900">Dashboard</h1>
             <p class="mt-1.5 text-[14px] text-ink-700">Welcome back, Admin! Here's what's happening in your library.</p>
         </div>
-        <div class="flex min-w-0 items-center gap-2.5 text-[14px] font-medium text-ink-900 sm:shrink-0">
-            <svg class="h-5 w-5 text-ink-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <div class="inline-flex items-center gap-2.5 rounded-lg border border-line-200 bg-white px-3.5 py-1.5 text-[13.5px] font-medium text-ink-800 shadow-[0_1px_2px_rgba(16,24,40,0.04)] sm:mt-1.5 sm:shrink-0">
+            <svg class="h-4.5 w-4.5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M8 3v4M16 3v4M3.5 9.5h17" />
             </svg>
-            <time datetime="2026-09-18">September 18, 2026 (Friday)</time>
+            <time datetime="@Model.CurrentDateIso">@Model.CurrentDateFormatted</time>
         </div>
     </section>
 
-    <section class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1500px]:grid-cols-5" aria-label="Library statistics">
+    <section class="dashboard-stats mt-6 grid gap-4" aria-label="Library statistics">
         <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z" />
@@ -32,7 +32,7 @@
         </article>
 
         <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="9" cy="8" r="3" /><path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20" /><path d="M15.5 5.4a3 3 0 0 1 0 5.2M17 14a4.5 4.5 0 0 1 3.5 4.4V20" />
@@ -44,7 +44,7 @@
         </article>
 
         <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v16H5z" /><path d="m8.5 11 2.2 2.2 4.8-4.7" /></svg>
                 </span>
@@ -54,34 +54,44 @@
         </article>
 
         <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-500">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7v5h5" /><path d="M5.5 11a7 7 0 1 0 2-5" /></svg>
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
                 </span>
                 <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">12</p><p class="mt-1 truncate text-[13px] text-ink-500">Overdue Books</p></div>
             </div>
             <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-red-600">↗ 3</span> today</p>
         </article>
 
-        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:col-span-2 lg:col-span-1">
-            <div class="flex items-center gap-4">
+        <article class="dashboard-fees-card rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center gap-3.5 sm:gap-4">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-600">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6z" /><path d="M15 3.5V7h3M9 12h6M9 15.5h6" /></svg>
                 </span>
-                <div class="min-w-0"><p class="text-[18px] font-bold leading-6 text-ink-900">MMK 152,500</p><p class="mt-1 truncate text-[13px] text-ink-500">Total Fees Collected</p></div>
+                <div class="min-w-0">
+                    <p class="whitespace-nowrap text-[16px] font-bold leading-6 tracking-tight text-ink-900 min-[1360px]:text-[17px] min-[1500px]:text-[18px]">MMK 152,500</p>
+                    <p class="mt-1 whitespace-nowrap text-[12.5px] text-ink-500 min-[1360px]:text-[13px]">Total Fees Collected</p>
+                </div>
             </div>
             <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ 25,000</span> this month</p>
         </article>
     </section>
 
-    <section class="mt-5 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
+    <section class="dashboard-widget-grid dashboard-motion dashboard-motion-analytics mt-5 grid min-w-0 gap-5">
         <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
             <div class="flex items-center justify-between gap-4">
                 <h2 class="text-[15px] font-semibold text-ink-900">Borrowings Over Time</h2>
-                <label class="sr-only" for="borrowing-period">Chart period</label>
-                <select id="borrowing-period" class="rounded-lg border border-line-300 bg-white px-3 py-1.5 text-[13px] text-ink-900 outline-none hover:border-line-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"><option>This Month</option></select>
+                <select id="borrowing-period" data-custom-select class="min-w-[130px]">
+                    <option value="This Month" selected>This Month</option>
+                    <option value="Last Month">Last Month</option>
+                    <option value="Last 3 Months">Last 3 Months</option>
+                    <option value="This Year">This Year</option>
+                </select>
             </div>
-            <div class="mt-4 aspect-[2.25/1] min-h-[220px] w-full" role="img" aria-label="Line chart of daily borrowing counts for May, ranging from 12 to 34 borrowings">
+            <div id="borrowings-chart-container" class="relative mt-4 aspect-[2.25/1] min-h-[220px] w-full" role="img" aria-label="Line chart of daily borrowing counts for May, ranging from 9 to 36 borrowings">
                 <svg class="h-full w-full" viewBox="0 0 720 320" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
                     <defs><linearGradient id="borrowings-area" x1="0" y1="35" x2="0" y2="270" gradientUnits="userSpaceOnUse"><stop stop-color="#2563EB" stop-opacity="0.22" /><stop offset="1" stop-color="#2563EB" stop-opacity="0.02" /></linearGradient></defs>
                     <g stroke="#E7E8EE" stroke-width="1"><path d="M48 35H700M48 93H700M48 151H700M48 209H700M48 267H700" /></g>
@@ -92,9 +102,41 @@
                     <path d="M60 185 L88 191 L116 215 L144 197 L172 168 L200 128 L228 102 L256 139 L284 145 L312 139 L340 157 L368 139 L396 110 L424 151 L452 174 L480 151 L508 133 L536 116 L564 58 L592 87 L620 122 L648 87 L676 93 L700 116 L700 267 L60 267 Z" fill="url(#borrowings-area)" />
                     <path d="M60 185 L88 191 L116 215 L144 197 L172 168 L200 128 L228 102 L256 139 L284 145 L312 139 L340 157 L368 139 L396 110 L424 151 L452 174 L480 151 L508 133 L536 116 L564 58 L592 87 L620 122 L648 87 L676 93 L700 116" stroke="#1468E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                     <g fill="#1468E8" stroke="#FFFFFF" stroke-width="2">
-                        <circle cx="60" cy="185" r="4.5" /><circle cx="88" cy="191" r="4.5" /><circle cx="116" cy="215" r="4.5" /><circle cx="144" cy="197" r="4.5" /><circle cx="172" cy="168" r="4.5" /><circle cx="200" cy="128" r="4.5" /><circle cx="228" cy="102" r="4.5" /><circle cx="256" cy="139" r="4.5" /><circle cx="284" cy="145" r="4.5" /><circle cx="312" cy="139" r="4.5" /><circle cx="340" cy="157" r="4.5" /><circle cx="368" cy="139" r="4.5" /><circle cx="396" cy="110" r="4.5" /><circle cx="424" cy="151" r="4.5" /><circle cx="452" cy="174" r="4.5" /><circle cx="480" cy="151" r="4.5" /><circle cx="508" cy="133" r="4.5" /><circle cx="536" cy="116" r="4.5" /><circle cx="564" cy="58" r="4.5" /><circle cx="592" cy="87" r="4.5" /><circle cx="620" cy="122" r="4.5" /><circle cx="648" cy="87" r="4.5" /><circle cx="676" cy="93" r="4.5" /><circle cx="700" cy="116" r="4.5" />
+                        <circle class="chart-dot" data-date="May 1" data-count="14" cx="60" cy="185" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 1: 14 borrowings" />
+                        <circle class="chart-dot" data-date="May 2" data-count="13" cx="88" cy="191" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 2: 13 borrowings" />
+                        <circle class="chart-dot" data-date="May 4" data-count="9" cx="116" cy="215" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 4: 9 borrowings" />
+                        <circle class="chart-dot" data-date="May 5" data-count="12" cx="144" cy="197" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 5: 12 borrowings" />
+                        <circle class="chart-dot" data-date="May 7" data-count="17" cx="172" cy="168" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 7: 17 borrowings" />
+                        <circle class="chart-dot" data-date="May 8" data-count="24" cx="200" cy="128" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 8: 24 borrowings" />
+                        <circle class="chart-dot" data-date="May 10" data-count="28" cx="228" cy="102" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 10: 28 borrowings" />
+                        <circle class="chart-dot" data-date="May 11" data-count="22" cx="256" cy="139" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 11: 22 borrowings" />
+                        <circle class="chart-dot" data-date="May 13" data-count="21" cx="284" cy="145" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 13: 21 borrowings" />
+                        <circle class="chart-dot" data-date="May 14" data-count="22" cx="312" cy="139" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 14: 22 borrowings" />
+                        <circle class="chart-dot" data-date="May 16" data-count="19" cx="340" cy="157" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 16: 19 borrowings" />
+                        <circle class="chart-dot" data-date="May 17" data-count="22" cx="368" cy="139" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 17: 22 borrowings" />
+                        <circle class="chart-dot" data-date="May 19" data-count="27" cx="396" cy="110" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 19: 27 borrowings" />
+                        <circle class="chart-dot" data-date="May 20" data-count="20" cx="424" cy="151" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 20: 20 borrowings" />
+                        <circle class="chart-dot" data-date="May 21" data-count="16" cx="452" cy="174" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 21: 16 borrowings" />
+                        <circle class="chart-dot" data-date="May 22" data-count="20" cx="480" cy="151" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 22: 20 borrowings" />
+                        <circle class="chart-dot" data-date="May 23" data-count="23" cx="508" cy="133" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 23: 23 borrowings" />
+                        <circle class="chart-dot" data-date="May 25" data-count="26" cx="536" cy="116" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 25: 26 borrowings" />
+                        <circle class="chart-dot" data-date="May 26" data-count="36" cx="564" cy="58" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 26: 36 borrowings" />
+                        <circle class="chart-dot" data-date="May 27" data-count="31" cx="592" cy="87" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 27: 31 borrowings" />
+                        <circle class="chart-dot" data-date="May 28" data-count="25" cx="620" cy="122" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 28: 25 borrowings" />
+                        <circle class="chart-dot" data-date="May 29" data-count="31" cx="648" cy="87" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 29: 31 borrowings" />
+                        <circle class="chart-dot" data-date="May 30" data-count="30" cx="676" cy="93" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 30: 30 borrowings" />
+                        <circle class="chart-dot" data-date="May 31" data-count="26" cx="700" cy="116" r="4.5" tabindex="0" role="graphics-symbol" aria-label="May 31: 26 borrowings" />
                     </g>
                 </svg>
+                <div id="chart-tooltip"
+                     class="pointer-events-none absolute z-20 rounded-md border border-slate-700/60 bg-ink-900/95 px-2.5 py-1.5 text-center shadow-lg backdrop-blur-sm transition-[opacity,transform] duration-150 ease-out"
+                     style="left: 0; top: 0; opacity: 0; transform: translate(-50%, -100%) scale(0.95); display: none;"
+                     role="tooltip"
+                     aria-hidden="true">
+                    <div id="chart-tooltip-date" class="text-[11px] font-medium text-slate-300">May 10</div>
+                    <div class="text-[13px] font-bold text-white"><span id="chart-tooltip-count">28</span> <span class="text-[11px] font-normal text-slate-300">borrowings</span></div>
+                    <div class="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink-900/95"></div>
+                </div>
             </div>
         </article>
 
@@ -125,7 +167,7 @@
         </article>
     </section>
 
-    <section class="mt-5 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
+    <section class="dashboard-widget-grid dashboard-motion dashboard-motion-lower mt-5 grid min-w-0 gap-5">
         <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
             <div class="flex items-center justify-between gap-4"><h2 class="text-[15px] font-semibold text-ink-900">Overdue Books</h2><a href="/History" class="shrink-0 text-[13px] font-medium text-brand-link hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">View all</a></div>
             <ul class="mt-3 divide-y divide-line-200">
@@ -169,3 +211,106 @@
         <p>&copy; 2026 School Library Management System. All rights reserved.</p><p>Version 1.0.0</p>
     </footer>
 </div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    <script>
+        (function () {
+            var container = document.getElementById("borrowings-chart-container");
+            var tooltip = document.getElementById("chart-tooltip");
+            var tooltipDate = document.getElementById("chart-tooltip-date");
+            var tooltipCount = document.getElementById("chart-tooltip-count");
+
+            if (!container || !tooltip || !tooltipDate || !tooltipCount) return;
+
+            var dots = Array.from(container.querySelectorAll(".chart-dot"));
+            var activeDot = null;
+            var hideTimer = null;
+
+            function showTooltip(dot) {
+                if (hideTimer !== null) {
+                    clearTimeout(hideTimer);
+                    hideTimer = null;
+                }
+
+                if (activeDot && activeDot !== dot) {
+                    activeDot.classList.remove("is-active");
+                }
+
+                activeDot = dot;
+                dot.classList.add("is-active");
+
+                var date = dot.getAttribute("data-date");
+                var count = dot.getAttribute("data-count");
+                tooltipDate.textContent = date;
+                tooltipCount.textContent = count;
+
+                var dotRect = dot.getBoundingClientRect();
+                var containerRect = container.getBoundingClientRect();
+
+                var x = dotRect.left - containerRect.left + dotRect.width / 2;
+                var y = dotRect.top - containerRect.top - 8;
+
+                tooltip.style.display = "block";
+                tooltip.style.left = x + "px";
+                tooltip.style.top = y + "px";
+
+                window.requestAnimationFrame(function () {
+                    tooltip.style.opacity = "1";
+                    tooltip.style.transform = "translate(-50%, -100%) scale(1)";
+                });
+            }
+
+            function hideTooltip() {
+                if (activeDot) {
+                    activeDot.classList.remove("is-active");
+                    activeDot = null;
+                }
+
+                tooltip.style.opacity = "0";
+                tooltip.style.transform = "translate(-50%, -100%) scale(0.95)";
+                hideTimer = window.setTimeout(function () {
+                    tooltip.style.display = "none";
+                    hideTimer = null;
+                }, 150);
+            }
+
+            dots.forEach(function (dot) {
+                dot.addEventListener("mouseenter", function () { showTooltip(dot); });
+                dot.addEventListener("focus", function () { showTooltip(dot); });
+                dot.addEventListener("mouseleave", hideTooltip);
+                dot.addEventListener("blur", hideTooltip);
+            });
+
+            container.addEventListener("mousemove", function (event) {
+                if (dots.length === 0) return;
+                var mouseX = event.clientX;
+                var mouseY = event.clientY;
+                var closestDot = null;
+                var closestDistSq = Infinity;
+
+                dots.forEach(function (dot) {
+                    var rect = dot.getBoundingClientRect();
+                    var centerX = rect.left + rect.width / 2;
+                    var centerY = rect.top + rect.height / 2;
+                    var dx = mouseX - centerX;
+                    var dy = mouseY - centerY;
+                    var distSq = dx * dx + dy * dy;
+
+                    if (distSq < closestDistSq) {
+                        closestDistSq = distSq;
+                        closestDot = dot;
+                    }
+                });
+
+                if (closestDot && Math.sqrt(closestDistSq) <= 48) {
+                    showTooltip(closestDot);
+                } else if (activeDot) {
+                    hideTooltip();
+                }
+            });
+
+            container.addEventListener("mouseleave", hideTooltip);
+        })();
+    </script>
+}

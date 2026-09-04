@@ -1,0 +1,69 @@
+@page
+@model School_Library_Management.Pages.Books.CreateModel
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+<section class="mx-auto max-w-4xl space-y-6">
+    <div class="page-motion page-motion-header">
+        <a asp-page="./Index" class="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 hover:text-brand-600">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Back to books
+        </a>
+        <h1 class="mt-3 text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Add book</h1>
+        <p class="mt-1 text-sm text-ink-500">Enter the book metadata and starting inventory.</p>
+    </div>
+
+    <form method="post" class="page-motion page-motion-content rounded-xl border border-line-200 bg-white">
+        <div class="border-b border-line-200 px-5 py-4 sm:px-6">
+            <h2 class="font-semibold text-ink-900">Book information</h2>
+            <p class="mt-1 text-sm text-ink-500">ISBN is optional. If supplied, it must be unique.</p>
+        </div>
+        <div class="space-y-5 p-5 sm:p-6">
+            <div asp-validation-summary="ModelOnly" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 empty:hidden" role="alert"></div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                    <label asp-for="Input.Title" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <input asp-for="Input.Title" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" autofocus />
+                    <span asp-validation-for="Input.Title" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div class="sm:col-span-2">
+                    <label asp-for="Input.Author" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <input asp-for="Input.Author" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                    <span asp-validation-for="Input.Author" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.ISBN" class="mb-1.5 block text-sm font-semibold text-ink-700">ISBN <span class="font-normal text-ink-400">(optional)</span></label>
+                    <input asp-for="Input.ISBN" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="9781234567890" />
+                    <span asp-validation-for="Input.ISBN" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.PublishedYear" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <input asp-for="Input.PublishedYear" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                    <span asp-validation-for="Input.PublishedYear" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.Category" class="mb-1.5 block text-sm font-semibold text-ink-700">Category <span class="font-normal text-ink-400">(optional)</span></label>
+                    <input asp-for="Input.Category" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                    <span asp-validation-for="Input.Category" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.Language" class="mb-1.5 block text-sm font-semibold text-ink-700">Language <span class="font-normal text-ink-400">(optional)</span></label>
+                    <input asp-for="Input.Language" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                    <span asp-validation-for="Input.Language" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.TotalCopies" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <input asp-for="Input.TotalCopies" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                    <p class="mt-1 text-xs text-ink-500">All copies are available when the book is first added.</p>
+                    <span asp-validation-for="Input.TotalCopies" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col-reverse gap-3 border-t border-line-200 bg-slate-50/70 px-5 py-4 sm:flex-row sm:justify-end sm:px-6">
+            <a asp-page="./Index" class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 hover:bg-slate-50">Cancel</a>
+            <button type="submit" class="min-h-10 rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 focus-visible:ring-offset-2">Add book</button>
+        </div>
+    </form>
+</section>
