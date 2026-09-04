@@ -1,0 +1,231 @@
+@page
+@model School_Library_Management.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LoginLayout";
+}
+
+@*
+    Proportions follow the reference design (measured at 1672 x 941), scaled down
+    ~17% so the page fits one desktop viewport. Sizes step up at 1280px/1600px.
+
+    Height model:
+      - Below 900px the document scrolls normally (min-h-dvh) because the form
+        genuinely does not fit on short phones.
+      - From 900px up the root is exactly one viewport tall and clips, so the
+        document itself never scrolls. The right column owns any residual
+        scrolling via overflow-y-auto, which keeps the footer reachable on short
+        desktop viewports instead of pushing the document taller than the window.
+      - Do not add another min-h-dvh/h-dvh to a descendant: the aside and section
+        use h-full so the dvh height is not applied twice.
+*@
+<div class="flex w-full bg-surface-page
+            min-h-dvh
+            min-[900px]:h-dvh min-[900px]:overflow-hidden">
+
+    @* ================================================================== *@
+    @* LEFT BRANDING PANEL — 37.75% of viewport, hidden below 900px        *@
+    @* ================================================================== *@
+    <aside class="hidden w-[37.75%] shrink-0 flex-col overflow-hidden bg-brand-700
+                  min-[900px]:flex min-[900px]:h-full
+                  px-[44px] pt-[13dvh] pb-[7dvh]
+                  min-[1280px]:px-[60px] min-[1280px]:pt-[18dvh] min-[1280px]:pb-[10dvh]
+                  min-[1600px]:px-[77px] min-[1600px]:pt-[24dvh] min-[1600px]:pb-[14dvh]">
+
+        <div class="shrink-0">
+            <div class="flex items-start gap-[20px] min-[1280px]:gap-[25px] min-[1600px]:gap-[30px]">
+                <span class="block shrink-0 text-white">
+                    <svg class="h-[48px] w-[52px] min-[1280px]:h-[56px] min-[1280px]:w-[60px]
+                                min-[1600px]:h-[64px] min-[1600px]:w-[69px]"
+                         viewBox="0 0 83 77" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" focusable="false">
+                        <path d="M1.5 2.5h32.6a5 5 0 0 1 5 5v66.2a1 1 0 0 1-1.66.75c-2.7-2.35-6.86-3.95-12.34-3.95H1.5V2.5Z"
+                              fill="currentColor" />
+                        <path d="M81.5 2.5H48.9a5 5 0 0 0-5 5v66.2a1 1 0 0 0 1.66.75c2.7-2.35 6.86-3.95 12.34-3.95H81.5V2.5Z"
+                              fill="currentColor" />
+                    </svg>
+                </span>
+
+                <p class="text-[26px] font-bold leading-[32px] tracking-[-0.005em] text-white
+                          min-[1280px]:text-[30px] min-[1280px]:leading-[37px]
+                          min-[1600px]:text-[34px] min-[1600px]:leading-[42px]">
+                    School Library<br />Management
+                </p>
+            </div>
+
+            <div class="mt-[14px] h-[3px] w-[42px] bg-white
+                        min-[1280px]:mt-[17px] min-[1280px]:w-[47px]
+                        min-[1600px]:mt-[20px] min-[1600px]:w-[52px]"></div>
+
+            <p class="mt-[20px] text-[15px] font-normal leading-[23px] text-white
+                      min-[1280px]:mt-[25px] min-[1280px]:text-[16px] min-[1280px]:leading-[25px]
+                      min-[1600px]:mt-[30px] min-[1600px]:text-[18px] min-[1600px]:leading-[28px]">
+                Smart and simple library<br />administration system
+            </p>
+        </div>
+
+        <div class="mt-auto min-h-0 w-full shrink-0 pt-[32px]
+                    min-[1280px]:w-[300px] min-[1600px]:ml-[9px] min-[1600px]:w-[340px]">
+            <partial name="_LibraryIllustration" />
+        </div>
+    </aside>
+
+    @* ================================================================== *@
+    @* RIGHT LOGIN SECTION                                                *@
+    @* ================================================================== *@
+    <section class="flex min-h-dvh flex-1 flex-col items-center
+                    px-5 py-10
+                    min-[900px]:h-full min-[900px]:min-h-0 min-[900px]:overflow-y-auto
+                    min-[900px]:px-8 min-[900px]:pt-[7dvh] min-[900px]:pb-[6dvh]">
+
+        <div class="my-auto w-full max-w-[510px] rounded-[12px] border border-line-300 bg-surface-card
+                    px-6 py-7 shadow-[0_1px_2px_rgba(16,24,40,0.03),0_8px_24px_-14px_rgba(16,24,40,0.10)]
+                    min-[900px]:px-[34px] min-[900px]:py-[34px]">
+
+            <h1 class="text-[31px] font-bold leading-[35px] tracking-[-0.015em] text-ink-900">Login</h1>
+
+            <p class="mt-[9px] text-[15px] leading-[21px] text-ink-700">
+                Sign in to continue to the library system
+            </p>
+
+            <form method="post" novalidate>
+
+                @* --------------------- Email / username --------------------- *@
+                <div class="mt-[27px]">
+                    <label for="UsernameOrEmail"
+                           class="block text-[14px] font-bold leading-[18px] text-ink-900">
+                        Email or Username
+                    </label>
+
+                    <div class="relative mt-[9px]">
+                        <span class="pointer-events-none absolute left-[16px] top-1/2 -translate-y-1/2 text-ink-400">
+                            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                                <circle cx="12" cy="8.2" r="3.7" />
+                                <path d="M4.9 20.2a7.3 7.3 0 0 1 14.2 0" />
+                            </svg>
+                        </span>
+
+                        <input id="UsernameOrEmail" name="UsernameOrEmail" type="text"
+                               value="@Model.UsernameOrEmail"
+                               autocomplete="username" spellcheck="false"
+                               placeholder="Enter your email or username"
+                               class="h-[48px] w-full rounded-[7px] border border-line-300 bg-white
+                                      pl-[45px] pr-4 text-[15px] leading-[20px] text-ink-900
+                                      placeholder:text-ink-400
+                                      hover:border-line-400
+                                      focus:border-brand-600 focus:outline-none
+                                      focus-visible:ring-[3px] focus-visible:ring-brand-600/20" />
+                    </div>
+                </div>
+
+                @* --------------------- Password --------------------- *@
+                <div class="mt-[22px]">
+                    <label for="Password" class="block text-[14px] font-bold leading-[18px] text-ink-900">
+                        Password
+                    </label>
+
+                    <div class="relative mt-[9px]">
+                        <span class="pointer-events-none absolute left-[16px] top-1/2 -translate-y-1/2 text-ink-400">
+                            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
+                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                                <rect x="4.4" y="10.3" width="15.2" height="10.4" rx="2.3" />
+                                <path d="M8.1 10.3V7.7a3.9 3.9 0 0 1 7.8 0v2.6" />
+                            </svg>
+                        </span>
+
+                        <input id="Password" name="Password" type="password"
+                               autocomplete="current-password"
+                               placeholder="Enter your password"
+                               class="h-[48px] w-full rounded-[7px] border border-line-300 bg-white
+                                      pl-[45px] pr-[45px] text-[15px] leading-[20px] text-ink-900
+                                      placeholder:text-ink-400
+                                      hover:border-line-400
+                                      focus:border-brand-600 focus:outline-none
+                                      focus-visible:ring-[3px] focus-visible:ring-brand-600/20" />
+
+                        <button type="button" id="togglePassword"
+                                aria-controls="Password" aria-pressed="false" aria-label="Show password"
+                                class="absolute right-[13px] top-1/2 flex h-[26px] w-[26px] -translate-y-1/2
+                                       items-center justify-center rounded-[6px] text-ink-400
+                                       hover:text-ink-700
+                                       focus-visible:outline-none focus-visible:ring-2
+                                       focus-visible:ring-brand-600/40">
+                            <svg data-icon="eye" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                                 stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"
+                                 aria-hidden="true" focusable="false">
+                                <path d="M2.5 12S6.3 5.5 12 5.5 21.5 12 21.5 12 17.7 18.5 12 18.5 2.5 12 2.5 12Z" />
+                                <circle cx="12" cy="12" r="3.1" />
+                            </svg>
+                            <svg data-icon="eye-off" class="hidden h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                                 stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"
+                                 aria-hidden="true" focusable="false">
+                                <path d="M9.9 5.8A8.7 8.7 0 0 1 12 5.5c5.7 0 9.5 6.5 9.5 6.5a19.3 19.3 0 0 1-2.6 3.5" />
+                                <path d="M6.3 7.5A18.8 18.8 0 0 0 2.5 12S6.3 18.5 12 18.5c1.4 0 2.7-.3 3.9-.9" />
+                                <path d="M10 10a2.9 2.9 0 0 0 4 4" />
+                                <path d="M3.6 3.6l16.8 16.8" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                @* --------------------- Remember / forgot --------------------- *@
+                <div class="mt-[21px] flex flex-wrap items-center justify-between gap-y-3">
+                    <div class="flex items-center gap-[11px]">
+                        <input id="RememberMe" name="RememberMe" type="checkbox" value="true"
+                               class="login-checkbox" @(Model.RememberMe ? "checked" : null) />
+                        <label for="RememberMe" class="cursor-pointer text-[14px] leading-[18px] text-ink-700">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <a href="#"
+                       class="text-[14px] leading-[18px] text-brand-link hover:underline
+                              focus-visible:rounded-[4px] focus-visible:outline-none
+                              focus-visible:ring-2 focus-visible:ring-brand-600/40">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                @* --------------------- Submit --------------------- *@
+                <button type="submit"
+                        class="mt-[27px] h-[49px] w-full rounded-[7px] bg-brand-600 text-[16px] font-bold
+                               leading-[20px] text-white transition-colors duration-150
+                               hover:bg-brand-800 active:bg-brand-800
+                               focus-visible:outline-none focus-visible:ring-2
+                               focus-visible:ring-brand-600 focus-visible:ring-offset-2
+                               focus-visible:ring-offset-surface-card">
+                    Sign In
+                </button>
+            </form>
+
+            <hr class="mt-[21px] border-0 border-t border-line-200" />
+
+            <p class="mt-[18px] flex items-center justify-center gap-[12px] text-[14px] leading-[18px] text-ink-700">
+                <svg class="h-[17px] w-[17px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <path d="M12 2.8 4.6 5.7v6c0 4.6 3.1 8 7.4 9.5 4.3-1.5 7.4-4.9 7.4-9.5v-6L12 2.8Z" />
+                    <path d="M9.1 11.9l2.2 2.2 3.9-4" />
+                </svg>
+                Library Admin Access
+            </p>
+        </div>
+
+        @* ================================================================== *@
+        @* FOOTER                                                             *@
+        @* ================================================================== *@
+        <div class="mt-8 shrink-0 text-center text-[13px] leading-[24px] min-[900px]:mt-0">
+            <p class="text-ink-700">&copy; 2026 School Library Management. All rights reserved.</p>
+            <p class="text-ink-500">Version 1.0.0</p>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/js/login.js" asp-append-version="true"></script>
+}

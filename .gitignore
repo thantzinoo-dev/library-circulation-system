@@ -1,0 +1,11 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Node
+node_modules/
+
+# Tailwind build output is committed so `dotnet build` works without npm.
+# Remove the next line if you prefer to build CSS on every checkout.
+# wwwroot/css/app.css

@@ -1,0 +1,15 @@
+{
+  "name": "school-library-management",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tailwind CSS v4 build pipeline for the School Library Management Razor Pages app.",
+  "scripts": {
+    "css:build": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --minify",
+    "css:dev": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css",
+    "css:watch": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}
