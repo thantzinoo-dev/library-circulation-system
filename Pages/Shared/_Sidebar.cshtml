@@ -1,0 +1,181 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
+    const string navigationItemClasses = "flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium text-ink-700 transition-colors hover:bg-blue-50 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30";
+    const string activeNavigationItemClasses = "bg-blue-50 text-brand-600";
+}
+
+<aside id="app-sidebar"
+       class="app-sidebar flex h-dvh w-[278px] shrink-0 flex-col border-r border-line-200 bg-white transition-[width] duration-200"
+       data-app-sidebar
+       data-collapsed="false"
+       aria-label="Primary navigation">
+    <div class="flex h-20 shrink-0 items-center gap-3 px-5" data-sidebar-brand>
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center text-brand-600" aria-hidden="true">
+            <svg class="h-10 w-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 8.5h13.5A5.5 5.5 0 0 1 24 14v25c-2.6-3-6.2-4.5-10.8-4.5H5v-26Z"
+                      stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                <path d="M43 8.5H29.5A5.5 5.5 0 0 0 24 14v25c2.6-3 6.2-4.5 10.8-4.5H43v-26Z"
+                      stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                <path d="M10 15h7M10 20h7M31 15h7M31 20h7" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" />
+            </svg>
+        </span>
+        <span class="sidebar-label min-w-0 leading-tight" data-sidebar-label>
+            <span class="block truncate text-[17px] font-bold text-ink-900">School Library</span>
+            <span class="mt-0.5 block truncate text-[13px] text-ink-500">Management System</span>
+        </span>
+    </div>
+
+    <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-4" aria-label="Library sections">
+        <ul class="space-y-1">
+            <li>
+                <a asp-page="/Index"
+                   class="@navigationItemClasses @(currentPage == "/Index" ? activeNavigationItemClasses : null)"
+                   aria-current="@(currentPage == "/Index" ? "page" : null)"
+                   title="Dashboard">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3.5 10.5 12 3l8.5 7.5" />
+                        <path d="M5.5 9v11h13V9M9.5 20v-6h5v6" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Books" class="@navigationItemClasses" title="Books">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" />
+                        <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Books</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Members" class="@navigationItemClasses" title="Members">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="9" cy="8" r="3" />
+                        <path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20" />
+                        <path d="M15.5 5.4a3 3 0 0 1 0 5.2M17 14a4.5 4.5 0 0 1 3.5 4.4V20" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Members</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Borrow" class="@navigationItemClasses" title="Borrow">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="M12 8v8M8 12h8" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Borrow</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Return" class="@navigationItemClasses" title="Return">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 7v5h5" />
+                        <path d="M5.5 11a7 7 0 1 0 2-5" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Return</span>
+                </a>
+            </li>
+            <li>
+                <a href="/History" class="@navigationItemClasses" title="Browsing History">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.5" />
+                        <path d="M12 7.5V12l3 2" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Browsing History</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Reports" class="@navigationItemClasses" title="Reports">
+                    <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 3.5h14v17H5z" />
+                        <path d="M8.5 16v-3M12 16V8M15.5 16v-5" />
+                    </svg>
+                    <span class="sidebar-label truncate" data-sidebar-label>Reports</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="shrink-0 border-t border-line-200 p-3" data-account-root>
+        <button id="account-menu-trigger"
+                type="button"
+                class="account-trigger flex min-h-[58px] w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-colors hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+                data-account-trigger
+                aria-haspopup="menu"
+                aria-controls="account-menu"
+                aria-expanded="false">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[15px] font-bold text-white"
+                  aria-hidden="true">A</span>
+            <span class="sidebar-label min-w-0 flex-1" data-sidebar-label>
+                <span class="block truncate text-[14px] font-semibold text-ink-900">Admin User</span>
+                <span class="mt-0.5 block truncate text-[12px] text-ink-500">Administrator</span>
+            </span>
+            <svg class="account-chevron sidebar-label h-4 w-4 shrink-0 text-ink-400 transition-transform duration-200"
+                 data-account-chevron data-sidebar-label viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m7 14 5-5 5 5" />
+            </svg>
+            <span class="sr-only">Open account menu for Admin User</span>
+        </button>
+
+        <div id="account-menu"
+             class="fixed z-50 max-h-[calc(100dvh-1rem)] overflow-y-auto rounded-xl border border-line-300 bg-white p-1.5 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.24)]"
+             data-account-menu
+             role="menu"
+             aria-labelledby="account-menu-trigger"
+             hidden>
+            <div class="flex items-center gap-3 px-2.5 py-2.5" role="presentation">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[15px] font-bold text-white"
+                      aria-hidden="true">A</span>
+                <span class="min-w-0">
+                    <span class="block truncate text-[14px] font-semibold text-ink-900">Admin User</span>
+                    <span class="mt-0.5 block truncate text-[12px] text-ink-500">Administrator</span>
+                </span>
+            </div>
+
+            <div class="my-1 h-px bg-line-200" role="separator"></div>
+
+            <a href="/Profile"
+               class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-ink-700 hover:bg-blue-50 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+               role="menuitem">
+                <svg class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5" />
+                    <path d="M5 20a7 7 0 0 1 14 0" />
+                </svg>
+                Profile
+            </a>
+            <a href="/Settings"
+               class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-ink-700 hover:bg-blue-50 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+               role="menuitem">
+                <svg class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z" />
+                </svg>
+                Settings
+            </a>
+
+            <div class="my-1 h-px bg-line-200" role="separator"></div>
+
+            <a asp-page="/Login"
+               class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-red-700 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
+               role="menuitem">
+                <svg class="h-[18px] w-[18px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M10 5H5v14h5M14 8l4 4-4 4M8 12h10" />
+                </svg>
+                Log out
+            </a>
+        </div>
+    </div>
+</aside>

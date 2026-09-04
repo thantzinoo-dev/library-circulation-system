@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @source "../Pages";
+@source "../wwwroot/js";
 
 /*
   Design tokens sampled directly from the reference login screenshot
@@ -41,6 +42,32 @@
   awkward: the reference uses a plain square checkbox with a blue checked state.
 */
 @layer components {
+  .app-sidebar[data-collapsed="true"] {
+    width: 5rem;
+  }
+
+  .app-sidebar[data-collapsed="true"] [data-sidebar-label] {
+    display: none;
+  }
+
+  .app-sidebar[data-collapsed="true"] nav a,
+  .app-sidebar[data-collapsed="true"] .account-trigger {
+    justify-content: center;
+  }
+
+  .app-sidebar[data-collapsed="true"] [data-sidebar-brand] {
+    justify-content: center;
+    padding-inline: 0.75rem;
+  }
+
+  .app-sidebar[data-collapsed="true"] .account-trigger {
+    padding-inline: 0.5rem;
+  }
+
+  [data-account-trigger][aria-expanded="true"] .account-chevron {
+    transform: rotate(180deg);
+  }
+
   .login-checkbox {
     appearance: none;
     -webkit-appearance: none;
@@ -65,5 +92,12 @@
   .login-checkbox:focus-visible {
     outline: 2px solid var(--color-brand-600);
     outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-sidebar,
+    .account-chevron {
+      transition-duration: 0.01ms;
+    }
   }
 }

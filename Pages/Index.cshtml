@@ -1,11 +1,171 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Dashboard";
 }
 
-<h1 class="text-3xl font-bold">School Library Management</h1>
-<p class="mt-3 text-ink-700">
-    MVP in progress. The login screen is available at
-    <a class="text-brand-link hover:underline" asp-page="/Login">/Login</a>.
-</p>
+<div class="min-w-0">
+    <section class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" aria-labelledby="dashboard-title">
+        <div class="min-w-0">
+            <h1 id="dashboard-title" class="text-[28px] font-bold leading-tight tracking-[-0.02em] text-ink-900">Dashboard</h1>
+            <p class="mt-1.5 text-[14px] text-ink-700">Welcome back, Admin! Here's what's happening in your library.</p>
+        </div>
+        <div class="flex min-w-0 items-center gap-2.5 text-[14px] font-medium text-ink-900 sm:shrink-0">
+            <svg class="h-5 w-5 text-ink-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M8 3v4M16 3v4M3.5 9.5h17" />
+            </svg>
+            <time datetime="2026-09-18">September 18, 2026 (Friday)</time>
+        </div>
+    </section>
+
+    <section class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1500px]:grid-cols-5" aria-label="Library statistics">
+        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z" />
+                    </svg>
+                </span>
+                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">1,248</p><p class="mt-1 truncate text-[13px] text-ink-500">Total Books</p></div>
+            </div>
+            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ 28</span> this month</p>
+        </article>
+
+        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="9" cy="8" r="3" /><path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20" /><path d="M15.5 5.4a3 3 0 0 1 0 5.2M17 14a4.5 4.5 0 0 1 3.5 4.4V20" />
+                    </svg>
+                </span>
+                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">342</p><p class="mt-1 truncate text-[13px] text-ink-500">Members</p></div>
+            </div>
+            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ 12</span> this month</p>
+        </article>
+
+        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v16H5z" /><path d="m8.5 11 2.2 2.2 4.8-4.7" /></svg>
+                </span>
+                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">76</p><p class="mt-1 truncate text-[13px] text-ink-500">Books Borrowed</p></div>
+            </div>
+            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ 8</span> this week</p>
+        </article>
+
+        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-500">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7v5h5" /><path d="M5.5 11a7 7 0 1 0 2-5" /></svg>
+                </span>
+                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">12</p><p class="mt-1 truncate text-[13px] text-ink-500">Overdue Books</p></div>
+            </div>
+            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-red-600">↗ 3</span> today</p>
+        </article>
+
+        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:col-span-2 lg:col-span-1">
+            <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-600">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6z" /><path d="M15 3.5V7h3M9 12h6M9 15.5h6" /></svg>
+                </span>
+                <div class="min-w-0"><p class="text-[18px] font-bold leading-6 text-ink-900">MMK 152,500</p><p class="mt-1 truncate text-[13px] text-ink-500">Total Fees Collected</p></div>
+            </div>
+            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ 25,000</span> this month</p>
+        </article>
+    </section>
+
+    <section class="mt-5 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
+        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center justify-between gap-4">
+                <h2 class="text-[15px] font-semibold text-ink-900">Borrowings Over Time</h2>
+                <label class="sr-only" for="borrowing-period">Chart period</label>
+                <select id="borrowing-period" class="rounded-lg border border-line-300 bg-white px-3 py-1.5 text-[13px] text-ink-900 outline-none hover:border-line-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"><option>This Month</option></select>
+            </div>
+            <div class="mt-4 aspect-[2.25/1] min-h-[220px] w-full" role="img" aria-label="Line chart of daily borrowing counts for May, ranging from 12 to 34 borrowings">
+                <svg class="h-full w-full" viewBox="0 0 720 320" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+                    <defs><linearGradient id="borrowings-area" x1="0" y1="35" x2="0" y2="270" gradientUnits="userSpaceOnUse"><stop stop-color="#2563EB" stop-opacity="0.22" /><stop offset="1" stop-color="#2563EB" stop-opacity="0.02" /></linearGradient></defs>
+                    <g stroke="#E7E8EE" stroke-width="1"><path d="M48 35H700M48 93H700M48 151H700M48 209H700M48 267H700" /></g>
+                    <g fill="#4A5578" font-size="12" font-family="Segoe UI, Arial, sans-serif">
+                        <text x="12" y="271">0</text><text x="7" y="213">10</text><text x="7" y="155">20</text><text x="7" y="97">30</text><text x="7" y="39">40</text>
+                        <text x="48" y="302">May 1</text><text x="148" y="302">May 6</text><text x="266" y="302">May 11</text><text x="380" y="302">May 16</text><text x="498" y="302">May 21</text><text x="600" y="302">May 26</text><text x="667" y="302">May 31</text>
+                    </g>
+                    <path d="M60 185 L88 191 L116 215 L144 197 L172 168 L200 128 L228 102 L256 139 L284 145 L312 139 L340 157 L368 139 L396 110 L424 151 L452 174 L480 151 L508 133 L536 116 L564 58 L592 87 L620 122 L648 87 L676 93 L700 116 L700 267 L60 267 Z" fill="url(#borrowings-area)" />
+                    <path d="M60 185 L88 191 L116 215 L144 197 L172 168 L200 128 L228 102 L256 139 L284 145 L312 139 L340 157 L368 139 L396 110 L424 151 L452 174 L480 151 L508 133 L536 116 L564 58 L592 87 L620 122 L648 87 L676 93 L700 116" stroke="#1468E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    <g fill="#1468E8" stroke="#FFFFFF" stroke-width="2">
+                        <circle cx="60" cy="185" r="4.5" /><circle cx="88" cy="191" r="4.5" /><circle cx="116" cy="215" r="4.5" /><circle cx="144" cy="197" r="4.5" /><circle cx="172" cy="168" r="4.5" /><circle cx="200" cy="128" r="4.5" /><circle cx="228" cy="102" r="4.5" /><circle cx="256" cy="139" r="4.5" /><circle cx="284" cy="145" r="4.5" /><circle cx="312" cy="139" r="4.5" /><circle cx="340" cy="157" r="4.5" /><circle cx="368" cy="139" r="4.5" /><circle cx="396" cy="110" r="4.5" /><circle cx="424" cy="151" r="4.5" /><circle cx="452" cy="174" r="4.5" /><circle cx="480" cy="151" r="4.5" /><circle cx="508" cy="133" r="4.5" /><circle cx="536" cy="116" r="4.5" /><circle cx="564" cy="58" r="4.5" /><circle cx="592" cy="87" r="4.5" /><circle cx="620" cy="122" r="4.5" /><circle cx="648" cy="87" r="4.5" /><circle cx="676" cy="93" r="4.5" /><circle cx="700" cy="116" r="4.5" />
+                    </g>
+                </svg>
+            </div>
+        </article>
+
+        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center justify-between gap-4"><h2 class="text-[15px] font-semibold text-ink-900">Recent Borrowings</h2><a href="/History" class="shrink-0 text-[13px] font-medium text-brand-link hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">View all</a></div>
+            <ul class="mt-3 divide-y divide-line-200">
+                <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-gradient-to-b from-amber-500 to-orange-700 px-1 text-center text-[7px] font-bold leading-tight text-white shadow-sm">The<br />Alchemist</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">The Alchemist</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Mg Kaung Htet</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-medium text-brand-600">Borrowed</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="2026-05-23">May 23, 2026</time></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded border border-orange-200 bg-stone-50 px-1 text-center text-[7px] font-bold leading-tight text-orange-600 shadow-sm">Atomic<br />Habits</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">Atomic Habits</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Daw Ei Ei Khine</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-medium text-brand-600">Borrowed</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="2026-05-23">May 23, 2026</time></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-gradient-to-b from-violet-800 to-amber-700 px-1 text-center text-[7px] font-bold leading-tight text-white shadow-sm">Rich Dad<br />Poor Dad</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">Rich Dad Poor Dad</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Ko Zaw Min</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-medium text-brand-600">Borrowed</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="2026-05-22">May 22, 2026</time></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded border border-red-100 bg-white px-1 text-center text-[7px] font-bold leading-tight text-red-500 shadow-sm">The<br />5 AM Club</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">The 5 AM Club</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Ma Hnin Wai</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-medium text-brand-600">Borrowed</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="2026-05-22">May 22, 2026</time></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded border border-line-300 bg-stone-50 px-1 text-center text-[6px] font-semibold leading-tight text-ink-700 shadow-sm">Thinking,<br />Fast and Slow</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">Thinking, Fast and Slow</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Mg Phone Myat</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[11px] font-medium text-brand-600">Borrowed</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="2026-05-22">May 22, 2026</time></div>
+                </li>
+            </ul>
+        </article>
+    </section>
+
+    <section class="mt-5 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
+        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <div class="flex items-center justify-between gap-4"><h2 class="text-[15px] font-semibold text-ink-900">Overdue Books</h2><a href="/History" class="shrink-0 text-[13px] font-medium text-brand-link hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">View all</a></div>
+            <ul class="mt-3 divide-y divide-line-200">
+                <li class="grid grid-cols-1 items-center gap-3 py-2.5 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-gradient-to-b from-amber-100 to-yellow-300 px-1 text-center text-[6px] font-bold leading-tight text-ink-900 shadow-sm">Language of<br />Letting Go</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">Language of Letting Go</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Daw Su Su</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-[11px] font-medium text-red-600">Overdue</span><span class="mt-1 block whitespace-nowrap text-[11px] font-medium text-red-600">5 days overdue</span></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2.5 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-gradient-to-b from-yellow-300 to-amber-500 px-1 text-center text-[6px] font-bold leading-tight text-red-800 shadow-sm">The Power<br />of Habit</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">The Power of Habit</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Ko Aung Aung</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-[11px] font-medium text-red-600">Overdue</span><span class="mt-1 block whitespace-nowrap text-[11px] font-medium text-red-600">3 days overdue</span></div>
+                </li>
+                <li class="grid grid-cols-1 items-center gap-3 py-2.5 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
+                    <div class="flex min-w-0 items-center gap-3"><span class="flex h-12 w-9 shrink-0 items-center justify-center rounded border border-blue-100 bg-blue-50 px-1 text-center text-[7px] font-bold leading-tight text-blue-700 shadow-sm">Deep<br />Work</span><span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">Deep Work</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">Mg Ye Yint</span></span></div>
+                    <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-[11px] font-medium text-red-600">Overdue</span><span class="mt-1 block whitespace-nowrap text-[11px] font-medium text-red-600">2 days overdue</span></div>
+                </li>
+            </ul>
+        </article>
+
+        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+            <h2 class="text-[15px] font-semibold text-ink-900">Members Summary</h2>
+            <div class="mt-4 flex flex-col items-center gap-6 sm:flex-row sm:justify-around">
+                <div class="relative h-44 w-44 shrink-0" role="img" aria-label="342 total members: 248 students, 62 teachers, and 32 staff">
+                    <svg class="h-full w-full -rotate-90" viewBox="0 0 42 42" aria-hidden="true">
+                        <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#EEF1F6" stroke-width="7" />
+                        <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#6557E8" stroke-width="7" stroke-dasharray="72.5 27.5" />
+                        <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#2785EA" stroke-width="7" stroke-dasharray="18.1 81.9" stroke-dashoffset="-72.5" />
+                        <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#3DCB91" stroke-width="7" stroke-dasharray="9.4 90.6" stroke-dashoffset="-90.6" />
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center"><span class="text-[22px] font-bold leading-none text-ink-900">342</span><span class="mt-1 text-[11px] text-ink-500">Total Members</span></div>
+                </div>
+                <dl class="w-full max-w-[260px] space-y-4 text-[13px]">
+                    <div class="flex items-center justify-between gap-5"><dt class="flex items-center gap-2.5 text-ink-700"><span class="h-3 w-3 rounded-full bg-[#6557E8]"></span>Students</dt><dd class="whitespace-nowrap text-ink-500">248 (72.5%)</dd></div>
+                    <div class="flex items-center justify-between gap-5"><dt class="flex items-center gap-2.5 text-ink-700"><span class="h-3 w-3 rounded-full bg-[#2785EA]"></span>Teachers</dt><dd class="whitespace-nowrap text-ink-500">62 (18.1%)</dd></div>
+                    <div class="flex items-center justify-between gap-5"><dt class="flex items-center gap-2.5 text-ink-700"><span class="h-3 w-3 rounded-full bg-[#3DCB91]"></span>Staff</dt><dd class="whitespace-nowrap text-ink-500">32 (9.4%)</dd></div>
+                </dl>
+            </div>
+        </article>
+    </section>
+
+    <footer class="mt-6 flex flex-col gap-1 border-t border-line-200 pt-5 text-[11px] text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; 2026 School Library Management System. All rights reserved.</p><p>Version 1.0.0</p>
+    </footer>
+</div>
