@@ -8,6 +8,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem("school-library-theme");
+                var theme = stored || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+                document.documentElement.setAttribute("data-theme", theme);
+                if (theme === "dark") {
+                    document.documentElement.classList.add("dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                }
+            } catch (_e) {}
+        })();
+    </script>
 </head>
 <body class="h-full overflow-hidden bg-surface-page font-sans text-ink-900 antialiased">
     <div class="flex h-dvh min-h-0 overflow-hidden">
@@ -28,6 +42,7 @@
         </div>
     </div>
 
+    <script src="~/js/theme.js" asp-append-version="true"></script>
     <script src="~/js/custom-select.js" asp-append-version="true"></script>
     <script src="~/js/sidebar.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

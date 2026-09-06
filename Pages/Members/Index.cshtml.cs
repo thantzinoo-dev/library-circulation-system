@@ -29,6 +29,9 @@ public class IndexModel : PageModel
     public string? MembershipType { get; set; }
 
     [BindProperty(SupportsGet = true)]
+    public string? Type { get; set; }
+
+    [BindProperty(SupportsGet = true)]
     public int PageIndex { get; set; } = 1;
 
     public int TotalItems { get; private set; }
@@ -89,9 +92,12 @@ public class IndexModel : PageModel
             }
         }
 
-        if (!string.IsNullOrWhiteSpace(MembershipType) && !MembershipType.Equals("All", StringComparison.OrdinalIgnoreCase))
+        var effectiveType = !string.IsNullOrWhiteSpace(MembershipType) ? MembershipType : Type;
+        if (!string.IsNullOrWhiteSpace(effectiveType) && !effectiveType.Equals("All", StringComparison.OrdinalIgnoreCase))
         {
-            query = query.Where(m => m.MembershipType == MembershipType);
+            MembershipType = effectiveType;
+            Type = effectiveType;
+            query = query.Where(m => m.MembershipType == effectiveType);
         }
 
         TotalItems = await query.CountAsync();

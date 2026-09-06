@@ -631,11 +631,15 @@ select:not([data-shadcn-initialized="true"]) {
 }
 
 .page-motion-filter {
+  position: relative;
+  z-index: 30;
   animation-delay: 45ms;
 }
 
 .page-motion-content,
 .page-motion-table {
+  position: relative;
+  z-index: 10;
   animation-delay: 90ms;
 }
 
@@ -657,3 +661,541 @@ select:not([data-shadcn-initialized="true"]) {
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   Smooth Theme Transition
+   ========================================================================== */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 200ms ease-out,
+              fill 280ms ease-out,
+              stroke 280ms ease-out,
+              box-shadow 280ms ease-out !important;
+  transition-delay: 0ms !important;
+}
+
+/* ==========================================================================
+   Dark Mode Theme System (Obsidian & Deep Indigo Reference Palette)
+   ========================================================================== */
+html[data-theme="dark"],
+html.dark {
+  --color-surface-page: #0b0f17;
+  --color-surface-card: #111726;
+  --color-ink-900: #ffffff;
+  --color-ink-700: #94a3b8;
+  --color-ink-500: #64748b;
+  --color-ink-400: #475569;
+  --color-line-200: #1e293b;
+  --color-line-300: #1e293b;
+  --color-line-400: #334155;
+  --color-brand-600: #8b5cf6;
+  --color-brand-700: #7c3aed;
+  --color-brand-link: #8b5cf6;
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body,
+html.dark body {
+  background-color: #0b0f17 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Sidebar in dark mode */
+html[data-theme="dark"] .app-sidebar,
+html.dark .app-sidebar {
+  background-color: #0b0f17 !important;
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .app-sidebar [data-sidebar-brand],
+html.dark .app-sidebar [data-sidebar-brand] {
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .app-sidebar [data-sidebar-brand-mark],
+html.dark .app-sidebar [data-sidebar-brand-mark] {
+  color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .app-sidebar .sidebar-toggle,
+html.dark .app-sidebar .sidebar-toggle {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .app-sidebar .sidebar-toggle:hover,
+html.dark .app-sidebar .sidebar-toggle:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Sidebar navigation links */
+html[data-theme="dark"] .app-sidebar nav a,
+html.dark .app-sidebar nav a {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .app-sidebar nav a svg,
+html.dark .app-sidebar nav a svg {
+  color: #94a3b8 !important;
+  stroke: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .app-sidebar nav a:hover,
+html.dark .app-sidebar nav a:hover {
+  background-color: #161f33 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .app-sidebar nav a:hover svg,
+html.dark .app-sidebar nav a:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Active navigation item pill */
+html[data-theme="dark"] .app-sidebar nav a[aria-current="page"],
+html.dark .app-sidebar nav a[aria-current="page"] {
+  background-color: #5b4dee !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(91, 77, 238, 0.4) !important;
+}
+
+html[data-theme="dark"] .app-sidebar nav a[aria-current="page"] svg,
+html.dark .app-sidebar nav a[aria-current="page"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Sidebar account area & popover */
+html[data-theme="dark"] [data-account-root],
+html.dark [data-account-root] {
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .account-trigger,
+html.dark .account-trigger {
+  background-color: #111726 !important;
+  border: 1px solid #1e293b !important;
+}
+
+html[data-theme="dark"] .account-trigger:hover,
+html.dark .account-trigger:hover {
+  background-color: #161f33 !important;
+}
+
+html[data-theme="dark"] .account-trigger span.bg-brand-600,
+html.dark .account-trigger span.bg-brand-600 {
+  background-color: #7c3aed !important;
+}
+
+html[data-theme="dark"] .account-menu,
+html.dark .account-menu {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-theme="dark"] .account-menu span.bg-brand-600,
+html.dark .account-menu span.bg-brand-600 {
+  background-color: #7c3aed !important;
+}
+
+html[data-theme="dark"] .account-menu a,
+html[data-theme="dark"] .account-menu button,
+html.dark .account-menu a,
+html.dark .account-menu button {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .account-menu a:hover,
+html[data-theme="dark"] .account-menu button:hover,
+html.dark .account-menu a:hover,
+html.dark .account-menu button:hover {
+  background-color: #161f33 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .account-menu [role="separator"],
+html.dark .account-menu [role="separator"] {
+  background-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .theme-status-badge,
+html.dark .theme-status-badge {
+  background-color: rgba(139, 92, 246, 0.2) !important;
+  color: #8b5cf6 !important;
+}
+
+/* Dashboard surface cards */
+html[data-theme="dark"] .dashboard-shell article,
+html.dark .dashboard-shell article {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Date badge & theme toggle button */
+html[data-theme="dark"] .dashboard-motion-header div.inline-flex,
+html[data-theme="dark"] #theme-toggle,
+html.dark .dashboard-motion-header div.inline-flex,
+html.dark #theme-toggle {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .dashboard-motion-header div.inline-flex svg,
+html.dark .dashboard-motion-header div.inline-flex svg {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] #theme-toggle:hover,
+html.dark #theme-toggle:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Stat Cards in dark mode */
+html[data-theme="dark"] .dashboard-stats article p.text-ink-900,
+html.dark .dashboard-stats article p.text-ink-900 {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article p.text-ink-500,
+html.dark .dashboard-stats article p.text-ink-500 {
+  color: #64748b !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article:nth-child(1) span.rounded-full,
+html.dark .dashboard-stats article:nth-child(1) span.rounded-full {
+  background-color: rgba(139, 92, 246, 0.18) !important;
+  color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article:nth-child(2) span.rounded-full,
+html.dark .dashboard-stats article:nth-child(2) span.rounded-full {
+  background-color: rgba(59, 130, 246, 0.18) !important;
+  color: #3b82f6 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article:nth-child(3) span.rounded-full,
+html.dark .dashboard-stats article:nth-child(3) span.rounded-full {
+  background-color: rgba(16, 185, 129, 0.18) !important;
+  color: #10b981 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article:nth-child(4) span.rounded-full,
+html.dark .dashboard-stats article:nth-child(4) span.rounded-full {
+  background-color: rgba(249, 115, 22, 0.18) !important;
+  color: #f97316 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats article:nth-child(5) span.rounded-full,
+html.dark .dashboard-stats article:nth-child(5) span.rounded-full {
+  background-color: rgba(20, 184, 166, 0.18) !important;
+  color: #14b8a6 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats .text-emerald-600,
+html.dark .dashboard-stats .text-emerald-600 {
+  color: #10b981 !important;
+}
+
+html[data-theme="dark"] .dashboard-stats .text-red-600,
+html.dark .dashboard-stats .text-red-600 {
+  color: #ef4444 !important;
+}
+
+/* Borrowings Over Time Chart in dark mode */
+html[data-theme="dark"] #borrowings-chart-container svg g[stroke="#E7E8EE"] path,
+html.dark #borrowings-chart-container svg g[stroke="#E7E8EE"] path {
+  stroke: #1e293b !important;
+}
+
+html[data-theme="dark"] #borrowings-chart-container svg g[fill="#4A5578"] text,
+html.dark #borrowings-chart-container svg g[fill="#4A5578"] text {
+  fill: #64748b !important;
+}
+
+html[data-theme="dark"] #borrowings-area stop:first-child,
+html.dark #borrowings-area stop:first-child {
+  stop-color: #8b5cf6 !important;
+  stop-opacity: 0.28 !important;
+}
+
+html[data-theme="dark"] #borrowings-area stop:last-child,
+html.dark #borrowings-area stop:last-child {
+  stop-color: #8b5cf6 !important;
+  stop-opacity: 0.01 !important;
+}
+
+html[data-theme="dark"] #borrowings-chart-container svg path[stroke="#1468E8"],
+html.dark #borrowings-chart-container svg path[stroke="#1468E8"] {
+  stroke: #8b5cf6 !important;
+  stroke-width: 3 !important;
+}
+
+html[data-theme="dark"] .chart-dot,
+html.dark .chart-dot {
+  fill: #8b5cf6 !important;
+  stroke: #0b0f17 !important;
+}
+
+html[data-theme="dark"] .chart-dot:hover,
+html[data-theme="dark"] .chart-dot:focus-visible,
+html[data-theme="dark"] .chart-dot.is-active,
+html.dark .chart-dot:hover,
+html.dark .chart-dot:focus-visible,
+html.dark .chart-dot.is-active {
+  r: 6.5;
+  fill: #c084fc !important;
+  stroke: #ffffff !important;
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.8)) !important;
+}
+
+html[data-theme="dark"] #chart-tooltip,
+html.dark #chart-tooltip {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-theme="dark"] #chart-tooltip > div:last-child,
+html.dark #chart-tooltip > div:last-child {
+  border-top-color: #1e293b !important;
+}
+
+/* Custom Select in dark mode */
+html[data-theme="dark"] .shadcn-select-trigger,
+html.dark .shadcn-select-trigger {
+  background-color: #161f33 !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .shadcn-select-trigger:hover,
+html.dark .shadcn-select-trigger:hover {
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .shadcn-select-trigger:focus-visible,
+html[data-theme="dark"] .shadcn-select-trigger[aria-expanded="true"],
+html.dark .shadcn-select-trigger:focus-visible,
+html.dark .shadcn-select-trigger[aria-expanded="true"] {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
+}
+
+html[data-theme="dark"] .shadcn-select-menu,
+html.dark .shadcn-select-menu {
+  background-color: #161f33 !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+html[data-theme="dark"] .shadcn-select-option,
+html.dark .shadcn-select-option {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .shadcn-select-option:hover,
+html[data-theme="dark"] .shadcn-select-option[data-focused="true"],
+html.dark .shadcn-select-option:hover,
+html.dark .shadcn-select-option[data-focused="true"] {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .shadcn-select-option[aria-selected="true"],
+html.dark .shadcn-select-option[aria-selected="true"] {
+  background-color: rgba(139, 92, 246, 0.2) !important;
+  color: #8b5cf6 !important;
+}
+
+/* Recent Borrowings & Overdue Books in dark mode */
+html[data-theme="dark"] a.text-brand-link,
+html.dark a.text-brand-link {
+  color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] ul.divide-line-200 > li,
+html.dark ul.divide-line-200 > li {
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] span.border-blue-200.bg-blue-50,
+html.dark span.border-blue-200.bg-blue-50 {
+  background-color: rgba(37, 99, 235, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.25) !important;
+  color: #60a5fa !important;
+}
+
+html[data-theme="dark"] span.border-red-200.bg-red-50,
+html.dark span.border-red-200.bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.25) !important;
+  color: #f87171 !important;
+}
+
+/* Members Summary Donut */
+html[data-theme="dark"] circle[stroke="#EEF1F6"],
+html.dark circle[stroke="#EEF1F6"] {
+  stroke: #1e293b !important;
+}
+
+html[data-theme="dark"] circle[stroke="#6557E8"],
+html.dark circle[stroke="#6557E8"] {
+  stroke: #7c3aed !important;
+}
+
+html[data-theme="dark"] circle[stroke="#2785EA"],
+html.dark circle[stroke="#2785EA"] {
+  stroke: #0284c7 !important;
+}
+
+html[data-theme="dark"] circle[stroke="#3DCB91"],
+html.dark circle[stroke="#3DCB91"] {
+  stroke: #10b981 !important;
+}
+
+html[data-theme="dark"] dl dt,
+html.dark dl dt {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] dl dd,
+html.dark dl dd {
+  color: #94a3b8 !important;
+}
+
+/* Footer in dark mode */
+html[data-theme="dark"] footer,
+html.dark footer {
+  border-color: #1e293b !important;
+  color: #64748b !important;
+}
+
+/* Subpage Containers, Cards, and Filters in dark mode */
+html[data-theme="dark"] main .bg-white:not([data-preserve-white]),
+html.dark main .bg-white:not([data-preserve-white]) {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] main .border-line-200,
+html[data-theme="dark"] main .border-line-300,
+html[data-theme="dark"] main .divide-line-200 > *,
+html.dark main .border-line-200,
+html.dark main .border-line-300,
+html.dark main .divide-line-200 > * {
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] main .bg-slate-50,
+html[data-theme="dark"] main .bg-slate-50\/70,
+html.dark main .bg-slate-50,
+html.dark main .bg-slate-50\/70 {
+  background-color: #161f33 !important;
+}
+
+html[data-theme="dark"] main .hover\:bg-slate-50:hover,
+html[data-theme="dark"] main .hover\:bg-slate-50\/70:hover,
+html[data-theme="dark"] main .hover\:bg-slate-100:hover,
+html.dark main .hover\:bg-slate-50:hover,
+html.dark main .hover\:bg-slate-50\/70:hover,
+html.dark main .hover\:bg-slate-100:hover {
+  background-color: #161f33 !important;
+}
+
+/* Secondary / Outline Buttons in dark mode */
+html[data-theme="dark"] main button.border-line-300,
+html[data-theme="dark"] main a.border-line-300,
+html.dark main button.border-line-300,
+html.dark main a.border-line-300 {
+  background-color: #161f33 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] main button.border-line-300:hover,
+html[data-theme="dark"] main a.border-line-300:hover,
+html.dark main button.border-line-300:hover,
+html.dark main a.border-line-300:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Tables, Inputs, and Pagination across Books and Members */
+html[data-theme="dark"] table,
+html.dark table {
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] thead,
+html.dark thead,
+html[data-theme="dark"] th,
+html.dark th {
+  background-color: #161f33 !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] td,
+html.dark td {
+  border-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+html[data-theme="dark"] tbody tr:hover,
+html.dark tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.025) !important;
+}
+
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark select,
+html.dark textarea {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html.dark input::placeholder {
+  color: #64748b !important;
+}
+
+html[data-theme="dark"] .pagination button,
+html[data-theme="dark"] .pagination a,
+html.dark .pagination button,
+html.dark .pagination a {
+  background-color: #161f33 !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .pagination button:hover,
+html[data-theme="dark"] .pagination a:hover,
+html.dark .pagination button:hover,
+html.dark .pagination a:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .pagination [aria-current="page"],
+html.dark .pagination [aria-current="page"] {
+  background-color: #5b4dee !important;
+  color: #ffffff !important;
+  border-color: #5b4dee !important;
+}
+
+

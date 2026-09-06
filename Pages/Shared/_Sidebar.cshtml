@@ -192,6 +192,20 @@
                 Settings
             </a>
 
+            <button type="button"
+                    data-theme-toggle
+                    class="flex min-h-10 w-full items-center justify-between rounded-lg px-2.5 text-[14px] text-ink-700 hover:bg-blue-50 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+                    role="menuitem"
+                    title="Toggle dark mode">
+                <span class="flex items-center gap-3">
+                    <svg class="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                    </svg>
+                    Dark Mode
+                </span>
+                <span class="theme-status-badge rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold text-ink-500">Off</span>
+            </button>
+
             <div class="my-1 h-px bg-line-200" role="separator"></div>
 
             <a asp-page="/Login"

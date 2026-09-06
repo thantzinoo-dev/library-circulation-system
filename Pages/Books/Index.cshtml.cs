@@ -23,7 +23,18 @@ public class IndexModel : PageModel
     public string? Search { get; set; }
 
     [BindProperty(SupportsGet = true)]
+    public string? Status { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Type { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Category { get; set; }
+
+    [BindProperty(SupportsGet = true)]
     public int PageIndex { get; set; } = 1;
+
+    public IReadOnlyList<string> AvailableTypes { get; private set; } = Array.Empty<string>();
 
     public int TotalItems { get; private set; }
     public int TotalPages { get; private set; }
@@ -40,6 +51,14 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
+        // Load all available book categories/types for the filter dropdown
+        AvailableTypes = await _context.Books
+            .Where(b => !string.IsNullOrEmpty(b.Category))
+            .Select(b => b.Category!)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToListAsync();
+
         IQueryable<Book> query = _context.Books.AsNoTracking();
 
         Search = string.IsNullOrWhiteSpace(Search) ? null : Search.Trim();
@@ -57,6 +76,30 @@ public class IndexModel : PageModel
                 book.Author.Contains(Search) ||
                 (book.Category != null && book.Category.Contains(Search)) ||
                 (book.Language != null && book.Language.Contains(Search)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(Status) && !Status.Equals("All", StringComparison.OrdinalIgnoreCase))
+        {
+            if (Status.Equals("Available", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.Where(b => b.AvailableCopies > 0);
+            }
+            else if (Status.Equals("Unavailable", StringComparison.OrdinalIgnoreCase) ||
+                     Status.Equals("OutOfStock", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.Where(b => b.AvailableCopies == 0);
+            }
+            else if (Status.Equals("Borrowed", StringComparison.OrdinalIgnoreCase))
+            {
+                query = query.Where(b => b.AvailableCopies < b.TotalCopies);
+            }
+        }
+
+        var effectiveType = !string.IsNullOrWhiteSpace(Type) ? Type : Category;
+        if (!string.IsNullOrWhiteSpace(effectiveType) && !effectiveType.Equals("All", StringComparison.OrdinalIgnoreCase))
+        {
+            Type = effectiveType;
+            query = query.Where(b => b.Category != null && b.Category == effectiveType);
         }
 
         TotalItems = await query.CountAsync();
@@ -86,19 +129,19 @@ public class IndexModel : PageModel
             .ToListAsync();
     }
 
-    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    public async Task<IActionResult> OnPostDeleteAsync(int id, string? search, string? status, string? type, int pageIndex = 1)
     {
         var book = await _context.Books.FindAsync(id);
         if (book is null)
         {
             ErrorMessage = "The book could not be found.";
-            return RedirectToPage();
+            return RedirectToPage(new { Search = search, Status = status, Type = type, PageIndex = pageIndex });
         }
 
         if (await _context.BorrowRecords.AnyAsync(record => record.BookId == id))
         {
             ErrorMessage = $"“{book.Title}” cannot be deleted because it has borrowing history.";
-            return RedirectToPage();
+            return RedirectToPage(new { Search = search, Status = status, Type = type, PageIndex = pageIndex });
         }
 
         _context.Books.Remove(book);
@@ -113,6 +156,6 @@ public class IndexModel : PageModel
             ErrorMessage = $"“{book.Title}” could not be deleted because it is referenced by another record.";
         }
 
-        return RedirectToPage();
+        return RedirectToPage(new { Search = search, Status = status, Type = type, PageIndex = pageIndex });
     }
 }
