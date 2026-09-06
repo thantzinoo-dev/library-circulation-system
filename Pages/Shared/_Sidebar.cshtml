@@ -2,6 +2,10 @@
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
     var isBooksPage = currentPage?.StartsWith("/Books", StringComparison.OrdinalIgnoreCase) == true;
     var isMembersPage = currentPage?.StartsWith("/Members", StringComparison.OrdinalIgnoreCase) == true;
+    var isBorrowPage = currentPage?.StartsWith("/Borrow", StringComparison.OrdinalIgnoreCase) == true;
+    var isReturnPage = currentPage?.StartsWith("/Return", StringComparison.OrdinalIgnoreCase) == true;
+    var isHistoryPage = currentPage?.StartsWith("/History", StringComparison.OrdinalIgnoreCase) == true;
+    var isReportsPage = currentPage?.StartsWith("/Reports", StringComparison.OrdinalIgnoreCase) == true;
     const string navigationItemClasses = "flex h-10 w-full items-center gap-3 rounded-lg px-3 text-[15px] font-medium text-ink-700 transition-[background-color,color,padding] duration-150 ease-out hover:bg-blue-50 hover:text-brand-600 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 group-data-[collapsed=true]/sidebar:h-10 group-data-[collapsed=true]/sidebar:w-10 group-data-[collapsed=true]/sidebar:justify-center group-data-[collapsed=true]/sidebar:gap-0 group-data-[collapsed=true]/sidebar:px-0 group-data-[collapsed=true]/sidebar:mx-auto";
     const string activeNavigationItemClasses = "bg-blue-100/80 text-brand-700 font-semibold shadow-[inset_0_0_0_1px_rgba(0,72,198,0.16)]";
 }
@@ -88,7 +92,10 @@
                 </a>
             </li>
             <li>
-                <a href="/Borrow" class="@navigationItemClasses" title="Borrow">
+                <a asp-page="/Borrow/Index"
+                   class="@navigationItemClasses @(isBorrowPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isBorrowPage ? "page" : null)"
+                   title="Borrow">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="8.5" />
@@ -98,7 +105,10 @@
                 </a>
             </li>
             <li>
-                <a href="/Return" class="@navigationItemClasses" title="Return">
+                <a asp-page="/Return/Index"
+                   class="@navigationItemClasses @(isReturnPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isReturnPage ? "page" : null)"
+                   title="Return">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 7v5h5" />
@@ -108,7 +118,10 @@
                 </a>
             </li>
             <li>
-                <a href="/History" class="@navigationItemClasses" title="Browsing History">
+                <a asp-page="/History/Index"
+                   class="@navigationItemClasses @(isHistoryPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isHistoryPage ? "page" : null)"
+                   title="Browsing History">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="8.5" />
@@ -118,7 +131,10 @@
                 </a>
             </li>
             <li>
-                <a href="/Reports" class="@navigationItemClasses" title="Reports">
+                <a asp-page="/Reports/Index"
+                   class="@navigationItemClasses @(isReportsPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isReportsPage ? "page" : null)"
+                   title="Reports">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M5 3.5h14v17H5z" />
