@@ -1,5 +1,19 @@
+@using Microsoft.EntityFrameworkCore
+@inject School_Library_Management.Data.ApplicationDbContext SidebarDb
 @{
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString();
+    var accountProfile = await SidebarDb.AdminProfiles
+        .AsNoTracking()
+        .OrderBy(profile => profile.Id)
+        .Select(profile => new { profile.FullName, profile.Role })
+        .FirstOrDefaultAsync();
+    var accountName = accountProfile?.FullName ?? "Admin User";
+    var accountRole = accountProfile?.Role ?? "Administrator";
+    var accountInitials = string.Concat(accountName
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Take(2)
+        .Select(part => char.ToUpperInvariant(part[0])));
+    accountInitials = string.IsNullOrWhiteSpace(accountInitials) ? "A" : accountInitials;
     var isBooksPage = currentPage?.StartsWith("/Books", StringComparison.OrdinalIgnoreCase) == true;
     var isMembersPage = currentPage?.StartsWith("/Members", StringComparison.OrdinalIgnoreCase) == true;
     var isBorrowPage = currentPage?.StartsWith("/Borrow", StringComparison.OrdinalIgnoreCase) == true;
@@ -155,17 +169,17 @@
                 aria-controls="account-menu"
                 aria-expanded="false">
             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[15px] font-bold text-white"
-                  aria-hidden="true">A</span>
+                  aria-hidden="true">@accountInitials</span>
             <span class="sidebar-label min-w-0 flex-1" data-sidebar-label>
-                <span class="block truncate text-[14px] font-semibold text-ink-900">Admin User</span>
-                <span class="mt-0.5 block truncate text-[12px] text-ink-500">Administrator</span>
+                <span class="block truncate text-[14px] font-semibold text-ink-900">@accountName</span>
+                <span class="mt-0.5 block truncate text-[12px] text-ink-500">@accountRole</span>
             </span>
             <svg class="account-chevron sidebar-label h-4 w-4 shrink-0 text-ink-400 transition-transform duration-200"
                  data-account-chevron data-sidebar-label viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="m7 14 5-5 5 5" />
             </svg>
-            <span class="sr-only">Open account menu for Admin User</span>
+            <span class="sr-only">Open account menu for @accountName</span>
         </button>
 
         <div id="account-menu"
@@ -178,16 +192,16 @@
              hidden>
             <div class="flex items-center gap-3 px-2.5 py-2.5" role="presentation">
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-[15px] font-bold text-white"
-                      aria-hidden="true">A</span>
+                      aria-hidden="true">@accountInitials</span>
                 <span class="min-w-0">
-                    <span class="block truncate text-[14px] font-semibold text-ink-900">Admin User</span>
-                    <span class="mt-0.5 block truncate text-[12px] text-ink-500">Administrator</span>
+                    <span class="block truncate text-[14px] font-semibold text-ink-900">@accountName</span>
+                    <span class="mt-0.5 block truncate text-[12px] text-ink-500">@accountRole</span>
                 </span>
             </div>
 
             <div class="my-1 h-px bg-line-200" role="separator"></div>
 
-            <a href="/Profile"
+            <a asp-page="/Profile/Index"
                class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-ink-700 hover:bg-blue-50 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
                role="menuitem">
                 <svg class="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -197,7 +211,7 @@
                 </svg>
                 Profile
             </a>
-            <a href="/Settings"
+            <a asp-page="/Settings/Index"
                class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-ink-700 hover:bg-blue-50 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
                role="menuitem">
                 <svg class="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -224,15 +238,17 @@
 
             <div class="my-1 h-px bg-line-200" role="separator"></div>
 
-            <a asp-page="/Login"
-               class="flex min-h-10 items-center gap-3 rounded-lg px-2.5 text-[14px] text-red-700 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
-               role="menuitem">
-                <svg class="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M10 5H5v14h5M14 8l4 4-4 4M8 12h10" />
-                </svg>
-                Log out
-            </a>
+            <form method="post" asp-page="/Logout">
+                <button type="submit"
+                        class="flex min-h-10 w-full items-center gap-3 rounded-lg px-2.5 text-[14px] text-red-700 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30"
+                        role="menuitem">
+                    <svg class="h-4.5 w-4.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10 5H5v14h5M14 8l4 4-4 4M8 12h10" />
+                    </svg>
+                    Log out
+                </button>
+            </form>
         </div>
     </div>
 </aside>

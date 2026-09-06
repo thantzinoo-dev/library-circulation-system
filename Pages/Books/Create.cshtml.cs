@@ -1,23 +1,30 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using School_Library_Management.Data;
 using School_Library_Management.Models;
+using School_Library_Management.Services;
 
 namespace School_Library_Management.Pages.Books;
 
 public class CreateModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment _environment;
 
-    public CreateModel(ApplicationDbContext context)
+    public CreateModel(ApplicationDbContext context, IWebHostEnvironment environment)
     {
         _context = context;
+        _environment = environment;
     }
 
     [BindProperty]
     public Book Input { get; set; } = new();
+
+    [BindProperty]
+    public IFormFile? CoverImage { get; set; }
 
     public void OnGet()
     {
@@ -40,6 +47,20 @@ public class CreateModel : PageModel
             return Page();
         }
 
+        string? coverImagePath = null;
+        if (CoverImage is not null)
+        {
+            try
+            {
+                coverImagePath = await BookCoverStorage.SaveAsync(CoverImage, _environment, HttpContext.RequestAborted);
+            }
+            catch (ValidationException exception)
+            {
+                ModelState.AddModelError(nameof(CoverImage), exception.Message);
+                return Page();
+            }
+        }
+
         var book = new Book
         {
             ISBN = Input.ISBN,
@@ -49,7 +70,8 @@ public class CreateModel : PageModel
             Language = Input.Language,
             PublishedYear = Input.PublishedYear,
             TotalCopies = Input.TotalCopies,
-            AvailableCopies = Input.TotalCopies
+            AvailableCopies = Input.TotalCopies,
+            CoverImagePath = coverImagePath
         };
 
         _context.Books.Add(book);
@@ -60,6 +82,7 @@ public class CreateModel : PageModel
         }
         catch (DbUpdateException exception) when (IsUniqueIsbnViolation(exception))
         {
+            BookCoverStorage.DeleteUploadedCover(coverImagePath, _environment);
             ModelState.AddModelError("Input.ISBN", "A book with this ISBN already exists.");
             return Page();
         }

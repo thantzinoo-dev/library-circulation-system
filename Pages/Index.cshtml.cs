@@ -129,6 +129,7 @@ public class IndexModel(ApplicationDbContext context) : PageModel
             .Select(r => new
             {
                 BookTitle = r.Book.Title,
+                r.Book.CoverImagePath,
                 MemberName = r.Member.Name,
                 r.BorrowDate,
                 r.DueDate,
@@ -141,7 +142,8 @@ public class IndexModel(ApplicationDbContext context) : PageModel
             row.MemberName,
             row.BorrowDate,
             row.ReturnDate is not null ? BorrowStatus.Returned : row.DueDate < today ? BorrowStatus.Overdue : BorrowStatus.Borrowed,
-            Initials(row.BookTitle))).ToList();
+            Initials(row.BookTitle),
+            row.CoverImagePath)).ToList();
     }
 
     private async Task LoadOverdueBooksAsync(DateTime today)
@@ -152,14 +154,15 @@ public class IndexModel(ApplicationDbContext context) : PageModel
             .OrderBy(r => r.DueDate)
             .ThenBy(r => r.Id)
             .Take(3)
-            .Select(r => new { BookTitle = r.Book.Title, MemberName = r.Member.Name, r.DueDate })
+            .Select(r => new { BookTitle = r.Book.Title, r.Book.CoverImagePath, MemberName = r.Member.Name, r.DueDate })
             .ToListAsync();
 
         OverdueItems = rows.Select(row => new OverdueBook(
             row.BookTitle,
             row.MemberName,
             Math.Max(1, (today - row.DueDate.Date).Days),
-            Initials(row.BookTitle))).ToList();
+            Initials(row.BookTitle),
+            row.CoverImagePath)).ToList();
     }
 
     private async Task LoadMemberSummaryAsync()
@@ -193,7 +196,7 @@ public class IndexModel(ApplicationDbContext context) : PageModel
 
     public sealed record DailyBorrowing(int Day, int Count, double X, double Y);
     public sealed record ChartLabel(string Text, double X);
-    public sealed record RecentBorrowing(string BookTitle, string MemberName, DateTime BorrowDate, string Status, string Initials);
-    public sealed record OverdueBook(string BookTitle, string MemberName, int DaysOverdue, string Initials);
+    public sealed record RecentBorrowing(string BookTitle, string MemberName, DateTime BorrowDate, string Status, string Initials, string? CoverImagePath);
+    public sealed record OverdueBook(string BookTitle, string MemberName, int DaysOverdue, string Initials, string? CoverImagePath);
     public sealed record MemberSummary(string Type, int Count, double Percentage, double Offset, string Color);
 }

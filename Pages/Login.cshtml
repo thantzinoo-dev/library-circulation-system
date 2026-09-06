@@ -89,6 +89,12 @@
             </p>
 
             <form method="post" novalidate>
+                <input asp-for="ReturnUrl" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     data-login-alert
+                     class="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 empty:hidden"
+                     role="alert"></div>
 
                 @* --------------------- Email / username --------------------- *@
                 <div class="mt-[27px]">
@@ -118,6 +124,7 @@
                                       focus:border-brand-600 focus:outline-none
                                       focus-visible:ring-[3px] focus-visible:ring-brand-600/20" />
                     </div>
+                    <span asp-validation-for="UsernameOrEmail" class="mt-1.5 block text-sm text-red-700"></span>
                 </div>
 
                 @* --------------------- Password --------------------- *@
@@ -171,6 +178,7 @@
                             </svg>
                         </button>
                     </div>
+                    <span asp-validation-for="Password" class="mt-1.5 block text-sm text-red-700"></span>
                 </div>
 
                 @* --------------------- Remember / forgot --------------------- *@
@@ -183,12 +191,9 @@
                         </label>
                     </div>
 
-                    <a href="#"
-                       class="text-[14px] leading-[18px] text-brand-link hover:underline
-                              focus-visible:rounded-[4px] focus-visible:outline-none
-                              focus-visible:ring-2 focus-visible:ring-brand-600/40">
-                        Forgot Password?
-                    </a>
+                    <span class="text-[13px] leading-[18px] text-ink-500" title="Contact the system administrator to reset this account.">
+                        Admin access only
+                    </span>
                 </div>
 
                 @* --------------------- Submit --------------------- *@

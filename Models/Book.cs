@@ -37,6 +37,10 @@ public class Book
     [Display(Name = "Available Copies")]
     public int AvailableCopies { get; set; } = 1;
 
+    [StringLength(300)]
+    [Display(Name = "Cover Image")]
+    public string? CoverImagePath { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public ICollection<BorrowRecord> BorrowRecords { get; set; } = new List<BorrowRecord>();

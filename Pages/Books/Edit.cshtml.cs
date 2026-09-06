@@ -1,23 +1,32 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using School_Library_Management.Data;
 using School_Library_Management.Models;
+using School_Library_Management.Services;
 
 namespace School_Library_Management.Pages.Books;
 
 public class EditModel : PageModel
 {
     private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment _environment;
 
-    public EditModel(ApplicationDbContext context)
+    public EditModel(ApplicationDbContext context, IWebHostEnvironment environment)
     {
         _context = context;
+        _environment = environment;
     }
 
     [BindProperty]
     public Book Input { get; set; } = new();
+
+    [BindProperty]
+    public IFormFile? CoverImage { get; set; }
+
+    public string? ExistingCoverImagePath { get; private set; }
 
     public int BorrowedCopies { get; private set; }
 
@@ -30,6 +39,7 @@ public class EditModel : PageModel
         }
 
         Input = book;
+        ExistingCoverImagePath = book.CoverImagePath;
         BorrowedCopies = book.TotalCopies - book.AvailableCopies;
         return Page();
     }
@@ -43,6 +53,7 @@ public class EditModel : PageModel
         }
 
         BorrowedCopies = book.TotalCopies - book.AvailableCopies;
+        ExistingCoverImagePath = book.CoverImagePath;
         NormalizeInput();
         ModelState.Clear();
         TryValidateModel(Input, nameof(Input));
@@ -65,6 +76,22 @@ public class EditModel : PageModel
             return Page();
         }
 
+        string? newCoverImagePath = null;
+        if (CoverImage is not null)
+        {
+            try
+            {
+                newCoverImagePath = await BookCoverStorage.SaveAsync(CoverImage, _environment, HttpContext.RequestAborted);
+            }
+            catch (ValidationException exception)
+            {
+                ModelState.AddModelError(nameof(CoverImage), exception.Message);
+                Input.Id = id;
+                return Page();
+            }
+        }
+
+        var previousCoverImagePath = book.CoverImagePath;
         book.ISBN = Input.ISBN;
         book.Title = Input.Title;
         book.Author = Input.Author;
@@ -73,6 +100,10 @@ public class EditModel : PageModel
         book.PublishedYear = Input.PublishedYear;
         book.TotalCopies = Input.TotalCopies;
         book.AvailableCopies = Input.TotalCopies - BorrowedCopies;
+        if (newCoverImagePath is not null)
+        {
+            book.CoverImagePath = newCoverImagePath;
+        }
 
         try
         {
@@ -80,9 +111,15 @@ public class EditModel : PageModel
         }
         catch (DbUpdateException exception) when (IsUniqueIsbnViolation(exception))
         {
+            BookCoverStorage.DeleteUploadedCover(newCoverImagePath, _environment);
             ModelState.AddModelError("Input.ISBN", "A book with this ISBN already exists.");
             Input.Id = id;
             return Page();
+        }
+
+        if (newCoverImagePath is not null)
+        {
+            BookCoverStorage.DeleteUploadedCover(previousCoverImagePath, _environment);
         }
 
         TempData["StatusMessage"] = $"“{book.Title}” was updated.";

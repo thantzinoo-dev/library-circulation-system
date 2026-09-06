@@ -1,48 +1,233 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using School_Library_Management.Models;
+using School_Library_Management.Services;
 
 namespace School_Library_Management.Data;
 
 public static class DbInitializer
 {
-    public static async Task SeedAsync(ApplicationDbContext context)
+    public static async Task SeedAsync(ApplicationDbContext context, IConfiguration configuration)
     {
-        // 1. Seed Members if count is less than 15
-        var currentMemberCount = await context.Members.CountAsync();
-        if (currentMemberCount < 15)
-        {
-            var existingStudentIds = await context.Members.Select(m => m.StudentId).ToListAsync();
-            var membersToSeed = GetInitialMembers()
-                .Where(m => !existingStudentIds.Contains(m.StudentId))
-                .ToList();
+        await using var transaction = await context.Database.BeginTransactionAsync();
 
-            if (membersToSeed.Count > 0)
+        var existingStudentIds = await context.Members.Select(member => member.StudentId).ToListAsync();
+        var membersToSeed = GetInitialMembers()
+            .Concat(GetDemoMembers())
+            .Where(member => !existingStudentIds.Contains(member.StudentId))
+            .ToList();
+
+        if (membersToSeed.Count > 0)
+        {
+            await context.Members.AddRangeAsync(membersToSeed);
+            await context.SaveChangesAsync();
+        }
+
+        var existingBooks = await context.Books.ToListAsync();
+        var booksToSeed = GetInitialBooks().Concat(GetMyanmarBooks()).ToList();
+        foreach (var seedBook in booksToSeed)
+        {
+            var existing = existingBooks.FirstOrDefault(book =>
+                (seedBook.ISBN is not null && book.ISBN == seedBook.ISBN) || book.Title == seedBook.Title);
+            if (existing is null)
             {
-                await context.Members.AddRangeAsync(membersToSeed);
-                await context.SaveChangesAsync();
+                context.Books.Add(seedBook);
+                existingBooks.Add(seedBook);
+            }
+            else if (string.IsNullOrWhiteSpace(existing.CoverImagePath) && !string.IsNullOrWhiteSpace(seedBook.CoverImagePath))
+            {
+                existing.CoverImagePath = seedBook.CoverImagePath;
             }
         }
 
-        // 2. Seed Books if count is less than 15
-        var currentBookCount = await context.Books.CountAsync();
-        if (currentBookCount < 15)
+        await context.SaveChangesAsync();
+        await SeedPreferencesAsync(context);
+        await SeedAdminAccountAsync(context, configuration);
+        await SeedDemoBorrowingActivityAsync(context);
+        await transaction.CommitAsync();
+    }
+
+    private static async Task SeedAdminAccountAsync(ApplicationDbContext context, IConfiguration configuration)
+    {
+        if (await context.AdminAccounts.AnyAsync())
         {
-            var existingIsbns = await context.Books
-                .Where(b => b.ISBN != null)
-                .Select(b => b.ISBN!)
-                .ToListAsync();
-            var existingTitles = await context.Books.Select(b => b.Title).ToListAsync();
+            return;
+        }
 
-            var booksToSeed = GetInitialBooks()
-                .Where(b => (b.ISBN == null || !existingIsbns.Contains(b.ISBN)) && !existingTitles.Contains(b.Title))
-                .ToList();
+        var username = configuration["SeedAdmin:Username"]?.Trim() ?? "admin";
+        var email = configuration["SeedAdmin:Email"]?.Trim() ?? "admin@schoollibrary.edu";
+        var password = configuration["SeedAdmin:InitialPassword"];
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            throw new InvalidOperationException(
+                "No admin account exists. Configure SeedAdmin:InitialPassword through development settings or an environment secret.");
+        }
 
-            if (booksToSeed.Count > 0)
+        var account = new AdminAccount
+        {
+            Username = username,
+            NormalizedUsername = AdminAuthentication.Normalize(username),
+            Email = email,
+            NormalizedEmail = AdminAuthentication.Normalize(email),
+            IsActive = true,
+            MustChangePassword = true,
+            CreatedAtUtc = DateTime.UtcNow,
+            UpdatedAtUtc = DateTime.UtcNow
+        };
+        account.PasswordHash = new PasswordHasher<AdminAccount>().HashPassword(account, password);
+
+        context.AdminAccounts.Add(account);
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedPreferencesAsync(ApplicationDbContext context)
+    {
+        if (!await context.LibrarySettings.AnyAsync())
+        {
+            context.LibrarySettings.Add(new LibrarySettings
             {
-                await context.Books.AddRangeAsync(booksToSeed);
-                await context.SaveChangesAsync();
+                DefaultReportPeriod = ReportPeriod.ThisMonth,
+                Theme = ThemePreference.System,
+                ShowPdfExport = true,
+                ShowExcelExport = true,
+                UpdatedAt = DateTime.UtcNow
+            });
+        }
+
+        if (!await context.AdminProfiles.AnyAsync())
+        {
+            context.AdminProfiles.Add(new AdminProfile
+            {
+                FullName = "Admin User",
+                Role = "Administrator",
+                Email = "admin@schoollibrary.edu",
+                Phone = "09 400 123 456",
+                Department = "Library Administration",
+                Bio = "School library administrator responsible for circulation, members, and catalogue reporting.",
+                UpdatedAt = DateTime.UtcNow
+            });
+        }
+
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedDemoBorrowingActivityAsync(ApplicationDbContext context)
+    {
+        const string marker = "DashboardSeed:";
+        if (await context.BorrowRecords.AnyAsync(record => record.Notes != null && record.Notes.StartsWith(marker)))
+        {
+            return;
+        }
+
+        var members = await context.Members.Where(member => member.IsActive).OrderBy(member => member.Id).ToListAsync();
+        var featuredTitles = GetMyanmarBooks().Select(book => book.Title).ToList();
+        var books = await context.Books.Where(book => featuredTitles.Contains(book.Title)).OrderBy(book => book.Id).ToListAsync();
+        if (members.Count == 0 || books.Count == 0)
+        {
+            return;
+        }
+
+        var today = DateTime.Today;
+        var currentMonth = new DateTime(today.Year, today.Month, 1);
+        var monthlyRecordCounts = new[] { 8, 11, 14, 12, 17, 19 };
+        var weightedBooks = new[] { 0, 0, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7 };
+        var sequence = 0;
+
+        for (var monthIndex = 0; monthIndex < monthlyRecordCounts.Length; monthIndex++)
+        {
+            var monthStart = currentMonth.AddMonths(monthIndex - 5);
+            var daysInMonth = DateTime.DaysInMonth(monthStart.Year, monthStart.Month);
+            var latestBorrowDay = monthIndex == 5 ? Math.Max(1, today.Day) : Math.Min(daysInMonth, 25);
+
+            for (var itemIndex = 0; itemIndex < monthlyRecordCounts[monthIndex]; itemIndex++)
+            {
+                var book = books[weightedBooks[(sequence + monthIndex) % weightedBooks.Length] % books.Count];
+                var member = members[(sequence * 3 + monthIndex) % members.Count];
+                var borrowDay = 1 + ((itemIndex * 3 + monthIndex) % latestBorrowDay);
+                var borrowDate = monthStart.AddDays(borrowDay - 1);
+                var quantity = itemIndex % 7 == 0 ? 2 : 1;
+                var shouldRemainOpen = (monthIndex == 3 && itemIndex == 0) ||
+                                       (monthIndex == 4 && itemIndex < 2) ||
+                                       (monthIndex == 5 && itemIndex < 6);
+                var dueDate = borrowDate.AddDays(monthIndex == 5 && itemIndex < 3 ? 3 : 14);
+                DateTime? returnDate = null;
+                var status = BorrowStatus.Borrowed;
+                var fine = 0m;
+                string? returnCondition = null;
+
+                if (!shouldRemainOpen)
+                {
+                    var intendedLateReturn = itemIndex % 4 == 0;
+                    if (monthIndex == 5)
+                    {
+                        dueDate = borrowDate.AddDays(3);
+                    }
+
+                    var candidateReturnDate = intendedLateReturn ? dueDate.AddDays(2 + itemIndex % 3) : borrowDate.AddDays(monthIndex == 5 ? 2 : 7 + itemIndex % 5);
+                    returnDate = candidateReturnDate > today ? today : candidateReturnDate;
+                    var returnedLate = returnDate > dueDate;
+                    status = BorrowStatus.Returned;
+                    fine = returnedLate ? 1000m + ((itemIndex % 4) * 500m) : 0m;
+                    returnCondition = itemIndex % 9 == 0 ? "Damaged" : returnedLate ? "Late" : "Good";
+                }
+                else
+                {
+                    if (book.AvailableCopies < quantity)
+                    {
+                        book = books.First(candidate => candidate.AvailableCopies >= quantity);
+                    }
+
+                    book.AvailableCopies -= quantity;
+                }
+
+                context.BorrowRecords.Add(new BorrowRecord
+                {
+                    BookId = book.Id,
+                    MemberId = member.Id,
+                    BorrowDate = borrowDate,
+                    DueDate = dueDate,
+                    ReturnDate = returnDate,
+                    Status = status,
+                    FineAmount = fine,
+                    Quantity = quantity,
+                    Notes = $"{marker}{sequence + 1:000}",
+                    ReturnCondition = returnCondition
+                });
+
+                sequence++;
             }
         }
+
+        await context.SaveChangesAsync();
+    }
+
+    private static List<Member> GetDemoMembers()
+    {
+        var joinedThisMonth = DateTime.UtcNow.Date.AddDays(-3);
+        return
+        [
+            new() { StudentId = "STU1001", Name = "Thazin Hlaing", MembershipType = MemberType.Student, Department = "Myanmar Literature", Phone = "09 780 110 201", Email = "thazin.hlaing@school.edu", IsActive = true, CreatedAt = joinedThisMonth },
+            new() { StudentId = "STU1002", Name = "Min Khant Kyaw", MembershipType = MemberType.Student, Department = "Computer Science", Phone = "09 780 110 202", Email = "min.khant@school.edu", IsActive = true, CreatedAt = joinedThisMonth.AddDays(1) },
+            new() { StudentId = "STU1003", Name = "Su Myat Noe", MembershipType = MemberType.Student, Department = "Business Administration", Phone = "09 780 110 203", Email = "su.myat@school.edu", IsActive = true, CreatedAt = joinedThisMonth.AddDays(1) },
+            new() { StudentId = "TEA1001", Name = "Daw Nandar Win", MembershipType = MemberType.Teacher, Department = "Myanmar Literature", Phone = "09 780 110 204", Email = "nandar.win@school.edu", IsActive = true, CreatedAt = joinedThisMonth.AddDays(2) },
+            new() { StudentId = "STA1001", Name = "Ko Hein Htet", MembershipType = MemberType.Staff, Department = "Library Services", Phone = "09 780 110 205", Email = "hein.htet@school.edu", IsActive = true, CreatedAt = joinedThisMonth.AddDays(2) }
+        ];
+    }
+
+    private static List<Book> GetMyanmarBooks()
+    {
+        var addedThisMonth = DateTime.UtcNow.Date.AddDays(-5);
+        return
+        [
+            new() { Title = "Smile as They Bow", Author = "Nu Nu Yi (Inwa)", Category = "Myanmar Literature", Language = "Burmese", PublishedYear = 1994, TotalCopies = 12, AvailableCopies = 12, CoverImagePath = "/images/books/smile-as-they-bow.svg", CreatedAt = addedThisMonth },
+            new() { Title = "Not Out of Hate", Author = "Journal Kyaw Ma Ma Lay", Category = "Myanmar Literature", Language = "Burmese", PublishedYear = 1955, TotalCopies = 10, AvailableCopies = 10, CoverImagePath = "/images/books/not-out-of-hate.svg", CreatedAt = addedThisMonth.AddDays(1) },
+            new() { Title = "A Man Like Him", Author = "Journal Kyaw Ma Ma Lay", Category = "Biography", Language = "Burmese", PublishedYear = 1947, TotalCopies = 9, AvailableCopies = 9, CoverImagePath = "/images/books/a-man-like-him.svg", CreatedAt = addedThisMonth.AddDays(1) },
+            new() { Title = "Across the Mountain of Swords and the Sea of Fire", Author = "Mya Than Tint", Category = "Myanmar Literature", Language = "Burmese", PublishedYear = 1973, TotalCopies = 10, AvailableCopies = 10, CoverImagePath = "/images/books/mountain-of-swords.svg", CreatedAt = addedThisMonth.AddDays(2) },
+            new() { Title = "The River of Lost Footsteps", Author = "Thant Myint-U", Category = "Myanmar History", Language = "English", PublishedYear = 2006, TotalCopies = 8, AvailableCopies = 8, CoverImagePath = "/images/books/river-lost-footsteps.svg", CreatedAt = addedThisMonth.AddDays(2) },
+            new() { Title = "The Hidden History of Burma", Author = "Thant Myint-U", Category = "Myanmar History", Language = "English", PublishedYear = 2019, TotalCopies = 8, AvailableCopies = 8, CoverImagePath = "/images/books/hidden-history-burma.svg", CreatedAt = addedThisMonth.AddDays(3) },
+            new() { Title = "From the Land of Green Ghosts", Author = "Pascal Khoo Thwe", Category = "Memoir", Language = "English", PublishedYear = 2002, TotalCopies = 7, AvailableCopies = 7, CoverImagePath = "/images/books/green-ghosts.svg", CreatedAt = addedThisMonth.AddDays(3) },
+            new() { Title = "The Glass Palace", Author = "Amitav Ghosh", Category = "Historical Fiction", Language = "English", PublishedYear = 2000, TotalCopies = 8, AvailableCopies = 8, CoverImagePath = "/images/books/glass-palace.svg", CreatedAt = addedThisMonth.AddDays(4) }
+        ];
     }
 
     private static List<Member> GetInitialMembers()

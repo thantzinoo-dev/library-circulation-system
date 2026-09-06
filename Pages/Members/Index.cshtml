@@ -233,9 +233,10 @@
 
                                         <!-- Delete -->
                                         <form method="post" asp-page-handler="Delete" asp-route-id="@member.Id" class="inline"
-                                              data-delete-member-form
-                                              data-member-name="@member.Name"
-                                              data-student-id="@member.StudentId">
+                                              data-confirm-form
+                                              data-confirm-title="Delete member?"
+                                              data-confirm-description="Delete “@member.Name” (@member.StudentId)? This action cannot be undone."
+                                              data-confirm-action="Delete member">
                                             <input type="hidden" name="Search" value="@Model.Search" />
                                             <input type="hidden" name="Status" value="@Model.Status" />
                                             <input type="hidden" name="MembershipType" value="@Model.MembershipType" />

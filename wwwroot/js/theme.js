@@ -17,6 +17,12 @@
         if (stored === "dark" || stored === "light") {
             return stored;
         }
+
+        var configured = window.schoolLibraryThemePreference;
+        if (configured === "dark" || configured === "light") {
+            return configured;
+        }
+
         return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "dark"
             : "light";
@@ -108,7 +114,7 @@
 
     if (window.matchMedia) {
         window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-            if (!getStoredTheme()) {
+            if (!getStoredTheme() && window.schoolLibraryThemePreference !== "dark" && window.schoolLibraryThemePreference !== "light") {
                 applyTheme(e.matches ? "dark" : "light", true);
             }
         });

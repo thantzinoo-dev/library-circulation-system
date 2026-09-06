@@ -1,0 +1,37 @@
+<div data-confirm-dialog
+     class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/55 p-4 opacity-0 pointer-events-none backdrop-blur-[2px] transition-opacity duration-150"
+     role="alertdialog"
+     aria-modal="true"
+     aria-labelledby="confirm-dialog-title"
+     aria-describedby="confirm-dialog-description"
+     inert
+     hidden>
+    <div data-confirm-dialog-panel
+         class="w-full max-w-md translate-y-2 scale-[0.98] rounded-xl border border-line-300 bg-white p-5 shadow-[0_24px_80px_-20px_rgba(2,6,23,0.45)] transition-[transform,opacity] duration-150 ease-out sm:p-6">
+        <div class="flex items-start gap-4">
+            <span data-confirm-dialog-icon class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600" aria-hidden="true">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 9v4M12 17h.01" />
+                    <path d="M10.3 3.7 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z" />
+                </svg>
+            </span>
+            <div class="min-w-0 flex-1">
+                <h2 id="confirm-dialog-title" data-confirm-dialog-title class="text-base font-semibold leading-6 text-ink-900">Are you sure?</h2>
+                <p id="confirm-dialog-description" data-confirm-dialog-description class="mt-1.5 text-sm leading-6 text-ink-500">This action cannot be undone.</p>
+            </div>
+        </div>
+
+        <div class="mt-6 flex flex-col-reverse gap-2.5 sm:flex-row sm:justify-end">
+            <button type="button"
+                    data-confirm-dialog-cancel
+                    class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 focus-visible:ring-offset-2">
+                Cancel
+            </button>
+            <button type="button"
+                    data-confirm-dialog-action
+                    class="inline-flex min-h-10 items-center justify-center rounded-lg bg-red-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>

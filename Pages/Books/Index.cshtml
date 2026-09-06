@@ -150,7 +150,19 @@
                         {
                             <tr class="text-ink-700 hover:bg-slate-50/70">
                                 <td class="whitespace-nowrap px-5 py-4 font-mono text-xs text-ink-500">@(book.ISBN ?? "—")</td>
-                                <td class="max-w-64 px-5 py-4 font-semibold text-ink-900">@book.Title</td>
+                                <td class="max-w-72 px-5 py-4 font-semibold text-ink-900">
+                                    <div class="flex items-center gap-3">
+                                        @if (!string.IsNullOrWhiteSpace(book.CoverImagePath))
+                                        {
+                                            <img src="@book.CoverImagePath" alt="Cover of @book.Title" class="h-14 w-10 shrink-0 rounded object-cover shadow-sm" loading="lazy" />
+                                        }
+                                        else
+                                        {
+                                            <span class="flex h-14 w-10 shrink-0 items-center justify-center rounded bg-blue-50 text-xs font-bold text-brand-600" aria-hidden="true">@string.Concat(book.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(word => char.ToUpperInvariant(word[0])))</span>
+                                        }
+                                        <span>@book.Title</span>
+                                    </div>
+                                </td>
                                 <td class="px-5 py-4">@book.Author</td>
                                 <td class="px-5 py-4">@(book.Category ?? "—")</td>
                                 <td class="px-5 py-4">@(book.Language ?? "—")</td>
@@ -164,7 +176,11 @@
                                 <td class="whitespace-nowrap px-5 py-4 text-right">
                                     <div class="flex justify-end gap-1">
                                         <a asp-page="./Edit" asp-route-id="@book.Id" class="rounded-lg px-3 py-2 text-sm font-semibold text-brand-600 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">Edit</a>
-                                        <form method="post" asp-page-handler="Delete" asp-route-id="@book.Id" data-delete-form data-book-title="@book.Title">
+                                        <form method="post" asp-page-handler="Delete" asp-route-id="@book.Id"
+                                              data-confirm-form
+                                              data-confirm-title="Delete book?"
+                                              data-confirm-description="Delete “@book.Title”? This action cannot be undone."
+                                              data-confirm-action="Delete book">
                                             <input type="hidden" name="search" value="@Model.Search" />
                                             <input type="hidden" name="status" value="@Model.Status" />
                                             <input type="hidden" name="type" value="@Model.Type" />
@@ -273,7 +289,3 @@
         }
     </div>
 </section>
-
-@section Scripts {
-    <script src="~/js/books.js" asp-append-version="true"></script>
-}

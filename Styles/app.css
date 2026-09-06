@@ -525,6 +525,13 @@ html[data-sidebar-collapsed="true"] .sidebar-toggle-icon,
   transform: scale(0.995) !important;
 }
 
+.report-control-field,
+.report-control-field .shadcn-select-wrapper,
+.report-control-field .shadcn-select-trigger {
+  height: 2.75rem !important;
+  min-height: 2.75rem !important;
+}
+
 .shadcn-select-menu {
   position: absolute !important;
   top: 100% !important;
@@ -834,6 +841,25 @@ html[data-theme="dark"] .theme-status-badge,
 html.dark .theme-status-badge {
   background-color: rgba(139, 92, 246, 0.2) !important;
   color: #8b5cf6 !important;
+}
+
+/* Shared destructive alert dialog */
+html[data-theme="dark"] [data-confirm-dialog-panel],
+html.dark [data-confirm-dialog-panel],
+html[data-theme="dark"] [data-confirm-dialog-cancel],
+html.dark [data-confirm-dialog-cancel] {
+  background-color: #111726 !important;
+  border-color: #334155 !important;
+}
+
+html[data-theme="dark"] [data-confirm-dialog-cancel]:hover,
+html.dark [data-confirm-dialog-cancel]:hover {
+  background-color: #161f33 !important;
+}
+
+html[data-theme="dark"] [data-confirm-dialog-icon],
+html.dark [data-confirm-dialog-icon] {
+  background-color: rgba(239, 68, 68, 0.14) !important;
 }
 
 /* Dashboard surface cards */
@@ -1176,6 +1202,27 @@ html.dark textarea {
 html[data-theme="dark"] input::placeholder,
 html.dark input::placeholder {
   color: #64748b !important;
+}
+
+/* Login uses a separate layout, so keep its custom controls aligned with the
+   same dark palette as the authenticated application shell. */
+html[data-theme="dark"] .login-checkbox,
+html.dark .login-checkbox {
+  background-color: #111726;
+  border-color: #334155;
+}
+
+html[data-theme="dark"] .login-checkbox:checked,
+html.dark .login-checkbox:checked {
+  background-color: var(--color-brand-600);
+  border-color: var(--color-brand-600);
+}
+
+html[data-theme="dark"] [data-login-alert],
+html.dark [data-login-alert] {
+  background-color: rgba(127, 29, 29, 0.22) !important;
+  border-color: rgba(248, 113, 113, 0.42) !important;
+  color: #fca5a5 !important;
 }
 
 html[data-theme="dark"] .pagination button,

@@ -1,0 +1,32 @@
+@using Microsoft.EntityFrameworkCore
+@using School_Library_Management.Models
+@inject School_Library_Management.Data.ApplicationDbContext ThemeDb
+@{
+    var configuredTheme = await ThemeDb.LibrarySettings
+        .AsNoTracking()
+        .OrderBy(setting => setting.Id)
+        .Select(setting => setting.Theme)
+        .FirstOrDefaultAsync() ?? ThemePreference.System;
+    var serializedTheme = System.Text.Json.JsonSerializer.Serialize(configuredTheme.ToLowerInvariant());
+}
+<script>
+    (function () {
+        var configured = @Html.Raw(serializedTheme);
+        window.schoolLibraryThemePreference = configured;
+
+        try {
+            var stored = localStorage.getItem("school-library-theme");
+            var preference = stored || configured;
+            var theme = preference === "dark" || preference === "light"
+                ? preference
+                : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+            document.documentElement.setAttribute("data-theme", theme);
+            document.documentElement.classList.toggle("dark", theme === "dark");
+        } catch (_error) {
+            var fallback = configured === "dark" ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme", fallback);
+            document.documentElement.classList.toggle("dark", fallback === "dark");
+        }
+    })();
+</script>

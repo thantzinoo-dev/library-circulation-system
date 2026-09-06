@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using School_Library_Management.Data;
+using School_Library_Management.Models;
 
 namespace School_Library_Management.Pages.Reports;
 
 public class IndexModel(ApplicationDbContext context) : PageModel
 {
-    private static readonly string[] CategoryColors = ["#1468E8", "#20B97A", "#F59E0B", "#7C3AED", "#22A7C7", "#E85D75"];
+    private static readonly string[] CategoryColors = ["#1468E8", "#20B97A", "#F59E0B", "#7C3AED", "#22A7C7", "#94A3B8"];
     private readonly ApplicationDbContext _context = context;
 
     [BindProperty(SupportsGet = true)]
@@ -24,11 +25,16 @@ public class IndexModel(ApplicationDbContext context) : PageModel
     public IReadOnlyList<MonthlyBorrowing> MonthlyBorrowings { get; private set; } = [];
     public IReadOnlyList<CategoryShare> CategoryShares { get; private set; } = [];
     public IReadOnlyList<PopularBook> PopularBooks { get; private set; } = [];
+    public bool ShowPdfExport { get; private set; } = true;
+    public bool ShowExcelExport { get; private set; } = true;
 
     public async Task OnGetAsync()
     {
+        var settings = await _context.LibrarySettings.AsNoTracking().OrderBy(item => item.Id).FirstOrDefaultAsync();
         ReportType = string.IsNullOrWhiteSpace(ReportType) ? "All" : ReportType;
-        Period = string.IsNullOrWhiteSpace(Period) ? "ThisMonth" : Period;
+        Period = string.IsNullOrWhiteSpace(Period) ? settings?.DefaultReportPeriod ?? ReportPeriod.ThisMonth : Period;
+        ShowPdfExport = settings?.ShowPdfExport ?? true;
+        ShowExcelExport = settings?.ShowExcelExport ?? true;
 
         var today = DateTime.Today;
         var (start, end) = GetPeriodBounds(Period, today);
@@ -102,8 +108,17 @@ public class IndexModel(ApplicationDbContext context) : PageModel
             return;
         }
 
+        var displayedCategories = categories.Take(5)
+            .Select(category => new { category.Label, category.Copies })
+            .ToList();
+        var otherCopies = categories.Skip(5).Sum(category => category.Copies);
+        if (otherCopies > 0)
+        {
+            displayedCategories.Add(new { Label = "Other", Copies = otherCopies });
+        }
+
         var offset = 0d;
-        CategoryShares = categories.Select((category, index) =>
+        CategoryShares = displayedCategories.Select((category, index) =>
         {
             var percentage = category.Copies * 100d / totalCopies;
             var item = new CategoryShare(category.Label, percentage, offset, CategoryColors[index % CategoryColors.Length]);
@@ -121,6 +136,7 @@ public class IndexModel(ApplicationDbContext context) : PageModel
                 book.Title,
                 Category = book.Category ?? "Uncategorized",
                 book.AvailableCopies,
+                book.CoverImagePath,
                 TotalBorrowed = book.BorrowRecords
                     .Where(record => !start.HasValue || (record.BorrowDate >= start.Value && record.BorrowDate < end!.Value))
                     .Sum(record => (int?)record.Quantity) ?? 0,
@@ -140,7 +156,8 @@ public class IndexModel(ApplicationDbContext context) : PageModel
             book.TotalBorrowed,
             book.AvailableCopies,
             book.FineGenerated,
-            GetInitials(book.Title))).ToList();
+            GetInitials(book.Title),
+            book.CoverImagePath)).ToList();
     }
 
     private static (DateTime? Start, DateTime? End) GetPeriodBounds(string? period, DateTime today)
@@ -161,5 +178,5 @@ public class IndexModel(ApplicationDbContext context) : PageModel
 
     public sealed record MonthlyBorrowing(string Month, int Count);
     public sealed record CategoryShare(string Label, double Percentage, double Offset, string Color);
-    public sealed record PopularBook(string Title, string Category, int TotalBorrowed, int AvailableCopies, decimal FineGenerated, string Initials);
+    public sealed record PopularBook(string Title, string Category, int TotalBorrowed, int AvailableCopies, decimal FineGenerated, string Initials, string? CoverImagePath);
 }

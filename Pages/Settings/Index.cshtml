@@ -1,0 +1,90 @@
+@page
+@model School_Library_Management.Pages.Settings.IndexModel
+@using School_Library_Management.Models
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<section class="mx-auto max-w-5xl space-y-6">
+    <header class="page-motion page-motion-header">
+        <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Settings</h1>
+        <p class="mt-1 text-sm text-ink-500">Manage reporting and appearance preferences.</p>
+    </header>
+
+    @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+    {
+        <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">@Model.StatusMessage</div>
+    }
+
+    <form method="post" class="page-motion page-motion-content overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+        <div class="border-b border-line-200 px-5 py-4 sm:px-6">
+            <h2 class="font-semibold text-ink-900">Application preferences</h2>
+            <p class="mt-1 text-sm text-ink-500">These defaults apply to the Reports page and this browser’s theme.</p>
+        </div>
+
+        <div class="space-y-7 p-5 sm:p-6">
+            <div asp-validation-summary="ModelOnly" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 empty:hidden" role="alert"></div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                    <label asp-for="Input.DefaultReportPeriod" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <select asp-for="Input.DefaultReportPeriod" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700">
+                        <option value="@ReportPeriod.ThisMonth">This Month</option>
+                        <option value="@ReportPeriod.LastMonth">Last Month</option>
+                        <option value="@ReportPeriod.ThisYear">This Year</option>
+                        <option value="@ReportPeriod.All">All Time</option>
+                    </select>
+                    <p class="mt-1.5 text-xs text-ink-500">Used when Reports opens without a period in the URL.</p>
+                    <span asp-validation-for="Input.DefaultReportPeriod" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Theme" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                    <select asp-for="Input.Theme" id="settings-theme" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700">
+                        <option value="@ThemePreference.System">Use system setting</option>
+                        <option value="@ThemePreference.Light">Light</option>
+                        <option value="@ThemePreference.Dark">Dark</option>
+                    </select>
+                    <p class="mt-1.5 text-xs text-ink-500">The selected theme is applied immediately after saving.</p>
+                    <span asp-validation-for="Input.Theme" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend class="text-sm font-semibold text-ink-900">Report actions</legend>
+                <p class="mt-1 text-sm text-ink-500">Choose which export actions are visible on the Reports page.</p>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                    <label class="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-line-200 p-4 hover:bg-slate-50">
+                        <span><span class="block text-sm font-semibold text-ink-900">PDF export</span><span class="mt-0.5 block text-xs text-ink-500">Show the PDF action in Reports.</span></span>
+                        <input asp-for="Input.ShowPdfExport" class="h-5 w-5 rounded border-line-300 text-brand-600 focus:ring-brand-600/30" />
+                    </label>
+                    <label class="flex cursor-pointer items-center justify-between gap-4 rounded-xl border border-line-200 p-4 hover:bg-slate-50">
+                        <span><span class="block text-sm font-semibold text-ink-900">Excel export</span><span class="mt-0.5 block text-xs text-ink-500">Show the Excel action in Reports.</span></span>
+                        <input asp-for="Input.ShowExcelExport" class="h-5 w-5 rounded border-line-300 text-brand-600 focus:ring-brand-600/30" />
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="flex flex-col-reverse gap-3 border-t border-line-200 bg-slate-50/70 px-5 py-4 sm:flex-row sm:justify-end sm:px-6">
+            <a asp-page="/Index" class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-5 text-sm font-semibold text-ink-700 hover:bg-slate-50">Cancel</a>
+            <button type="submit" class="inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700">Save settings</button>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <script>
+        (function () {
+            var selectedTheme = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Input.Theme.ToLowerInvariant()));
+            if (selectedTheme === "system") {
+                try { localStorage.removeItem("school-library-theme"); } catch (_error) {}
+                selectedTheme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            } else {
+                try { localStorage.setItem("school-library-theme", selectedTheme); } catch (_error) {}
+            }
+            document.documentElement.setAttribute("data-theme", selectedTheme);
+            document.documentElement.classList.toggle("dark", selectedTheme === "dark");
+        })();
+    </script>
+}

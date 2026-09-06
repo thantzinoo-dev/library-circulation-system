@@ -14,7 +14,7 @@
         <p class="mt-1 text-sm text-ink-500">Update catalogue metadata and inventory safely.</p>
     </div>
 
-    <form method="post" class="page-motion page-motion-content rounded-xl border border-line-200 bg-white">
+    <form method="post" enctype="multipart/form-data" class="page-motion page-motion-content rounded-xl border border-line-200 bg-white">
         <div class="border-b border-line-200 px-5 py-4 sm:px-6">
             <h2 class="font-semibold text-ink-900">Book information</h2>
             <p class="mt-1 text-sm text-ink-500">@Model.BorrowedCopies @(Model.BorrowedCopies == 1 ? "copy is" : "copies are") currently borrowed.</p>
@@ -58,6 +58,24 @@
                     <input asp-for="Input.TotalCopies" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
                     <p class="mt-1 text-xs text-ink-500">Available copies adjust automatically; total cannot fall below borrowed copies.</p>
                     <span asp-validation-for="Input.TotalCopies" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div class="sm:col-span-2">
+                    <label asp-for="CoverImage" class="mb-1.5 block text-sm font-semibold text-ink-700">Replace cover image <span class="font-normal text-ink-400">(optional)</span></label>
+                    <div class="flex flex-col gap-4 rounded-lg border border-line-200 bg-slate-50/60 p-4 sm:flex-row sm:items-center">
+                        @if (!string.IsNullOrWhiteSpace(Model.ExistingCoverImagePath))
+                        {
+                            <img src="@Model.ExistingCoverImagePath" alt="Current cover for @Model.Input.Title" class="h-24 w-16 shrink-0 rounded-md object-cover shadow-sm" />
+                        }
+                        else
+                        {
+                            <span class="flex h-24 w-16 shrink-0 items-center justify-center rounded-md bg-blue-50 text-brand-600"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z"/></svg></span>
+                        }
+                        <div class="min-w-0 flex-1">
+                            <input asp-for="CoverImage" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="block min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 py-2 text-sm text-ink-700 file:mr-3 file:rounded-md file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-brand-600 hover:file:bg-blue-100" />
+                            <p class="mt-1 text-xs text-ink-500">JPG, PNG, or WebP up to 5 MB. Leave empty to keep the current cover.</p>
+                            <span asp-validation-for="CoverImage" class="mt-1 block text-sm text-red-700"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,24 +1,6 @@
 (function () {
     "use strict";
 
-    // Delete confirmation handler
-    document.addEventListener("submit", function (event) {
-        var form = event.target.closest("[data-delete-member-form]");
-        if (!form) {
-            return;
-        }
-
-        var memberName = form.dataset.memberName || "this member";
-        var studentId = form.dataset.studentId || "";
-        var message = studentId
-            ? 'Are you sure you want to delete member "' + memberName + '" (' + studentId + ')?'
-            : 'Are you sure you want to delete member "' + memberName + '"?';
-
-        if (!window.confirm(message)) {
-            event.preventDefault();
-        }
-    });
-
     // View Member Details Modal
     var modal = document.getElementById("member-details-modal");
     var modalContent = document.getElementById("member-details-card");

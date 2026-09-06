@@ -14,7 +14,7 @@
         <p class="mt-1 text-sm text-ink-500">Enter the book metadata and starting inventory.</p>
     </div>
 
-    <form method="post" class="page-motion page-motion-content rounded-xl border border-line-200 bg-white">
+    <form method="post" enctype="multipart/form-data" class="page-motion page-motion-content rounded-xl border border-line-200 bg-white">
         <div class="border-b border-line-200 px-5 py-4 sm:px-6">
             <h2 class="font-semibold text-ink-900">Book information</h2>
             <p class="mt-1 text-sm text-ink-500">ISBN is optional. If supplied, it must be unique.</p>
@@ -58,6 +58,12 @@
                     <input asp-for="Input.TotalCopies" class="min-h-10 w-full rounded-lg border border-line-300 px-3 py-2 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
                     <p class="mt-1 text-xs text-ink-500">All copies are available when the book is first added.</p>
                     <span asp-validation-for="Input.TotalCopies" class="mt-1 block text-sm text-red-700"></span>
+                </div>
+                <div class="sm:col-span-2">
+                    <label asp-for="CoverImage" class="mb-1.5 block text-sm font-semibold text-ink-700">Cover image <span class="font-normal text-ink-400">(optional)</span></label>
+                    <input asp-for="CoverImage" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="block min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 py-2 text-sm text-ink-700 file:mr-3 file:rounded-md file:border-0 file:bg-blue-50 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-brand-600 hover:file:bg-blue-100" />
+                    <p class="mt-1 text-xs text-ink-500">JPG, PNG, or WebP up to 5 MB.</p>
+                    <span asp-validation-for="CoverImage" class="mt-1 block text-sm text-red-700"></span>
                 </div>
             </div>
         </div>
