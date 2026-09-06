@@ -59,6 +59,15 @@ public class ApplicationDbContext : DbContext
                   .HasPrecision(18, 2)
                   .HasDefaultValue(0m);
 
+            entity.Property(r => r.Quantity)
+                  .HasDefaultValue(1);
+
+            entity.Property(r => r.Notes)
+                  .HasMaxLength(500);
+
+            entity.Property(r => r.ReturnCondition)
+                  .HasMaxLength(50);
+
             entity.Property(r => r.BorrowDate)
                   .HasDefaultValueSql("SYSUTCDATETIME()");
 
@@ -80,6 +89,9 @@ public class ApplicationDbContext : DbContext
                 table.HasCheckConstraint(
                     "CK_BorrowRecords_FineAmount",
                     "[FineAmount] >= 0");
+                table.HasCheckConstraint(
+                    "CK_BorrowRecords_Quantity",
+                    "[Quantity] > 0");
                 table.HasCheckConstraint(
                     "CK_BorrowRecords_Dates",
                     "[DueDate] >= [BorrowDate] AND ([ReturnDate] IS NULL OR [ReturnDate] >= [BorrowDate])");

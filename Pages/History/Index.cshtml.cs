@@ -1,32 +1,124 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using School_Library_Management.Data;
 
 namespace School_Library_Management.Pages.History;
 
-public class IndexModel : PageModel
+public class IndexModel(ApplicationDbContext context) : PageModel
 {
-    public IReadOnlyList<HistoryRow> Records { get; } =
-    [
-        new("LOAN0251", "Aung Min Thant", "Clean Code", "May 18, 2025", "Jun 01, 2025", null, "Borrowed", "0 MMK"),
-        new("LOAN0252", "Su Su Hlaing", "Atomic Habits", "May 17, 2025", "May 31, 2025", "May 29, 2025", "Returned", "0 MMK"),
-        new("LOAN0253", "Ko Ko Zaw", "Deep Work", "May 15, 2025", "May 29, 2025", null, "Overdue", "5,000 MMK"),
-        new("LOAN0254", "Hnin Ei Phyu", "The Alchemist", "May 14, 2025", "May 28, 2025", "May 27, 2025", "Returned", "0 MMK"),
-        new("LOAN0255", "Thandar Win", "The 5 AM Club", "May 12, 2025", "May 26, 2025", null, "Borrowed", "0 MMK"),
-        new("LOAN0256", "Khant Sithu Aung", "Rich Dad Poor Dad", "May 09, 2025", "May 23, 2025", "May 23, 2025", "Returned", "0 MMK"),
-        new("LOAN0257", "Ei Phyu Sin", "The Lean Startup", "May 07, 2025", "May 21, 2025", null, "Overdue", "2,000 MMK"),
-        new("LOAN0258", "Zin Min Htet", "Clean Code", "May 05, 2025", "May 19, 2025", "May 18, 2025", "Returned", "0 MMK")
-    ];
+    public const int PageSize = 8;
+    private readonly ApplicationDbContext _context = context;
 
-    public void OnGet()
+    [BindProperty(SupportsGet = true)]
+    public string? Search { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Status { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Period { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int PageIndex { get; set; } = 1;
+
+    public IReadOnlyList<HistoryRow> Records { get; private set; } = [];
+    public int TotalRecords { get; private set; }
+    public int BorrowedRecords { get; private set; }
+    public int ReturnedRecords { get; private set; }
+    public int OverdueRecords { get; private set; }
+    public int FilteredCount { get; private set; }
+    public int TotalPages { get; private set; }
+    public int FirstRecord => FilteredCount == 0 ? 0 : ((PageIndex - 1) * PageSize) + 1;
+    public int LastRecord => Math.Min(PageIndex * PageSize, FilteredCount);
+
+    public async Task OnGetAsync()
     {
+        Search = Search?.Trim();
+        Status = string.IsNullOrWhiteSpace(Status) ? "All" : Status;
+        Period = string.IsNullOrWhiteSpace(Period) ? "ThisMonth" : Period;
+
+        var today = DateTime.Today;
+        var baseQuery = _context.BorrowRecords.AsNoTracking();
+
+        TotalRecords = await baseQuery.CountAsync();
+        ReturnedRecords = await baseQuery.CountAsync(r => r.ReturnDate != null);
+        OverdueRecords = await baseQuery.CountAsync(r => r.ReturnDate == null && r.DueDate < today);
+        BorrowedRecords = await baseQuery.CountAsync(r => r.ReturnDate == null && r.DueDate >= today);
+
+        var query = baseQuery.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(Search))
+        {
+            var term = Search;
+            var numericLoan = term.StartsWith("LOAN", StringComparison.OrdinalIgnoreCase)
+                ? term[4..]
+                : term;
+            var hasLoanId = int.TryParse(numericLoan, out var loanId);
+
+            query = query.Where(r =>
+                r.Member.Name.Contains(term) ||
+                r.Member.StudentId.Contains(term) ||
+                r.Book.Title.Contains(term) ||
+                (hasLoanId && r.Id == loanId));
+        }
+
+        query = Status switch
+        {
+            "Borrowed" => query.Where(r => r.ReturnDate == null && r.DueDate >= today),
+            "Returned" => query.Where(r => r.ReturnDate != null),
+            "Overdue" => query.Where(r => r.ReturnDate == null && r.DueDate < today),
+            _ => query
+        };
+
+        var (start, end) = GetPeriodBounds(Period, today);
+        if (start.HasValue)
+        {
+            query = query.Where(r => r.BorrowDate >= start.Value && r.BorrowDate < end!.Value);
+        }
+
+        FilteredCount = await query.CountAsync();
+        TotalPages = Math.Max(1, (int)Math.Ceiling(FilteredCount / (double)PageSize));
+        PageIndex = Math.Clamp(PageIndex, 1, TotalPages);
+
+        var rows = await query
+            .OrderByDescending(r => r.BorrowDate)
+            .ThenByDescending(r => r.Id)
+            .Skip((PageIndex - 1) * PageSize)
+            .Take(PageSize)
+            .Select(r => new
+            {
+                r.Id,
+                MemberName = r.Member.Name,
+                BookTitle = r.Book.Title,
+                r.BorrowDate,
+                r.DueDate,
+                r.ReturnDate,
+                r.FineAmount
+            })
+            .ToListAsync();
+
+        Records = rows.Select(r => new HistoryRow(
+            $"LOAN{r.Id:00000}",
+            r.MemberName,
+            r.BookTitle,
+            r.BorrowDate,
+            r.DueDate,
+            r.ReturnDate,
+            r.ReturnDate is not null ? "Returned" : r.DueDate < today ? "Overdue" : "Borrowed",
+            r.FineAmount)).ToList();
     }
 
-    public sealed record HistoryRow(
-        string LoanId,
-        string MemberName,
-        string BookTitle,
-        string BorrowDate,
-        string DueDate,
-        string? ReturnDate,
-        string Status,
-        string Fine);
+    private static (DateTime? Start, DateTime? End) GetPeriodBounds(string? period, DateTime today)
+    {
+        return period switch
+        {
+            "LastMonth" => (new DateTime(today.Year, today.Month, 1).AddMonths(-1), new DateTime(today.Year, today.Month, 1)),
+            "ThisYear" => (new DateTime(today.Year, 1, 1), new DateTime(today.Year + 1, 1, 1)),
+            "All" => (null, null),
+            _ => (new DateTime(today.Year, today.Month, 1), new DateTime(today.Year, today.Month, 1).AddMonths(1))
+        };
+    }
+
+    public sealed record HistoryRow(string LoanId, string MemberName, string BookTitle, DateTime BorrowDate, DateTime DueDate, DateTime? ReturnDate, string Status, decimal FineAmount);
 }

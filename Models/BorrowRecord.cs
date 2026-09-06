@@ -30,4 +30,14 @@ public class BorrowRecord
     [Display(Name = "Fine Amount")]
     [Range(typeof(decimal), "0", "9999999999999999.99")]
     public decimal FineAmount { get; set; }
+
+    [Range(1, int.MaxValue)]
+    public int Quantity { get; set; } = 1;
+
+    [StringLength(500)]
+    public string? Notes { get; set; }
+
+    [StringLength(50)]
+    [Display(Name = "Return Condition")]
+    public string? ReturnCondition { get; set; }
 }
