@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE HOBBIT book cover</title>
+  <defs><linearGradient id="hobg" y2="1"><stop stop-color="#052e16"/><stop offset="1" stop-color="#14532d"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#hobg)"/>
+           <circle cx="160" cy="260" r="75" fill="#fef08a" opacity=".3"/>
+           <circle cx="160" cy="260" r="65" stroke="#facc15" stroke-width="6" fill="#166534"/>
+           <circle cx="160" cy="260" r="8" fill="#eab308"/>
+           <path d="M0 370l60-60 50 30 60-80 60 70 90-100v150H0z" fill="#052e16" opacity=".7"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE HOBBIT</tspan>
+  </text>
+  <text x="31" y="118" fill="#4ade80" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THERE AND BACK AGAIN
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    J.R.R. TOLKIEN
+  </text>
+</svg>

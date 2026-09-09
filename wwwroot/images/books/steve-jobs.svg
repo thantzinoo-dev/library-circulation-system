@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">STEVE JOBS book cover</title>
+  <rect width="320" height="480" rx="12" fill="#0a0a0a"/>
+           <circle cx="160" cy="250" r="75" stroke="#52525b" stroke-width="2" fill="none"/>
+           <circle cx="160" cy="215" r="32" fill="#e4e4e7"/>
+           <circle cx="145" cy="210" r="12" stroke="#09090b" stroke-width="3" fill="none"/>
+           <circle cx="175" cy="210" r="12" stroke="#09090b" stroke-width="3" fill="none"/>
+           <path d="M157 210h6" stroke="#09090b" stroke-width="3"/>
+           <path d="M125 290c10-35 60-35 70 0" stroke="#e4e4e7" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >STEVE JOBS</tspan>
+  </text>
+  <text x="31" y="118" fill="#ffffff" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE EXCLUSIVE BIOGRAPHY
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    WALTER ISAACSON
+  </text>
+</svg>

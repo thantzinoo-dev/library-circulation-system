@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">CRIME AND PUNISHMENT book cover</title>
+  <rect width="320" height="480" rx="12" fill="#1c1917"/>
+           <path d="M160 160L90 320h140z" fill="#292524"/>
+           <path d="M160 160v160" stroke="#dc2626" stroke-width="4"/>
+           <circle cx="160" cy="180" r="28" fill="#7f1d1d"/>
+           <path d="M140 250l40-40M180 250l-40-40" stroke="#b91c1c" stroke-width="6" stroke-linecap="round"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >CRIME AND</tspan><tspan x="30" dy="38">PUNISHMENT</tspan>
+  </text>
+  <text x="31" y="156" fill="#dc2626" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    A RUSSIAN PSYCHOLOGICAL MASTERPIECE
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    FYODOR DOSTOEVSKY
+  </text>
+</svg>

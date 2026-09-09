@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">ONE HUNDRED YEARS OF SOLITUDE book cover</title>
+  <defs><linearGradient id="ohg" y2="1"><stop stop-color="#115e59"/><stop offset="1" stop-color="#042f2e"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#ohg)"/>
+           <circle cx="160" cy="250" r="95" fill="#ca8a04" opacity=".2"/>
+           <path d="M160 210c-35-40-70-10-60 30s60 40 60 40 50-10 60-40-25-70-60-30z" fill="#facc15" opacity=".8"/>
+           <path d="M160 270c-25 30-45 5-40-20m40 20c25 30 45 5 40-20" stroke="#eab308" stroke-width="4" fill="none"/>
+           <circle cx="160" cy="245" r="4" fill="#451a03"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >ONE HUNDRED YEARS</tspan><tspan x="30" dy="38">OF SOLITUDE</tspan>
+  </text>
+  <text x="31" y="156" fill="#facc15" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    A MONUMENT OF MAGICAL REALISM
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    GABRIEL GARCÍA MÁRQUEZ
+  </text>
+</svg>

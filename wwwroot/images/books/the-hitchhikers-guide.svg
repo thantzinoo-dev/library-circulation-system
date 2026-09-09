@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE HITCHHIKER'S GUIDE TO THE GALAXY book cover</title>
+  <rect width="320" height="480" rx="12" fill="#0b132b"/>
+           <circle cx="160" cy="240" r="85" fill="#1e3a8a" opacity=".6"/>
+           <circle cx="160" cy="240" r="50" fill="#22c55e"/>
+           <circle cx="145" cy="230" r="6" fill="#052e16"/>
+           <circle cx="175" cy="230" r="6" fill="#052e16"/>
+           <path d="M140 255c10 15 30 15 40 0" stroke="#052e16" stroke-width="5" stroke-linecap="round" fill="none"/>
+           <rect x="70" y="320" width="180" height="36" rx="18" fill="#ef4444"/>
+           <text x="160" y="344" fill="#ffffff" font-family="Arial Black,sans-serif" font-size="16" font-weight="900" text-anchor="middle">DON'T PANIC</text>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE HITCHHIKER'S</tspan><tspan x="30" dy="38">GUIDE TO THE</tspan><tspan x="30" dy="38">GALAXY</tspan>
+  </text>
+  <text x="31" y="194" fill="#22c55e" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    DON'T PANIC
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    DOUGLAS ADAMS
+  </text>
+</svg>

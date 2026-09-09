@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE DA VINCI CODE book cover</title>
+  <defs><linearGradient id="dvcg" y2="1"><stop stop-color="#1f0404"/><stop offset="1" stop-color="#450a0a"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#dvcg)"/>
+           <circle cx="160" cy="250" r="80" stroke="#ca8a04" stroke-width="3" fill="none" opacity=".6"/>
+           <polygon points="160,180 220,290 100,290" stroke="#facc15" stroke-width="2" fill="none"/>
+           <polygon points="160,320 220,210 100,210" stroke="#facc15" stroke-width="2" fill="none"/>
+           <circle cx="160" cy="250" r="8" fill="#fef08a"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE DA VINCI</tspan><tspan x="30" dy="38">CODE</tspan>
+  </text>
+  <text x="31" y="156" fill="#fbbf24" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE WORLDWIDE THRILLER
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    DAN BROWN
+  </text>
+</svg>

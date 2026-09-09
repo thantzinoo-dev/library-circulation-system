@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">1984 book cover</title>
+  <rect width="320" height="480" rx="12" fill="#18181b"/>
+           <path d="M0 240l320-90v180L0 420z" fill="#7f1d1d" opacity=".3"/>
+           <path d="M50 250c40-70 180-70 220 0-40 70-180 70-220 0z" stroke="#ef4444" stroke-width="6" fill="#27272a"/>
+           <circle cx="160" cy="250" r="38" fill="#ef4444"/>
+           <circle cx="160" cy="250" r="18" fill="#09090b"/>
+           <circle cx="166" cy="244" r="5" fill="#ffffff"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >1984</tspan>
+  </text>
+  <text x="31" y="118" fill="#ef4444" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    BIG BROTHER IS WATCHING YOU
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    GEORGE ORWELL
+  </text>
+</svg>

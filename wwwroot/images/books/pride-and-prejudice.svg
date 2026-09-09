@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">PRIDE AND PREJUDICE book cover</title>
+  <defs><linearGradient id="ppg" y2="1"><stop stop-color="#500724"/><stop offset="1" stop-color="#831843"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#ppg)"/>
+           <ellipse cx="160" cy="250" rx="90" ry="110" stroke="#fbcfe8" stroke-width="4" fill="none" opacity=".5"/>
+           <ellipse cx="160" cy="250" rx="80" ry="100" stroke="#f472b6" stroke-width="2" stroke-dasharray="4,6" fill="none"/>
+           <path d="M120 230c20-20 40 10 40 30 0-20 20-50 40-30-20 40-40 50-40 70-10-30-30-40-40-70z" fill="#fce7f3" opacity=".6"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >PRIDE AND</tspan><tspan x="30" dy="38">PREJUDICE</tspan>
+  </text>
+  <text x="31" y="156" fill="#f472b6" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE TIMELESS ROMANTIC MASTERPIECE
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    JANE AUSTEN
+  </text>
+</svg>

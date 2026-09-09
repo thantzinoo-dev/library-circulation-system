@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE ALCHEMIST book cover</title>
+  <defs><linearGradient id="alcg" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#312e81"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#alcg)"/>
+           <polygon points="160,160 80,310 240,310" fill="#f59e0b" opacity=".8"/>
+           <polygon points="160,160 160,310 240,310" fill="#d97706" opacity=".9"/>
+           <circle cx="160" cy="130" r="22" fill="#fef08a"/>
+           <path d="M175 120a22 22 0 0 1-22 22 22 22 0 0 0 22-22z" fill="#d97706"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE</tspan><tspan x="30" dy="38">ALCHEMIST</tspan>
+  </text>
+  <text x="31" y="156" fill="#fbbf24" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    FOLLOW YOUR PERSONAL LEGEND
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    PAULO COELHO
+  </text>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">GUNS, GERMS, AND STEEL book cover</title>
+  <defs><linearGradient id="ggsg" y2="1"><stop stop-color="#1e293b"/><stop offset="1" stop-color="#334155"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#ggsg)"/>
+           <path d="M70 230l180 100M250 230L70 330" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+           <circle cx="160" cy="280" r="45" fill="#475569" stroke="#94a3b8" stroke-width="4"/>
+           <circle cx="160" cy="280" r="15" fill="#38bdf8"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >GUNS, GERMS,</tspan><tspan x="30" dy="38">AND STEEL</tspan>
+  </text>
+  <text x="31" y="156" fill="#94a3b8" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE FATES OF HUMAN SOCIETIES
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    JARED DIAMOND
+  </text>
+</svg>

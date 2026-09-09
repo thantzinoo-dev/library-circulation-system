@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE GRAPES OF WRATH book cover</title>
+  <defs><linearGradient id="gowg" y2="1"><stop stop-color="#3b0764"/><stop offset="1" stop-color="#6b21a8"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#gowg)"/>
+           <circle cx="160" cy="200" r="90" fill="#eab308" opacity=".3"/>
+           <circle cx="140" cy="260" r="18" fill="#a855f7"/>
+           <circle cx="180" cy="260" r="18" fill="#a855f7"/>
+           <circle cx="160" cy="290" r="18" fill="#9333ea"/>
+           <circle cx="120" cy="290" r="18" fill="#9333ea"/>
+           <circle cx="200" cy="290" r="18" fill="#9333ea"/>
+           <circle cx="140" cy="320" r="18" fill="#7e22ce"/>
+           <circle cx="180" cy="320" r="18" fill="#7e22ce"/>
+           <circle cx="160" cy="350" r="18" fill="#6b21a8"/>
+           <path d="M160 210v35M160 220c-15-15-30 0-30 0" stroke="#ca8a04" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE GRAPES</tspan><tspan x="30" dy="38">OF WRATH</tspan>
+  </text>
+  <text x="31" y="156" fill="#fde047" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE PULITZER PRIZE SAGA
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    JOHN STEINBECK
+  </text>
+</svg>

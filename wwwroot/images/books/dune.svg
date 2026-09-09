@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">DUNE book cover</title>
+  <defs><linearGradient id="duneg" y2="1"><stop stop-color="#451a03"/><stop offset="1" stop-color="#9a3412"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#duneg)"/>
+           <circle cx="190" cy="180" r="45" fill="#fef08a" opacity=".9"/>
+           <circle cx="230" cy="220" r="25" fill="#fde047" opacity=".6"/>
+           <path d="M-20 300c70-50 140 10 200-20s90-30 160 20v180H-20z" fill="#b45309"/>
+           <path d="M-20 360c80-40 150 20 220-30s70-10 140 20v130H-20z" fill="#78350f"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >DUNE</tspan>
+  </text>
+  <text x="31" y="118" fill="#f59e0b" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE EPIC ARRAKIS CHRONICLE
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    FRANK HERBERT
+  </text>
+</svg>

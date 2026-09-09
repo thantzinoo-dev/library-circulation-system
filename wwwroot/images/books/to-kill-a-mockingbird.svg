@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">TO KILL A MOCKINGBIRD book cover</title>
+  <defs><linearGradient id="tkmg" y2="1"><stop stop-color="#1e1b4b"/><stop offset="1" stop-color="#4c1d95"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#tkmg)"/>
+           <circle cx="220" cy="220" r="80" fill="#fed7aa" opacity=".2"/>
+           <path d="M30 350c90-20 160-80 230-60" stroke="#a78bfa" stroke-width="6" stroke-linecap="round" fill="none"/>
+           <path d="M140 285c15-25 45-30 65-15 15-20 40-20 55-5-20 20-35 35-65 30-15-5-30 0-55-10z" fill="#fdf4ff"/>
+           <circle cx="245" cy="272" r="3" fill="#4c1d95"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >TO KILL A</tspan><tspan x="30" dy="38">MOCKINGBIRD</tspan>
+  </text>
+  <text x="31" y="156" fill="#c084fc" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    PULITZER PRIZE WINNER
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    HARPER LEE
+  </text>
+</svg>

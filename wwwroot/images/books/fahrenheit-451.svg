@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">FAHRENHEIT 451 book cover</title>
+  <rect width="320" height="480" rx="12" fill="#09090b"/>
+           <path d="M160 170c30 40 60 70 60 110 0 45-35 70-60 70s-60-25-60-70c0-40 30-70 60-110z" fill="#ea580c"/>
+           <path d="M160 220c18 25 35 45 35 70 0 28-20 45-35 45s-35-17-35-45c0-25 17-45 35-70z" fill="#facc15"/>
+           <text x="160" y="325" fill="#18181b" font-family="Arial Black,sans-serif" font-size="28" font-weight="900" text-anchor="middle">451°</text>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >FAHRENHEIT</tspan><tspan x="30" dy="38">451</tspan>
+  </text>
+  <text x="31" y="156" fill="#f97316" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE TEMPERATURE AT WHICH BOOK PAPER CATCHES FIRE
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    RAY BRADBURY
+  </text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">ATOMIC HABITS book cover</title>
+  <rect width="320" height="480" rx="12" fill="#0f172a"/>
+           <ellipse cx="160" cy="240" rx="85" ry="30" stroke="#38bdf8" stroke-width="3" fill="none" transform="rotate(30 160 240)"/>
+           <ellipse cx="160" cy="240" rx="85" ry="30" stroke="#818cf8" stroke-width="3" fill="none" transform="rotate(-30 160 240)"/>
+           <ellipse cx="160" cy="240" rx="85" ry="30" stroke="#f43f5e" stroke-width="3" fill="none" transform="rotate(90 160 240)"/>
+           <circle cx="160" cy="240" r="16" fill="#f8fafc"/>
+           <circle cx="210" cy="210" r="6" fill="#38bdf8"/>
+           <circle cx="110" cy="270" r="6" fill="#f43f5e"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >ATOMIC</tspan><tspan x="30" dy="38">HABITS</tspan>
+  </text>
+  <text x="31" y="156" fill="#38bdf8" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    TINY CHANGES, REMARKABLE RESULTS
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    JAMES CLEAR
+  </text>
+</svg>

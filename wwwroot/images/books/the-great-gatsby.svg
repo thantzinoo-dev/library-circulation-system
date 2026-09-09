@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">THE GREAT GATSBY book cover</title>
+  <defs><linearGradient id="gatsbyg" y2="1"><stop stop-color="#022c22"/><stop offset="1" stop-color="#064e3b"/></linearGradient></defs>
+           <rect width="320" height="480" rx="12" fill="url(#gatsbyg)"/>
+           <circle cx="160" cy="250" r="85" stroke="#fcd34d" stroke-width="3" fill="none" opacity=".8"/>
+           <circle cx="160" cy="250" r="70" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,6" fill="none"/>
+           <path d="M160 165l25 60h60l-48 35 18 60-55-38-55 38 18-60-48-35h60z" stroke="#fbbf24" stroke-width="2" fill="none" opacity=".7"/>
+           <circle cx="260" cy="100" r="4" fill="#34d399"/>
+  <text x="30" y="72" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">
+    <tspan x="30" >THE GREAT</tspan><tspan x="30" dy="38">GATSBY</tspan>
+  </text>
+  <text x="31" y="156" fill="#fbbf24" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1.5">
+    THE ROARING TWENTIES CLASSIC
+  </text>
+  <text x="30" y="445" fill="#ffffff" font-family="Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">
+    F. SCOTT FITZGERALD
+  </text>
+</svg>

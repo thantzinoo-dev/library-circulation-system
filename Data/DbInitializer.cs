@@ -495,6 +495,7 @@ public static class DbInitializer
                 PublishedYear = 2008,
                 TotalCopies = 5,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/clean-code.svg",
                 CreatedAt = baseDate.AddDays(4)
             },
             new()
@@ -507,6 +508,7 @@ public static class DbInitializer
                 PublishedYear = 1994,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/design-patterns.svg",
                 CreatedAt = baseDate.AddDays(10)
             },
             new()
@@ -519,6 +521,7 @@ public static class DbInitializer
                 PublishedYear = 2017,
                 TotalCopies = 3,
                 AvailableCopies = 2,
+                CoverImagePath = "/images/books/effective-java.svg",
                 CreatedAt = baseDate.AddDays(18)
             },
             new()
@@ -531,6 +534,7 @@ public static class DbInitializer
                 PublishedYear = 2009,
                 TotalCopies = 4,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/introduction-to-algorithms.svg",
                 CreatedAt = baseDate.AddDays(25)
             },
             new()
@@ -543,6 +547,7 @@ public static class DbInitializer
                 PublishedYear = 1925,
                 TotalCopies = 6,
                 AvailableCopies = 5,
+                CoverImagePath = "/images/books/the-great-gatsby.svg",
                 CreatedAt = baseDate.AddDays(32)
             },
             new()
@@ -555,6 +560,7 @@ public static class DbInitializer
                 PublishedYear = 1949,
                 TotalCopies = 8,
                 AvailableCopies = 6,
+                CoverImagePath = "/images/books/1984.svg",
                 CreatedAt = baseDate.AddDays(40)
             },
             new()
@@ -567,6 +573,7 @@ public static class DbInitializer
                 PublishedYear = 1960,
                 TotalCopies = 5,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/to-kill-a-mockingbird.svg",
                 CreatedAt = baseDate.AddDays(48)
             },
             new()
@@ -579,6 +586,7 @@ public static class DbInitializer
                 PublishedYear = 1813,
                 TotalCopies = 4,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/pride-and-prejudice.svg",
                 CreatedAt = baseDate.AddDays(55)
             },
             new()
@@ -591,6 +599,7 @@ public static class DbInitializer
                 PublishedYear = 1937,
                 TotalCopies = 6,
                 AvailableCopies = 5,
+                CoverImagePath = "/images/books/the-hobbit.svg",
                 CreatedAt = baseDate.AddDays(65)
             },
             new()
@@ -603,6 +612,7 @@ public static class DbInitializer
                 PublishedYear = 1967,
                 TotalCopies = 3,
                 AvailableCopies = 2,
+                CoverImagePath = "/images/books/one-hundred-years-of-solitude.svg",
                 CreatedAt = baseDate.AddDays(72)
             },
             new()
@@ -615,6 +625,7 @@ public static class DbInitializer
                 PublishedYear = 1985,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/the-handmaids-tale.svg",
                 CreatedAt = baseDate.AddDays(80)
             },
             new()
@@ -627,6 +638,7 @@ public static class DbInitializer
                 PublishedYear = 2014,
                 TotalCopies = 5,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/sapiens.svg",
                 CreatedAt = baseDate.AddDays(90)
             },
             new()
@@ -639,6 +651,7 @@ public static class DbInitializer
                 PublishedYear = 2018,
                 TotalCopies = 7,
                 AvailableCopies = 5,
+                CoverImagePath = "/images/books/atomic-habits.svg",
                 CreatedAt = baseDate.AddDays(100)
             },
             new()
@@ -651,6 +664,7 @@ public static class DbInitializer
                 PublishedYear = 2016,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/the-subtle-art.svg",
                 CreatedAt = baseDate.AddDays(110)
             },
             new()
@@ -663,6 +677,7 @@ public static class DbInitializer
                 PublishedYear = 1988,
                 TotalCopies = 6,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/the-alchemist.svg",
                 CreatedAt = baseDate.AddDays(120)
             },
             new()
@@ -675,6 +690,7 @@ public static class DbInitializer
                 PublishedYear = 2011,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/thinking-fast-and-slow.svg",
                 CreatedAt = baseDate.AddDays(130)
             },
             new()
@@ -687,6 +703,7 @@ public static class DbInitializer
                 PublishedYear = 1979,
                 TotalCopies = 5,
                 AvailableCopies = 5,
+                CoverImagePath = "/images/books/the-hitchhikers-guide.svg",
                 CreatedAt = baseDate.AddDays(140)
             },
             new()
@@ -699,6 +716,7 @@ public static class DbInitializer
                 PublishedYear = 1965,
                 TotalCopies = 5,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/dune.svg",
                 CreatedAt = baseDate.AddDays(150)
             },
             new()
@@ -711,6 +729,7 @@ public static class DbInitializer
                 PublishedYear = 1953,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/fahrenheit-451.svg",
                 CreatedAt = baseDate.AddDays(160)
             },
             new()
@@ -723,6 +742,7 @@ public static class DbInitializer
                 PublishedYear = 1939,
                 TotalCopies = 3,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/the-grapes-of-wrath.svg",
                 CreatedAt = baseDate.AddDays(170)
             },
             new()
@@ -735,6 +755,7 @@ public static class DbInitializer
                 PublishedYear = 1997,
                 TotalCopies = 3,
                 AvailableCopies = 2,
+                CoverImagePath = "/images/books/guns-germs-and-steel.svg",
                 CreatedAt = baseDate.AddDays(180)
             },
             new()
@@ -747,6 +768,7 @@ public static class DbInitializer
                 PublishedYear = 1866,
                 TotalCopies = 4,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/crime-and-punishment.svg",
                 CreatedAt = baseDate.AddDays(190)
             },
             new()
@@ -759,6 +781,7 @@ public static class DbInitializer
                 PublishedYear = 2011,
                 TotalCopies = 4,
                 AvailableCopies = 3,
+                CoverImagePath = "/images/books/steve-jobs.svg",
                 CreatedAt = baseDate.AddDays(200)
             },
             new()
@@ -771,6 +794,7 @@ public static class DbInitializer
                 PublishedYear = 2003,
                 TotalCopies = 5,
                 AvailableCopies = 4,
+                CoverImagePath = "/images/books/the-da-vinci-code.svg",
                 CreatedAt = baseDate.AddDays(210)
             },
             new()
@@ -783,6 +807,7 @@ public static class DbInitializer
                 PublishedYear = 1988,
                 TotalCopies = 3,
                 AvailableCopies = 2,
+                CoverImagePath = "/images/books/the-c-programming-language.svg",
                 CreatedAt = baseDate.AddDays(220)
             }
         };
