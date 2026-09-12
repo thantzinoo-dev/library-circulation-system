@@ -149,6 +149,14 @@ public static class DbInitializer
                 var shouldRemainOpen = (monthIndex == 3 && itemIndex == 0) ||
                                        (monthIndex == 4 && itemIndex < 2) ||
                                        (monthIndex == 5 && itemIndex < 6);
+
+                // Spread open demo loans across the catalogue so overdue widgets and
+                // operational views represent several titles instead of one repeated book.
+                if (shouldRemainOpen)
+                {
+                    book = books[(monthIndex + itemIndex) % books.Count];
+                }
+
                 var dueDate = borrowDate.AddDays(monthIndex == 5 && itemIndex < 3 ? 3 : 14);
                 DateTime? returnDate = null;
                 var status = BorrowStatus.Borrowed;

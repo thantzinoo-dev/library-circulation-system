@@ -1,0 +1,299 @@
+@page
+@model School_Library_Management.Pages.Return.CreateModel
+@{
+    ViewData["Title"] = "Process a Book Return";
+    var selectedLoan = Model.SelectedLoan;
+}
+
+<section class="mx-auto max-w-[100rem] space-y-5">
+    <header class="page-motion page-motion-header">
+        <a asp-page="./Index" class="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-brand-600">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Back to returns
+        </a>
+        <h1 class="mt-3 text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Process a book return</h1>
+        <p class="mt-1 text-sm text-ink-500">Find and process books that are currently on loan.</p>
+    </header>
+
+    @if (!ViewData.ModelState.IsValid && Model.SelectedLoan is null)
+    {
+        <div asp-validation-summary="All" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800" role="alert"></div>
+    }
+
+    <div class="page-motion page-motion-filter rounded-xl border border-line-200 bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-5">
+        <form method="get" class="flex flex-col gap-3 lg:flex-row lg:items-center" role="search">
+            <div class="relative min-w-0 flex-1">
+                <label asp-for="Search" class="sr-only">Search active loans</label>
+                <input asp-for="Search"
+                       type="search"
+                       class="min-h-10 w-full rounded-lg border border-line-300 bg-white py-2 pl-3.5 pr-10 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15"
+                       placeholder="Search by loan ID, member ID, member, book, or ISBN..."
+                       autocomplete="off" />
+                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-ink-400">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-center">
+                <div class="min-w-44">
+                    <label asp-for="DueStatus" class="sr-only">Filter by due status</label>
+                    <select asp-for="DueStatus" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 py-2 text-sm text-ink-700">
+                        <option value="All">All Statuses</option>
+                        <option value="Active">Active</option>
+                        <option value="Overdue">Overdue</option>
+                    </select>
+                </div>
+                <div class="min-w-44">
+                    <label asp-for="MembershipType" class="sr-only">Filter by member type</label>
+                    <select asp-for="MembershipType" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 py-2 text-sm text-ink-700">
+                        <option value="All">All Member Types</option>
+                        <option value="Student">Students</option>
+                        <option value="Teacher">Teachers</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                </div>
+                <button type="submit" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                    Search
+                </button>
+                <a asp-page="./Create" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <section class="page-motion page-motion-table min-w-0 overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]" aria-labelledby="active-loans-title">
+        <div class="flex flex-col gap-1 border-b border-line-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+            <h2 id="active-loans-title" class="flex items-center gap-2 font-semibold text-ink-900">
+                <svg class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5"/><path d="M3 12h11a6 6 0 0 1 6 6v2"/></svg>
+                Active Loans
+            </h2>
+            <span class="text-sm font-semibold text-brand-600">@Model.TotalActiveLoans record@(Model.TotalActiveLoans == 1 ? string.Empty : "s")</span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[64rem] border-collapse text-left text-sm">
+                <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-ink-500">
+                    <tr>
+                        <th class="px-5 py-3">Loan ID</th>
+                        <th class="px-5 py-3">Member</th>
+                        <th class="px-5 py-3">Book</th>
+                        <th class="px-5 py-3">Borrow Date</th>
+                        <th class="px-5 py-3">Due Date</th>
+                        <th class="px-5 py-3 text-center">Qty</th>
+                        <th class="px-5 py-3">Status</th>
+                        <th class="px-5 py-3 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-line-200">
+                    @if (Model.ActiveLoans.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="8" class="px-5 py-14 text-center">
+                                <span class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-brand-600">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+                                </span>
+                                <p class="mt-3 font-semibold text-ink-900">No active loans found</p>
+                                <p class="mt-1 text-sm text-ink-500">Try changing the search term or filters.</p>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var loan in Model.ActiveLoans)
+                        {
+                            <tr class="text-ink-700 transition-colors hover:bg-slate-50/70">
+                                <td class="whitespace-nowrap px-5 py-3.5 font-semibold text-ink-900">@loan.LoanId</td>
+                                <td class="px-5 py-3.5">
+                                    <p class="whitespace-nowrap font-medium text-ink-900">@loan.MemberName</p>
+                                    <p class="mt-0.5 text-xs font-semibold text-brand-600">@loan.MemberCode</p>
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    <div class="flex min-w-0 items-center gap-3">
+                                        <div class="flex h-12 w-9 shrink-0 items-center justify-center overflow-hidden rounded bg-blue-50 text-[10px] font-bold text-brand-600">
+                                            @if (!string.IsNullOrWhiteSpace(loan.CoverImagePath))
+                                            {
+                                                <img src="@loan.CoverImagePath" alt="" class="h-full w-full object-cover" />
+                                            }
+                                            else
+                                            {
+                                                <span>BK</span>
+                                            }
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="max-w-72 truncate font-medium text-ink-900" title="@loan.BookTitle">@loan.BookTitle</p>
+                                            <p class="mt-0.5 text-xs text-ink-500">ISBN @loan.Isbn</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap px-5 py-3.5">@loan.BorrowDate.ToString("MMM dd, yyyy")</td>
+                                <td class="whitespace-nowrap px-5 py-3.5 font-medium @(loan.IsOverdue ? "text-red-600" : "text-ink-700")">@loan.DueDate.ToString("MMM dd, yyyy")</td>
+                                <td class="px-5 py-3.5 text-center">@loan.Quantity</td>
+                                <td class="whitespace-nowrap px-5 py-3.5">
+                                    @if (loan.IsOverdue)
+                                    {
+                                        <span class="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">@loan.DaysOverdue days overdue</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="return-active-badge inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span>
+                                    }
+                                </td>
+                                <td class="px-5 py-3.5 text-right">
+                                    <button type="button"
+                                            data-return-open
+                                            data-loan-id="@loan.Id"
+                                            data-loan-code="@loan.LoanId"
+                                            data-member-name="@loan.MemberName"
+                                            data-member-code="@loan.MemberCode"
+                                            data-member-type="@loan.MembershipType"
+                                            data-book-title="@loan.BookTitle"
+                                            data-isbn="@loan.Isbn"
+                                            data-cover="@loan.CoverImagePath"
+                                            data-borrow-date="@loan.BorrowDate.ToString("MMM dd, yyyy")"
+                                            data-borrow-date-iso="@loan.BorrowDate.ToString("yyyy-MM-dd")"
+                                            data-due-date="@loan.DueDate.ToString("MMM dd, yyyy")"
+                                            data-quantity="@loan.Quantity"
+                                            data-is-overdue="@loan.IsOverdue.ToString().ToLowerInvariant()"
+                                            data-overdue-label="@loan.DaysOverdue days overdue"
+                                            class="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-4 text-xs font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+                                            aria-label="Return @loan.LoanId for @loan.MemberName">
+                                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5"/><path d="M3 12h18"/></svg>
+                                        Return
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="flex flex-col gap-3 border-t border-line-200 px-5 py-4 text-sm text-ink-500 sm:flex-row sm:items-center sm:justify-between">
+            <p>Page @Model.PageNumber of @Model.TotalPages</p>
+            @if (Model.TotalPages > 1)
+            {
+                <nav class="flex items-center gap-2" aria-label="Active loan pages">
+                    <a asp-page="./Create"
+                       asp-route-search="@Model.Search"
+                       asp-route-dueStatus="@Model.DueStatus"
+                       asp-route-membershipType="@Model.MembershipType"
+                       asp-route-pageNumber="@(Model.PageNumber - 1)"
+                       aria-disabled="@(Model.PageNumber == 1)"
+                       class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-300 text-ink-600 transition-colors hover:bg-slate-50 aria-disabled:pointer-events-none aria-disabled:opacity-40">
+                        <span class="sr-only">Previous page</span>
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+                    </a>
+                    <span class="px-1 text-xs font-medium text-ink-600">@Model.PageNumber / @Model.TotalPages</span>
+                    <a asp-page="./Create"
+                       asp-route-search="@Model.Search"
+                       asp-route-dueStatus="@Model.DueStatus"
+                       asp-route-membershipType="@Model.MembershipType"
+                       asp-route-pageNumber="@(Model.PageNumber + 1)"
+                       aria-disabled="@(Model.PageNumber == Model.TotalPages)"
+                       class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-300 text-ink-600 transition-colors hover:bg-slate-50 aria-disabled:pointer-events-none aria-disabled:opacity-40">
+                        <span class="sr-only">Next page</span>
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+                    </a>
+                </nav>
+            }
+        </footer>
+    </section>
+</section>
+
+<div data-return-dialog
+     data-initial-open="@(selectedLoan is not null ? "true" : "false")"
+     class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/55 p-4 opacity-0 pointer-events-none backdrop-blur-[2px] transition-opacity duration-150"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="return-dialog-title"
+     inert
+     hidden>
+        <button type="button" data-return-dialog-close class="absolute inset-0 cursor-default" aria-label="Close return dialog"></button>
+
+        <form method="post" data-return-form class="relative z-10 w-full max-w-2xl translate-y-2 scale-[0.98] overflow-hidden rounded-xl border border-line-300 bg-white shadow-[0_24px_80px_-20px_rgba(2,6,23,0.45)] transition-transform duration-150 ease-out">
+            <input asp-for="Input.LoanId" type="hidden" />
+            <input type="hidden" name="Search" value="@Model.Search" />
+            <input type="hidden" name="DueStatus" value="@Model.DueStatus" />
+            <input type="hidden" name="MembershipType" value="@Model.MembershipType" />
+            <input type="hidden" name="PageNumber" value="@Model.PageNumber" />
+
+            <div class="flex items-start justify-between gap-4 border-b border-line-200 px-5 py-4 sm:px-6">
+                <div>
+                    <h2 id="return-dialog-title" class="text-lg font-semibold text-ink-900">Confirm book return</h2>
+                    <p class="mt-1 text-sm text-ink-500">Review the loan and enter the return information.</p>
+                </div>
+                <button type="button" data-return-dialog-close class="rounded-lg p-1.5 text-ink-400 transition-colors hover:bg-slate-100 hover:text-ink-700" aria-label="Close return dialog">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="p-5 sm:p-6">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="All" class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800" role="alert"></div>
+                }
+
+                <div class="flex gap-4 rounded-xl border border-line-200 bg-slate-50 p-4">
+                    <div class="flex h-24 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white text-xs font-bold text-brand-600 shadow-sm">
+                        <img data-return-cover src="@(selectedLoan?.CoverImagePath ?? string.Empty)" alt="" class="h-full w-full object-cover @(string.IsNullOrWhiteSpace(selectedLoan?.CoverImagePath) ? "hidden" : string.Empty)" />
+                        <span data-return-cover-fallback class="@(string.IsNullOrWhiteSpace(selectedLoan?.CoverImagePath) ? string.Empty : "hidden")">BOOK</span>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span data-return-loan-code class="rounded-md bg-brand-600 px-2 py-1 text-xs font-bold text-white">@(selectedLoan?.LoanId ?? "LOAN")</span>
+                            <span data-return-overdue class="rounded-md bg-red-50 px-2 py-1 text-xs font-semibold text-red-700 @(selectedLoan?.IsOverdue == true ? string.Empty : "hidden")">@(selectedLoan is null ? "Overdue" : $"{selectedLoan.DaysOverdue} days overdue")</span>
+                        </div>
+                        <h3 data-return-book-title class="mt-2 line-clamp-2 font-semibold text-ink-900">@(selectedLoan?.BookTitle ?? "Selected book")</h3>
+                        <p class="mt-1 text-xs text-ink-500">ISBN <span data-return-isbn>@(selectedLoan?.Isbn ?? "—")</span></p>
+                        <p data-return-member-name class="mt-2 text-sm font-medium text-ink-900">@(selectedLoan?.MemberName ?? "Selected member")</p>
+                        <p class="text-xs font-semibold text-brand-600"><span data-return-member-code>@(selectedLoan?.MemberCode ?? "—")</span> · <span data-return-member-type>@(selectedLoan?.MembershipType ?? "Member")</span></p>
+                    </div>
+                </div>
+
+                <dl class="mt-4 grid grid-cols-3 gap-3 rounded-lg border border-line-200 px-4 py-3">
+                    <div><dt class="text-xs text-ink-500">Borrowed</dt><dd data-return-borrow-date class="mt-1 text-sm font-semibold text-ink-900">@(selectedLoan?.BorrowDate.ToString("MMM dd, yyyy") ?? "—")</dd></div>
+                    <div><dt class="text-xs text-ink-500">Due date</dt><dd data-return-due-date class="mt-1 text-sm font-semibold @(selectedLoan?.IsOverdue == true ? "text-red-600" : "text-ink-900")">@(selectedLoan?.DueDate.ToString("MMM dd, yyyy") ?? "—")</dd></div>
+                    <div><dt class="text-xs text-ink-500">Quantity</dt><dd data-return-quantity class="mt-1 text-sm font-semibold text-ink-900">@(selectedLoan?.Quantity.ToString() ?? "—")</dd></div>
+                </dl>
+
+                <div class="mt-5 grid gap-4 sm:grid-cols-3">
+                    <div>
+                        <label asp-for="Input.ReturnDate" class="mb-1.5 block text-sm font-semibold text-ink-700">Return date</label>
+                        <input asp-for="Input.ReturnDate" data-return-date type="date" min="@(selectedLoan?.BorrowDate.ToString("yyyy-MM-dd"))" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                        <span asp-validation-for="Input.ReturnDate" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.FineAmount" class="mb-1.5 block text-sm font-semibold text-ink-700">Fine amount <span class="font-normal text-ink-400">(MMK)</span></label>
+                        <input asp-for="Input.FineAmount" type="number" min="0" step="1" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                        <span asp-validation-for="Input.FineAmount" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.ReturnCondition" class="mb-1.5 block text-sm font-semibold text-ink-700">Condition</label>
+                        <select asp-for="Input.ReturnCondition" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700">
+                            <option value="Good">Good</option>
+                            <option value="Late">Late</option>
+                            <option value="Damaged">Damaged</option>
+                        </select>
+                        <span asp-validation-for="Input.ReturnCondition" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse gap-2.5 border-t border-line-200 bg-slate-50/70 px-5 py-4 sm:flex-row sm:justify-end sm:px-6">
+                <button type="button" data-return-dialog-close class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-5 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50">
+                    Cancel
+                </button>
+                <button type="submit" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m8 7-5 5 5 5"/><path d="M3 12h18"/></svg>
+                    Confirm return
+                </button>
+            </div>
+        </form>
+    </div>
+
+@section Scripts {
+    <script src="~/js/return-modal.js" asp-append-version="true"></script>
+}

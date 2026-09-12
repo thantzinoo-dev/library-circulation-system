@@ -585,6 +585,17 @@ html[data-sidebar-collapsed="true"] .sidebar-toggle-icon,
   font-weight: 600 !important;
 }
 
+/* Searchable borrowing workflow states. */
+.borrow-member-result[data-focused="true"] {
+  background-color: #eff6ff;
+}
+
+.borrow-book-card[aria-selected="true"] {
+  border-color: var(--color-brand-600) !important;
+  background-color: #eff6ff !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand-600) 16%, transparent);
+}
+
 /* ==========================================================================
    Controlled, Clean Horizontal Table Scrollbars
    ========================================================================== */
@@ -1047,6 +1058,21 @@ html[data-theme="dark"] .shadcn-select-option[aria-selected="true"],
 html.dark .shadcn-select-option[aria-selected="true"] {
   background-color: rgba(139, 92, 246, 0.2) !important;
   color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .borrow-member-result[data-focused="true"],
+html.dark .borrow-member-result[data-focused="true"],
+html[data-theme="dark"] .borrow-book-card[aria-selected="true"],
+html.dark .borrow-book-card[aria-selected="true"] {
+  background-color: rgba(139, 92, 246, 0.14) !important;
+  border-color: #8b5cf6 !important;
+}
+
+html[data-theme="dark"] .return-active-badge,
+html.dark .return-active-badge {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(52, 211, 153, 0.24) !important;
+  color: #6ee7b7 !important;
 }
 
 /* Recent Borrowings & Overdue Books in dark mode */

@@ -2,76 +2,72 @@
 @model School_Library_Management.Pages.Return.IndexModel
 @{
     ViewData["Title"] = "Return Book";
-    var selectedLoan = Model.OpenLoans.FirstOrDefault(loan => loan.Id == Model.Input.LoanId);
 }
 
 <section class="space-y-5">
     <header class="page-motion page-motion-header">
         <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Return Book</h1>
-        <p class="mt-1 text-sm text-ink-500">Process returned books and update records</p>
+        <p class="mt-1 text-sm text-ink-500">Process returned books and review return activity</p>
     </header>
 
     @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
     {
         <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">@Model.StatusMessage</div>
     }
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div asp-validation-summary="All" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800" role="alert"></div>
-    }
 
-    <form method="post" class="page-motion page-motion-filter rounded-xl border border-line-200 bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-5" data-return-form>
-        <div class="grid gap-x-10 gap-y-4 xl:grid-cols-2">
-            <div class="space-y-4">
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label asp-for="Input.LoanId" class="text-sm font-semibold text-ink-700">Select Loan</label><select asp-for="Input.LoanId" id="return-loan" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700">@if (Model.OpenLoans.Count == 0) { <option value="0">No open loans</option> } @foreach (var loan in Model.OpenLoans) { <option value="@loan.Id" data-loan-id="@loan.LoanId" data-member="@loan.MemberName" data-student-id="@loan.StudentId" data-book="@loan.BookTitle" data-isbn="@loan.Isbn" data-borrow-date="@loan.BorrowDate.ToString("yyyy-MM-dd")" data-due-date="@loan.DueDate.ToString("yyyy-MM-dd")" data-quantity="@loan.Quantity">@loan.LoanId — @loan.MemberName</option> }</select></div>
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label for="return-member" class="text-sm font-semibold text-ink-700">Member Name</label><input id="return-member" value="@(selectedLoan?.MemberName ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label for="return-book" class="text-sm font-semibold text-ink-700">Borrowed Book</label><input id="return-book" value="@(selectedLoan?.BookTitle ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label for="loan-id" class="text-sm font-semibold text-ink-700">Loan ID</label><input id="loan-id" value="@(selectedLoan?.LoanId ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label for="original-date" class="text-sm font-semibold text-ink-700">Borrow Date</label><input id="original-date" value="@(selectedLoan?.BorrowDate.ToString("MMM dd, yyyy") ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center"><label for="return-quantity" class="text-sm font-semibold text-ink-700">Quantity</label><input id="return-quantity" value="@(selectedLoan?.Quantity.ToString() ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-            </div>
-            <div class="space-y-4">
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label for="return-student" class="text-sm font-semibold text-ink-700">Student ID</label><input id="return-student" value="@(selectedLoan?.StudentId ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label for="return-isbn" class="text-sm font-semibold text-ink-700">ISBN</label><input id="return-isbn" value="@(selectedLoan?.Isbn ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label for="return-due" class="text-sm font-semibold text-ink-700">Due Date</label><input id="return-due" value="@(selectedLoan?.DueDate.ToString("MMM dd, yyyy") ?? "—")" readonly class="min-h-10 w-full rounded-lg border border-line-300 bg-slate-50 px-3 text-sm text-ink-600" /></div>
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label asp-for="Input.ReturnDate" class="text-sm font-semibold text-ink-700">Return Date</label><input asp-for="Input.ReturnDate" id="return-date" type="date" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" /></div>
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label asp-for="Input.FineAmount" class="text-sm font-semibold text-ink-700">Fine Amount</label><input asp-for="Input.FineAmount" id="fine" type="number" min="0" step="0.01" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" /></div>
-                <div class="grid gap-2 sm:grid-cols-[8rem_minmax(0,1fr)] sm:items-center"><label asp-for="Input.ReturnCondition" class="text-sm font-semibold text-ink-700">Condition</label><select asp-for="Input.ReturnCondition" id="return-condition" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700"><option value="Good">Good</option><option value="Late">Late</option><option value="Damaged">Damaged</option></select></div>
-            </div>
-        </div>
-        <div class="mt-5 grid grid-cols-2 gap-3 sm:flex"><button type="submit" disabled="@(Model.OpenLoans.Count == 0)" class="inline-flex min-h-10 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-40"><svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 7-5 5 5 5M3 12h18"/></svg>Return Book</button><button type="reset" class="inline-flex min-h-10 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-line-300 bg-white px-5 text-sm font-semibold text-ink-700 hover:bg-slate-50 sm:w-40"><svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reset</button></div>
-    </form>
+    <a asp-page="./Create"
+       class="page-motion page-motion-filter group flex flex-col gap-4 rounded-xl border border-line-200 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] hover:border-brand-600/40 hover:shadow-[0_8px_24px_rgba(16,24,40,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <span class="flex min-w-0 items-center gap-4">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-brand-600">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5"/><path d="M3 12h11a6 6 0 0 1 6 6v2"/></svg>
+            </span>
+            <span class="min-w-0">
+                <span class="block font-semibold text-ink-900">Process a book return</span>
+                <span class="mt-1 block text-sm text-ink-500">Find an open loan, review its details, and complete the return.</span>
+            </span>
+        </span>
+        <span class="inline-flex items-center gap-2 self-start text-sm font-semibold text-brand-600 group-hover:text-brand-700 sm:self-auto">
+            Start a return
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+        </span>
+    </a>
 
     <div class="page-motion page-motion-content grid gap-4 md:grid-cols-3">
-        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l4 4v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3Z"/><path d="m8 15 2 2 5-5"/></svg></span><div><p class="text-sm text-ink-500">Returned Today</p><p class="text-2xl font-bold text-green-600">@Model.ReturnedToday</p><p class="text-xs text-ink-500">Books returned today</p></div></article>
-        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><p class="text-sm text-ink-500">Pending Returns</p><p class="text-2xl font-bold text-amber-600">@Model.PendingReturns</p><p class="text-xs text-ink-500">Books not yet returned</p></div></article>
-        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></span><div><p class="text-sm text-ink-500">Late Returns</p><p class="text-2xl font-bold text-red-600">@Model.LateReturns</p><p class="text-xs text-ink-500">Returned after due date</p></div></article>
+        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l4 4v13a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3Z"/><path d="m8 15 2 2 5-5"/></svg></span>
+            <div><p class="text-sm text-ink-500">Returned Today</p><p class="text-2xl font-bold text-green-600">@Model.ReturnedToday</p><p class="text-xs text-ink-500">Books returned today</p></div>
+        </article>
+        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <div><p class="text-sm text-ink-500">Pending Returns</p><p class="text-2xl font-bold text-amber-600">@Model.PendingReturns</p><p class="text-xs text-ink-500">Books not yet returned</p></div>
+        </article>
+        <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></span>
+            <div><p class="text-sm text-ink-500">Late Returns</p><p class="text-2xl font-bold text-red-600">@Model.LateReturns</p><p class="text-xs text-ink-500">Returned after due date</p></div>
+        </article>
     </div>
 
     <div class="page-motion page-motion-table overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-        <div class="flex items-center justify-between border-b border-line-200 px-4 py-3 sm:px-5"><h2 class="flex items-center gap-2 font-semibold text-ink-900"><svg class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Recently Returned Books</h2><a asp-page="/History/Index" asp-route-status="Returned" asp-route-period="All" class="text-sm font-semibold text-brand-600 hover:text-brand-700">View all</a></div>
-        <div class="overflow-x-auto"><table class="w-full min-w-200 text-left text-sm"><thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-ink-500"><tr><th class="px-5 py-3">Loan ID</th><th class="px-5 py-3">Member Name</th><th class="px-5 py-3">Book Title</th><th class="px-5 py-3">Return Date</th><th class="px-5 py-3">Fine</th><th class="px-5 py-3">Condition</th><th class="px-5 py-3 text-center">Action</th></tr></thead><tbody class="divide-y divide-line-200">
-        @foreach (var item in Model.RecentReturns)
-        {
-            var conditionClass = item.Condition switch { "Good" => "bg-green-50 text-green-700", "Late" => "bg-amber-50 text-amber-700", _ => "bg-red-50 text-red-700" };
-            <tr class="text-ink-700 hover:bg-slate-50/70"><td class="whitespace-nowrap px-5 py-3 font-semibold text-ink-900">@item.LoanId</td><td class="whitespace-nowrap px-5 py-3">@item.MemberName</td><td class="whitespace-nowrap px-5 py-3">@item.BookTitle</td><td class="whitespace-nowrap px-5 py-3">@item.ReturnDate.ToString("MMM dd, yyyy")</td><td class="whitespace-nowrap px-5 py-3">@item.FineAmount.ToString("N0") MMK</td><td class="px-5 py-3"><span class="rounded-md px-2.5 py-1 text-xs font-semibold @conditionClass">@item.Condition</span></td><td class="px-5 py-3 text-center"><a asp-page="/History/Index" asp-route-search="@item.LoanId" asp-route-period="All" class="rounded-md border border-brand-600 px-3 py-1 text-xs font-semibold text-brand-600 hover:bg-blue-50">View</a></td></tr>
-        }
-        @if (Model.RecentReturns.Count == 0) { <tr><td colspan="7" class="px-5 py-10 text-center text-ink-500">No books have been returned yet.</td></tr> }
-        </tbody></table></div>
+        <div class="flex items-center justify-between border-b border-line-200 px-4 py-3 sm:px-5">
+            <h2 class="flex items-center gap-2 font-semibold text-ink-900"><svg class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Recently Returned Books</h2>
+            <a asp-page="/History/Index" asp-route-status="Returned" asp-route-period="All" class="text-sm font-semibold text-brand-600 hover:text-brand-700">View all</a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-200 text-left text-sm">
+                <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-ink-500"><tr><th class="px-5 py-3">Loan ID</th><th class="px-5 py-3">Member Name</th><th class="px-5 py-3">Book Title</th><th class="px-5 py-3">Return Date</th><th class="px-5 py-3">Fine</th><th class="px-5 py-3">Condition</th><th class="px-5 py-3 text-center">Action</th></tr></thead>
+                <tbody class="divide-y divide-line-200">
+                    @foreach (var item in Model.RecentReturns)
+                    {
+                        var conditionClass = item.Condition switch { "Good" => "bg-green-50 text-green-700", "Late" => "bg-amber-50 text-amber-700", _ => "bg-red-50 text-red-700" };
+                        <tr class="text-ink-700 hover:bg-slate-50/70"><td class="whitespace-nowrap px-5 py-3 font-semibold text-ink-900">@item.LoanId</td><td class="whitespace-nowrap px-5 py-3">@item.MemberName</td><td class="whitespace-nowrap px-5 py-3">@item.BookTitle</td><td class="whitespace-nowrap px-5 py-3">@item.ReturnDate.ToString("MMM dd, yyyy")</td><td class="whitespace-nowrap px-5 py-3">@item.FineAmount.ToString("N0") MMK</td><td class="px-5 py-3"><span class="rounded-md px-2.5 py-1 text-xs font-semibold @conditionClass">@item.Condition</span></td><td class="px-5 py-3 text-center"><a asp-page="/History/Index" asp-route-search="@item.LoanId" asp-route-period="All" class="rounded-md border border-brand-600 px-3 py-1 text-xs font-semibold text-brand-600 hover:bg-blue-50">View</a></td></tr>
+                    }
+                    @if (Model.RecentReturns.Count == 0)
+                    {
+                        <tr><td colspan="7" class="px-5 py-10 text-center text-ink-500">No books have been returned yet.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
         <div class="border-t border-line-200 px-5 py-3 text-sm text-ink-500">Showing @Model.RecentReturns.Count recent return@(Model.RecentReturns.Count == 1 ? "" : "s")</div>
     </div>
 </section>
-
-@section Scripts {
-    <script>
-        (function () {
-            var form = document.querySelector("[data-return-form]");
-            var loanSelect = document.getElementById("return-loan");
-            var fields = { loanId: document.getElementById("loan-id"), member: document.getElementById("return-member"), studentId: document.getElementById("return-student"), book: document.getElementById("return-book"), isbn: document.getElementById("return-isbn"), borrowDate: document.getElementById("original-date"), dueDate: document.getElementById("return-due"), quantity: document.getElementById("return-quantity") };
-            function displayDate(value) { if (!value) return "—"; var parts = value.split("-"); return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }); }
-            function syncLoan() { var option = loanSelect && loanSelect.options[loanSelect.selectedIndex]; var data = option ? option.dataset : {}; if (fields.loanId) fields.loanId.value = data.loanId || "—"; if (fields.member) fields.member.value = data.member || "—"; if (fields.studentId) fields.studentId.value = data.studentId || "—"; if (fields.book) fields.book.value = data.book || "—"; if (fields.isbn) fields.isbn.value = data.isbn || "—"; if (fields.borrowDate) fields.borrowDate.value = displayDate(data.borrowDate); if (fields.dueDate) fields.dueDate.value = displayDate(data.dueDate); if (fields.quantity) fields.quantity.value = data.quantity || "—"; }
-            if (loanSelect) loanSelect.addEventListener("change", syncLoan);
-            if (form) form.addEventListener("reset", function () { window.setTimeout(syncLoan, 20); });
-        })();
-    </script>
-}

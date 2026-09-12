@@ -6,12 +6,14 @@
     var modalContent = document.getElementById("member-details-card");
     var closeBtn = document.getElementById("close-modal-btn");
     var dismissBtn = document.getElementById("modal-dismiss-btn");
+    var previouslyFocused = null;
 
     if (!modal) {
         return;
     }
 
     function openModal(btn) {
+        previouslyFocused = btn;
         var name = btn.dataset.memberName || "";
         var studentId = btn.dataset.studentId || "";
         var membershipType = btn.dataset.membershipType || "Student";
@@ -47,7 +49,7 @@
 
         var statusEl = document.getElementById("modal-status");
         statusEl.textContent = status;
-        statusEl.className = "mt-1 inline-flex rounded-md px-2.5 py-0.5 text-xs font-semibold ";
+        statusEl.className = "inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ";
         if (status === "Active") {
             statusEl.className += "border border-emerald-200/60 bg-emerald-50 text-emerald-700";
         } else {
@@ -59,23 +61,29 @@
             editLink.href = "/Members/Edit/" + encodeURIComponent(memberId);
         }
 
+        modal.inert = false;
         modal.classList.remove("opacity-0", "pointer-events-none");
         modal.classList.add("opacity-100");
         if (modalContent) {
-            modalContent.classList.remove("scale-95");
-            modalContent.classList.add("scale-100");
+            modalContent.classList.remove("translate-y-2", "scale-[0.98]");
+            modalContent.classList.add("translate-y-0", "scale-100");
         }
         document.body.classList.add("overflow-hidden");
+        window.setTimeout(function () { closeBtn && closeBtn.focus(); }, 0);
     }
 
     function closeModal() {
         modal.classList.add("opacity-0", "pointer-events-none");
         modal.classList.remove("opacity-100");
         if (modalContent) {
-            modalContent.classList.add("scale-95");
-            modalContent.classList.remove("scale-100");
+            modalContent.classList.add("translate-y-2", "scale-[0.98]");
+            modalContent.classList.remove("translate-y-0", "scale-100");
         }
+        modal.inert = true;
         document.body.classList.remove("overflow-hidden");
+        if (previouslyFocused instanceof HTMLElement) {
+            previouslyFocused.focus();
+        }
     }
 
     document.addEventListener("click", function (event) {

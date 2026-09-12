@@ -148,14 +148,44 @@ public class IndexModel(ApplicationDbContext context) : PageModel
 
     private async Task LoadOverdueBooksAsync(DateTime today)
     {
-        var rows = await _context.BorrowRecords
+        var oldestOverdueBookIds = await _context.BorrowRecords
             .AsNoTracking()
             .Where(r => r.ReturnDate == null && r.DueDate < today)
-            .OrderBy(r => r.DueDate)
-            .ThenBy(r => r.Id)
+            .GroupBy(r => r.BookId)
+            .Select(group => new
+            {
+                BookId = group.Key,
+                OldestDueDate = group.Min(record => record.DueDate)
+            })
+            .OrderBy(item => item.OldestDueDate)
             .Take(3)
-            .Select(r => new { BookTitle = r.Book.Title, r.Book.CoverImagePath, MemberName = r.Member.Name, r.DueDate })
+            .Select(item => item.BookId)
             .ToListAsync();
+
+        var overdueCandidates = await _context.BorrowRecords
+            .AsNoTracking()
+            .Where(record =>
+                record.ReturnDate == null &&
+                record.DueDate < today &&
+                oldestOverdueBookIds.Contains(record.BookId))
+            .OrderBy(record => record.DueDate)
+            .ThenBy(record => record.Id)
+            .Select(record => new
+            {
+                record.BookId,
+                BookTitle = record.Book.Title,
+                record.Book.CoverImagePath,
+                MemberName = record.Member.Name,
+                record.DueDate
+            })
+            .ToListAsync();
+
+        var rows = overdueCandidates
+            .GroupBy(record => record.BookId)
+            .Select(group => group.First())
+            .OrderBy(record => record.DueDate)
+            .Take(3)
+            .ToList();
 
         OverdueItems = rows.Select(row => new OverdueBook(
             row.BookTitle,

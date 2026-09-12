@@ -23,6 +23,9 @@ public class CreateModel : PageModel
         IsActive = true
     };
 
+    [BindProperty(SupportsGet = true)]
+    public string? ReturnUrl { get; set; }
+
     public void OnGet()
     {
     }
@@ -73,6 +76,12 @@ public class CreateModel : PageModel
         }
 
         TempData["StatusMessage"] = $"Member “{member.Name}” ({member.StudentId}) was added.";
+
+        if (string.Equals(ReturnUrl, "/Borrow/Create", StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToPage("/Borrow/Create", new { memberId = member.Id });
+        }
+
         return RedirectToPage("./Index");
     }
 

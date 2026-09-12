@@ -1,0 +1,240 @@
+@page
+@model School_Library_Management.Pages.Borrow.CreateModel
+@{
+    ViewData["Title"] = "Make a New Borrow";
+    var hasSelectedMember = Model.SelectedMember is not null;
+    var hasSelectedBook = Model.SelectedBook is not null;
+    var selectedMemberInitial = hasSelectedMember
+        ? char.ToUpperInvariant(Model.SelectedMember!.Name[0]).ToString()
+        : "M";
+}
+
+<section class="mx-auto max-w-7xl space-y-5">
+    <header class="page-motion page-motion-header">
+        <a asp-page="./Index" class="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-brand-600">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Back to borrowing
+        </a>
+        <h1 class="mt-3 text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Make a new borrow</h1>
+        <p class="mt-1 text-sm text-ink-500">Select the correct member and an available book, then confirm the checkout.</p>
+    </header>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800" role="alert"></div>
+    }
+
+    <form method="post"
+          class="page-motion page-motion-content grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_22rem]"
+          data-borrow-create-form
+          data-member-search-url="@Url.Page("./Create", "SearchMembers")"
+          data-book-search-url="@Url.Page("./Create", "SearchBooks")">
+        <input asp-for="Input.MemberId" type="hidden" id="selected-member-id" />
+        <input asp-for="Input.BookId" type="hidden" id="selected-book-id" />
+
+        <div class="min-w-0 space-y-5">
+            <section class="relative rounded-xl border border-line-200 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-6" aria-labelledby="member-step-title">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white">1</span>
+                            <h2 id="member-step-title" class="font-semibold text-ink-900">Find the member</h2>
+                        </div>
+                        <p class="mt-2 text-sm text-ink-500">Search by Member ID, name, phone number, or email address.</p>
+                    </div>
+                    <a asp-page="/Members/Create"
+                       asp-route-returnUrl="/Borrow/Create"
+                       class="inline-flex min-h-9 items-center justify-center gap-1.5 self-start rounded-lg border border-line-300 bg-white px-3 text-sm font-semibold text-ink-700 hover:border-brand-600/50 hover:text-brand-600">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                        Add new member
+                    </a>
+                </div>
+
+                <div class="relative mt-5">
+                    <svg class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+                    <input id="member-search"
+                           type="search"
+                           value="@(Model.SelectedMember is null ? string.Empty : $"{Model.SelectedMember.MemberCode} — {Model.SelectedMember.Name}")"
+                           class="min-h-11 w-full rounded-lg border border-line-300 bg-white pl-11 pr-4 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15"
+                           placeholder="Search Member ID, name, phone, or email..."
+                           autocomplete="off"
+                           role="combobox"
+                           aria-autocomplete="list"
+                           aria-expanded="false"
+                           aria-controls="member-search-results" />
+
+                    <div id="member-search-results"
+                         class="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-40 hidden max-h-80 overflow-y-auto rounded-xl border border-line-200 bg-white p-1.5 shadow-[0_16px_36px_-8px_rgba(16,24,40,0.22)]"
+                         role="listbox"
+                         aria-label="Member search results"></div>
+                </div>
+                <p data-member-search-hint class="mt-2 text-xs text-ink-500">Enter at least 2 characters to search. Results always include the unique Member ID.</p>
+
+                <div data-selected-member class="mt-4 @(hasSelectedMember ? string.Empty : "hidden") rounded-xl border border-brand-600/25 bg-blue-50/60 p-4">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex min-w-0 items-start gap-3">
+                            <span data-member-initials class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">@selectedMemberInitial</span>
+                            <div class="min-w-0">
+                                <p data-member-name class="truncate font-semibold text-ink-900">@(Model.SelectedMember?.Name ?? "Selected member")</p>
+                                <p class="mt-0.5 text-sm text-ink-500"><span data-member-code class="font-semibold text-brand-600">@(Model.SelectedMember?.MemberCode ?? "—")</span><span aria-hidden="true"> · </span><span data-member-type>@(Model.SelectedMember?.MembershipType ?? "Member")</span></p>
+                                <p data-member-contact class="mt-1 truncate text-xs text-ink-500">@(Model.SelectedMember?.Email ?? Model.SelectedMember?.Phone ?? Model.SelectedMember?.Department ?? "No contact information")</p>
+                            </div>
+                        </div>
+                        <button type="button" data-change-member class="shrink-0 text-sm font-semibold text-brand-600 hover:text-brand-700">Change</button>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <span class="rounded-md bg-white px-2.5 py-1 font-medium text-ink-700"><span data-member-loans>@(Model.SelectedMember?.ActiveLoans ?? 0)</span> active loan(s)</span>
+                        <span data-member-overdue class="@(Model.SelectedMember?.HasOverdueLoans == true ? string.Empty : "hidden") rounded-md bg-red-50 px-2.5 py-1 font-semibold text-red-700">Has overdue books</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="rounded-xl border border-line-200 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-6" aria-labelledby="book-step-title">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <div class="flex items-center gap-2.5">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white">2</span>
+                            <h2 id="book-step-title" class="font-semibold text-ink-900">Choose an available book</h2>
+                        </div>
+                        <p class="mt-2 text-sm text-ink-500">Browse available titles or search by title, author, ISBN, or category.</p>
+                    </div>
+                    <span class="text-xs font-medium text-ink-500">Showing available copies only</span>
+                </div>
+
+                <div class="relative mt-5">
+                    <svg class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+                    <input id="book-search"
+                           type="search"
+                           class="min-h-11 w-full rounded-lg border border-line-300 bg-white pl-11 pr-4 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15"
+                           placeholder="Search title, author, ISBN, or category..."
+                           autocomplete="off" />
+                </div>
+
+                <div id="book-search-status" class="mt-3 text-xs text-ink-500" aria-live="polite">Choose from @Model.AvailableBooks.Count available title@(Model.AvailableBooks.Count == 1 ? string.Empty : "s") shown below.</div>
+
+                <div id="available-book-grid" class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" role="listbox" aria-label="Available books">
+                    @foreach (var book in Model.AvailableBooks)
+                    {
+                        var isSelected = Model.SelectedBook?.Id == book.Id;
+                        var words = book.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        var initials = string.Concat(words.Take(2).Select(word => char.ToUpperInvariant(word[0])));
+                        <button type="button"
+                                class="borrow-book-card relative flex min-w-0 gap-3 rounded-xl border border-line-200 bg-white p-3 text-left hover:border-brand-600/45 hover:bg-blue-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/25"
+                                data-book-card
+                                data-book-id="@book.Id"
+                                data-book-title="@book.Title"
+                                data-book-author="@book.Author"
+                                data-book-isbn="@book.Isbn"
+                                data-book-year="@book.PublishedYear"
+                                data-book-category="@book.Category"
+                                data-book-available="@book.AvailableCopies"
+                                data-book-cover="@book.CoverImagePath"
+                                role="option"
+                                aria-selected="@(isSelected ? "true" : "false")">
+                            @if (!string.IsNullOrWhiteSpace(book.CoverImagePath))
+                            {
+                                <img src="@book.CoverImagePath" alt="" class="h-20 w-14 shrink-0 rounded-md object-cover shadow-sm" loading="lazy" />
+                            }
+                            else
+                            {
+                                <span class="flex h-20 w-14 shrink-0 items-center justify-center rounded-md bg-blue-50 text-xs font-bold text-brand-600">@initials</span>
+                            }
+                            <span class="min-w-0 flex-1">
+                                <span class="block line-clamp-2 text-sm font-semibold leading-5 text-ink-900">@book.Title</span>
+                                <span class="mt-1 block truncate text-xs text-ink-500">@book.Author</span>
+                                <span class="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
+                                    <span class="rounded bg-green-50 px-1.5 py-0.5 font-semibold text-green-700">@book.AvailableCopies available</span>
+                                    <span class="text-ink-500">@book.PublishedYear</span>
+                                </span>
+                            </span>
+                            <span data-book-check class="@(isSelected ? "flex" : "hidden") absolute right-2 top-2 h-5 w-5 items-center justify-center rounded-full bg-brand-600 text-white">
+                                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                            </span>
+                        </button>
+                    }
+                </div>
+
+                <div data-no-books class="@(Model.AvailableBooks.Count == 0 ? "flex" : "hidden") mt-4 min-h-36 flex-col items-center justify-center rounded-xl border border-dashed border-line-300 px-5 text-center">
+                    <p class="font-semibold text-ink-900">No available books found</p>
+                    <p class="mt-1 text-sm text-ink-500">Try another title, author, ISBN, or category.</p>
+                </div>
+            </section>
+        </div>
+
+        <aside class="min-w-0 xl:sticky xl:top-5 xl:self-start">
+            <section class="rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]" aria-labelledby="checkout-title">
+                <div class="border-b border-line-200 px-5 py-4">
+                    <div class="flex items-center gap-2.5">
+                        <span class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white">3</span>
+                        <h2 id="checkout-title" class="font-semibold text-ink-900">Borrowing details</h2>
+                    </div>
+                </div>
+
+                <div class="space-y-5 p-5">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">Member</p>
+                        <p data-checkout-member class="mt-1 text-sm font-semibold text-ink-900">@(Model.SelectedMember is null ? "No member selected" : $"{Model.SelectedMember.Name} ({Model.SelectedMember.MemberCode})")</p>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-ink-400">Book</p>
+                        <div class="mt-2 flex min-w-0 items-center gap-3">
+                            <div data-checkout-cover class="flex h-16 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md bg-blue-50 text-[10px] font-bold text-brand-600">
+                                @if (!string.IsNullOrWhiteSpace(Model.SelectedBook?.CoverImagePath))
+                                {
+                                    <img src="@Model.SelectedBook.CoverImagePath" alt="" class="h-full w-full object-cover" />
+                                }
+                                else
+                                {
+                                    <span>BOOK</span>
+                                }
+                            </div>
+                            <div class="min-w-0">
+                                <p data-checkout-book class="line-clamp-2 text-sm font-semibold text-ink-900">@(Model.SelectedBook?.Title ?? "No book selected")</p>
+                                <p data-checkout-book-meta class="mt-1 truncate text-xs text-ink-500">@(Model.SelectedBook is null ? "Choose an available title" : $"{Model.SelectedBook.Author} · {Model.SelectedBook.Isbn}")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+                        <div>
+                            <label asp-for="Input.BorrowDate" class="mb-1.5 block text-sm font-semibold text-ink-700">Borrow date</label>
+                            <input asp-for="Input.BorrowDate" type="date" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                            <span asp-validation-for="Input.BorrowDate" class="mt-1 block text-xs text-red-600"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Input.DueDate" class="mb-1.5 block text-sm font-semibold text-ink-700">Due date</label>
+                            <input asp-for="Input.DueDate" type="date" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                            <span asp-validation-for="Input.DueDate" class="mt-1 block text-xs text-red-600"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Input.Quantity" class="mb-1.5 block text-sm font-semibold text-ink-700">Quantity</label>
+                            <input asp-for="Input.Quantity" id="borrow-quantity" type="number" min="1" max="@(Model.SelectedBook?.AvailableCopies ?? 1)" class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                            <span asp-validation-for="Input.Quantity" class="mt-1 block text-xs text-red-600"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label asp-for="Input.Notes" class="mb-1.5 block text-sm font-semibold text-ink-700">Notes <span class="font-normal text-ink-400">(optional)</span></label>
+                        <textarea asp-for="Input.Notes" rows="3" maxlength="500" placeholder="Add a short note..." class="w-full resize-y rounded-lg border border-line-300 bg-white px-3 py-2 text-sm text-ink-700 outline-none placeholder:text-ink-400 focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15"></textarea>
+                    </div>
+                </div>
+
+                <div class="border-t border-line-200 bg-slate-50/70 p-5">
+                    <button type="submit"
+                            data-submit-borrow
+                            disabled="@(!hasSelectedMember || !hasSelectedBook)"
+                            class="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-5 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30 disabled:cursor-not-allowed disabled:opacity-50">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                        Confirm borrow
+                    </button>
+                    <p data-checkout-hint class="mt-2 text-center text-xs text-ink-500">@((hasSelectedMember && hasSelectedBook) ? "Ready to create the borrowing record." : "Select a member and a book to continue.")</p>
+                </div>
+            </section>
+        </aside>
+    </form>
+</section>
+
+@section Scripts {
+    <script src="~/js/borrow-create.js" asp-append-version="true"></script>
+}
