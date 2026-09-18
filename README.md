@@ -1,4 +1,4 @@
-# 📚 Agile Library Circulation Control System
+# 📚 Agile Based Library Circulation Control System
 
 A modern, high-performance web application for managing school library operations, book catalogues, members, borrowing workflows, and analytical reporting. Built with **ASP.NET Core 10 Razor Pages**, **Entity Framework Core 10**, **Microsoft SQL Server**, and styled with **Tailwind CSS v4**.
 
@@ -50,17 +50,25 @@ Featuring instant search by Title, Author, ISBN, or Category, accompanied by rea
 
 ---
 
+### 4. Circulation Reports & Analytics
+
+| Reports & Analytics (Light Mode) | Reports & Analytics (Dark Mode) |
+| :---: | :---: |
+| ![Reports - Light Mode](docs/screenshots/reports-light.png) | ![Reports - Dark Mode](docs/screenshots/reports-dark.png) |
+
+---
+
 ## ✨ Features
 
 ### 📊 Real-Time Analytical Dashboard
 - **KPI Metrics**: Real-time tracking of Total Books, Active Members, Currently Borrowed Books, Overdue Items, and Fine Revenue.
-- **Dynamic Trend Chart**: Interactive monthly and period-based borrowing trends rendered via responsive vector charts.
+- **Dynamic Trend Chart**: Interactive monthly and period-based borrowing trends rendered via responsive vector charts with glowing hover data points.
 - **Live Feeds**: Fast-access widgets for recent borrowings, overdue returns with calculated day counts, and member distribution breakdowns.
 
-### 📖 Book Catalogue Management
+### 📖 Book Catalogue & Visual Covers
 - **Catalog Operations**: Full CRUD lifecycle for books with ISBN uniqueness validation, copy inventory, and shelf availability tracking.
-- **Smart Search & Filters**: Unified toolbar enabling real-time search across titles, authors, categories, and languages, paired with status and type dropdown filters.
-- **Cover Image Storage**: High-resolution cover uploads with automatic SVG cover generation for seeded literature titles.
+- **Smart Search & Filters**: Unified toolbar enabling real-time search across titles, authors, categories, and languages, paired with status and genre dropdown filters.
+- **Complete Book Covers**: Custom cover image uploads with full vector SVG artwork for all seeded Myanmar and international titles.
 
 ### 👥 Member Administration
 - **Multi-Tier Memberships**: Support for **Student**, **Teacher**, and **Staff** member classifications.
@@ -72,13 +80,19 @@ Featuring instant search by Title, Author, ISBN, or Category, accompanied by rea
 - **Fine Calculation Engine**: Automatic fine calculation for overdue items based on due dates.
 - **Condition Grading**: Inspection notes and book condition status tracking (*Good*, *Late*, *Damaged*).
 
+### 🌐 Public Portal & Self-Service Circulation
+- **Public Book Discovery**: Clean, responsive public showcase (`/Index`) where students and teachers can browse, search, and check copy availability.
+- **Self-Service Borrowing**: Streamlined borrowing checkout flow (`/Public/Borrow`) with instant borrow code confirmation.
+- **Personal Borrowing Lookup**: Fast lookup tool (`/Public/MyBorrowings`) allowing members to check active loans, due dates, and return history by Student ID or Email.
+
 ### 📈 Reports & Library Settings
 - **Periodic Reports**: Filter library activity by current month, previous month, current year, or custom date ranges.
 - **Customizable Preferences**: System-wide defaults for reporting periods, theme preferences, and export formats.
 
-### 🌓 Smooth Dark Mode & Collapsible Navigation
-- **Ultra-Smooth Theme Switching**: Instant toggling between Light and Dark themes with zero-flash layout hydration (`_ThemeBootstrap.cshtml`).
-- **Sidebar Ergonomics**: Dual-state sidebar supporting full expanded mode (with labels and active indicators) and compact collapsed mode (icon-only navigation with tooltips), complete with localStorage persistence.
+### 🌓 Electric Cyan Dark Mode & Collapsible Navigation
+- **Electric Cyan Dark Mode**: Contemporary obsidian dark mode (`#0B0F17`) featuring high-contrast **Electric Cyan** accents (`#06B6D4` / `#0891B2`), cyan glow shadows, and vibrant data charts.
+- **Ultra-Smooth Theme Switching**: Instant toggling between Light and Dark themes with zero-flash layout hydration (`_ThemeBootstrap.cshtml`) and `localStorage` persistence.
+- **Sidebar Ergonomics**: Dual-state sidebar supporting full expanded mode (with labels and active indicators) and compact collapsed mode (icon-only navigation with tooltips).
 - **Mobile Off-Canvas**: Responsive drawer with dimmed backdrop support for tablets and mobile devices.
 
 ### 🔒 Security & Admin Controls

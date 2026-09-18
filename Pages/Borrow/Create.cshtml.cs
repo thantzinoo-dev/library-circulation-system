@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using School_Library_Management.Data;
 using School_Library_Management.Models;
+using School_Library_Management.Services;
 
 namespace School_Library_Management.Pages.Borrow;
 
@@ -21,6 +22,7 @@ public class CreateModel(ApplicationDbContext context) : PageModel
     public MemberOption? SelectedMember { get; private set; }
     public BookOption? SelectedBook { get; private set; }
     public IReadOnlyList<BookOption> AvailableBooks { get; private set; } = [];
+    public int MaximumActiveLoans => BorrowingPolicy.MaximumActiveLoansPerMember;
 
     public async Task OnGetAsync()
     {
@@ -129,6 +131,26 @@ public class CreateModel(ApplicationDbContext context) : PageModel
             if (member is null)
             {
                 ModelState.AddModelError("Input.MemberId", "Select an active library member.");
+            }
+            else
+            {
+                var activeLoanQuantity = await _context.BorrowRecords
+                    .Where(record => record.MemberId == member.Id && record.ReturnDate == null)
+                    .SumAsync(record => (int?)record.Quantity) ?? 0;
+                var remainingLoanCapacity = BorrowingPolicy.MaximumActiveLoansPerMember - activeLoanQuantity;
+
+                if (remainingLoanCapacity <= 0)
+                {
+                    ModelState.AddModelError(
+                        "Input.MemberId",
+                        $"This member already has {activeLoanQuantity} active loans. Return a book before borrowing another.");
+                }
+                else if (Input.Quantity > remainingLoanCapacity)
+                {
+                    ModelState.AddModelError(
+                        "Input.Quantity",
+                        $"This member can borrow only {remainingLoanCapacity} more book{(remainingLoanCapacity == 1 ? string.Empty : "s")}. The active-loan limit is {BorrowingPolicy.MaximumActiveLoansPerMember}.");
+                }
             }
 
             if (book is null)

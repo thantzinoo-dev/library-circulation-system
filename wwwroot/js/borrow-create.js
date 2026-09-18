@@ -12,6 +12,7 @@
     var memberIdInput = document.getElementById("selected-member-id");
     var selectedMemberCard = form.querySelector("[data-selected-member]");
     var changeMemberButton = form.querySelector("[data-change-member]");
+    var memberLimitBadge = form.querySelector("[data-member-limit]");
 
     var bookInput = document.getElementById("book-search");
     var bookGrid = document.getElementById("available-book-grid");
@@ -36,6 +37,9 @@
     var memberOptions = [];
     var activeMemberIndex = -1;
     var selectedMemberLabel = memberInput ? memberInput.value : "";
+    var maximumActiveLoans = Number(form.dataset.maximumActiveLoans) || 3;
+    var selectedMemberActiveLoans = Number(form.dataset.selectedMemberActiveLoans) || 0;
+    var selectedBookAvailable = quantityInput ? Number(quantityInput.max) || 1 : 1;
 
     function setText(selector, value) {
         var element = selectedMemberCard && selectedMemberCard.querySelector(selector);
@@ -77,17 +81,39 @@
         }
     }
 
+    function updateQuantityLimit() {
+        if (!quantityInput) {
+            return;
+        }
+
+        var remainingCapacity = Math.max(0, maximumActiveLoans - selectedMemberActiveLoans);
+        var effectiveMaximum = Math.max(1, Math.min(selectedBookAvailable, remainingCapacity || 1));
+        quantityInput.max = String(effectiveMaximum);
+        if (Number(quantityInput.value) > effectiveMaximum) {
+            quantityInput.value = String(effectiveMaximum);
+        }
+    }
+
     function updateSubmitState() {
         var hasMember = memberIdInput && Number(memberIdInput.value) > 0;
         var hasBook = bookIdInput && Number(bookIdInput.value) > 0;
+        var quantity = quantityInput ? Number(quantityInput.value) || 0 : 1;
+        var loanLimitReached = hasMember && selectedMemberActiveLoans >= maximumActiveLoans;
+        var exceedsLoanLimit = hasMember && selectedMemberActiveLoans + quantity > maximumActiveLoans;
 
         if (submitButton) {
-            submitButton.disabled = !hasMember || !hasBook;
+            submitButton.disabled = !hasMember || !hasBook || quantity < 1 || exceedsLoanLimit;
         }
         if (checkoutHint) {
-            checkoutHint.textContent = hasMember && hasBook
-                ? "Ready to create the borrowing record."
-                : "Select a member and a book to continue.";
+            if (loanLimitReached) {
+                checkoutHint.textContent = "This member has reached the " + maximumActiveLoans + "-book active-loan limit.";
+            } else if (exceedsLoanLimit) {
+                checkoutHint.textContent = "Reduce the quantity. This member may hold at most " + maximumActiveLoans + " active books.";
+            } else {
+                checkoutHint.textContent = hasMember && hasBook
+                    ? "Ready to create the borrowing record."
+                    : "Select a member and a book to continue.";
+            }
         }
     }
 
@@ -102,6 +128,8 @@
             checkoutMember.textContent = "No member selected";
         }
         selectedMemberLabel = "";
+        selectedMemberActiveLoans = 0;
+        updateQuantityLimit();
         updateSubmitState();
     }
 
@@ -120,16 +148,21 @@
         setText("[data-member-type]", member.membershipType);
         setText("[data-member-contact]", member.email || member.phone || member.department || "No contact information");
         setText("[data-member-loans]", String(member.activeLoans));
+        selectedMemberActiveLoans = Number(member.activeLoans) || 0;
 
         var overdue = selectedMemberCard.querySelector("[data-member-overdue]");
         if (overdue) {
             overdue.classList.toggle("hidden", !member.hasOverdueLoans);
+        }
+        if (memberLimitBadge) {
+            memberLimitBadge.classList.toggle("hidden", selectedMemberActiveLoans < maximumActiveLoans);
         }
         if (checkoutMember) {
             checkoutMember.textContent = member.name + " (" + member.memberCode + ")";
         }
 
         setMemberResultsOpen(false);
+        updateQuantityLimit();
         updateSubmitState();
     }
 
@@ -194,11 +227,15 @@
             }
             details.appendChild(createElement("span", "mt-1 block truncate text-xs text-ink-500", description));
 
+            var isAtLoanLimit = member.activeLoans >= maximumActiveLoans;
             var loanText = member.activeLoans + " active loan" + (member.activeLoans === 1 ? "" : "s");
             if (member.hasOverdueLoans) {
                 loanText += " · overdue items";
             }
-            details.appendChild(createElement("span", "mt-1 block text-[11px] font-medium " + (member.hasOverdueLoans ? "text-red-600" : "text-ink-400"), loanText));
+            if (isAtLoanLimit) {
+                loanText += " · loan limit reached";
+            }
+            details.appendChild(createElement("span", "mt-1 block text-[11px] font-medium " + (member.hasOverdueLoans || isAtLoanLimit ? "text-red-600" : "text-ink-400"), loanText));
             option.appendChild(details);
 
             option.addEventListener("click", function () { selectMember(member); });
@@ -298,10 +335,8 @@
             checkoutBookMeta.textContent = book.author + " · " + book.isbn;
         }
         if (quantityInput) {
-            quantityInput.max = String(book.availableCopies);
-            if (Number(quantityInput.value) > book.availableCopies) {
-                quantityInput.value = String(book.availableCopies);
-            }
+            selectedBookAvailable = book.availableCopies;
+            updateQuantityLimit();
         }
         setCheckoutCover(book);
         updateSubmitState();
@@ -452,6 +487,14 @@
             if (card) {
                 selectBook(readBookCard(card));
             }
+        });
+    }
+
+    if (quantityInput) {
+        quantityInput.addEventListener("input", updateSubmitState);
+        quantityInput.addEventListener("change", function () {
+            updateQuantityLimit();
+            updateSubmitState();
         });
     }
 

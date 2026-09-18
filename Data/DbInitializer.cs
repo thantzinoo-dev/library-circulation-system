@@ -817,6 +817,136 @@ public static class DbInitializer
                 AvailableCopies = 2,
                 CoverImagePath = "/images/books/the-c-programming-language.svg",
                 CreatedAt = baseDate.AddDays(220)
+            },
+            new()
+            {
+                ISBN = "9780135957059",
+                Title = "The Pragmatic Programmer",
+                Author = "David Thomas, Andrew Hunt",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2019,
+                TotalCopies = 6,
+                AvailableCopies = 6,
+                CoverImagePath = "/images/books/the-pragmatic-programmer.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-1)
+            },
+            new()
+            {
+                ISBN = "9781449373320",
+                Title = "Designing Data-Intensive Applications",
+                Author = "Martin Kleppmann",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2017,
+                TotalCopies = 5,
+                AvailableCopies = 5,
+                CoverImagePath = "/images/books/designing-data-intensive-applications.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-2)
+            },
+            new()
+            {
+                ISBN = "9781119456339",
+                Title = "Operating System Concepts",
+                Author = "Abraham Silberschatz, Peter B. Galvin, Greg Gagne",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2018,
+                TotalCopies = 5,
+                AvailableCopies = 5,
+                CoverImagePath = "/images/books/operating-system-concepts.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-3)
+            },
+            new()
+            {
+                ISBN = "9780134610993",
+                Title = "Artificial Intelligence: A Modern Approach",
+                Author = "Stuart Russell, Peter Norvig",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2020,
+                TotalCopies = 5,
+                AvailableCopies = 5,
+                CoverImagePath = "/images/books/artificial-intelligence-modern-approach.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-4)
+            },
+            new()
+            {
+                ISBN = "9780136681557",
+                Title = "Computer Networking: A Top-Down Approach",
+                Author = "James F. Kurose, Keith W. Ross",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2020,
+                TotalCopies = 4,
+                AvailableCopies = 4,
+                CoverImagePath = "/images/books/computer-networking-top-down.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
+            },
+            new()
+            {
+                ISBN = "9780078022159",
+                Title = "Database System Concepts",
+                Author = "Abraham Silberschatz, Henry F. Korth, S. Sudarshan",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2019,
+                TotalCopies = 5,
+                AvailableCopies = 5,
+                CoverImagePath = "/images/books/database-system-concepts.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-6)
+            },
+            new()
+            {
+                ISBN = "9780321486813",
+                Title = "Compilers: Principles, Techniques, and Tools",
+                Author = "Alfred V. Aho, Monica S. Lam, Ravi Sethi, Jeffrey D. Ullman",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2006,
+                TotalCopies = 3,
+                AvailableCopies = 3,
+                CoverImagePath = "/images/books/compilers-principles-techniques-tools.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-7)
+            },
+            new()
+            {
+                ISBN = "9780262510875",
+                Title = "Structure and Interpretation of Computer Programs",
+                Author = "Harold Abelson, Gerald Jay Sussman, Julie Sussman",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 1996,
+                TotalCopies = 4,
+                AvailableCopies = 4,
+                CoverImagePath = "/images/books/structure-interpretation-computer-programs.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-8)
+            },
+            new()
+            {
+                ISBN = "9780735619678",
+                Title = "Code Complete",
+                Author = "Steve McConnell",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2004,
+                TotalCopies = 5,
+                AvailableCopies = 5,
+                CoverImagePath = "/images/books/code-complete.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-9)
+            },
+            new()
+            {
+                ISBN = "9781617292231",
+                Title = "Grokking Algorithms",
+                Author = "Aditya Y. Bhargava",
+                Category = "Computer Science",
+                Language = "English",
+                PublishedYear = 2016,
+                TotalCopies = 6,
+                AvailableCopies = 6,
+                CoverImagePath = "/images/books/grokking-algorithms.svg",
+                CreatedAt = DateTime.UtcNow.AddDays(-10)
             }
         };
     }

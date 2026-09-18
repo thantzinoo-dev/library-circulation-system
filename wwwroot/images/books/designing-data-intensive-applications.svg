@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">Designing Data-Intensive Applications book cover</title>
+  <defs><linearGradient id="bg" y2="1"><stop stop-color="#312e81"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient></defs>
+  <rect width="320" height="480" rx="12" fill="url(#bg)"/><g fill="none" stroke="#a5b4fc" stroke-width="4"><ellipse cx="160" cy="205" rx="86" ry="28"/><path d="M74 205v95c0 16 39 28 86 28s86-12 86-28v-95M74 252c0 16 39 28 86 28s86-12 86-28"/></g>
+  <text x="26" y="55" fill="#fff" font-family="Arial,sans-serif" font-size="25" font-weight="800"><tspan x="26">DESIGNING</tspan><tspan x="26" dy="33">DATA-INTENSIVE</tspan><tspan x="26" dy="33">APPLICATIONS</tspan></text>
+  <text x="27" y="445" fill="#c7d2fe" font-family="Arial,sans-serif" font-size="14" font-weight="700">MARTIN KLEPPMANN</text>
+</svg>

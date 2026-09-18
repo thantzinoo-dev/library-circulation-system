@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">Code Complete book cover</title>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs>
+  <rect width="320" height="480" rx="12" fill="url(#bg)"/><rect x="60" y="172" width="200" height="166" rx="14" fill="#0f172a" stroke="#93c5fd" stroke-width="5"/><text x="82" y="230" fill="#60a5fa" font-family="monospace" font-size="26" font-weight="700">&lt;code&gt;</text><path d="m92 278 25 20 38-48" fill="none" stroke="#4ade80" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><text x="82" y="320" fill="#bfdbfe" font-family="monospace" font-size="18">complete</text>
+  <text x="27" y="64" fill="#fff" font-family="Arial,sans-serif" font-size="32" font-weight="800">CODE COMPLETE</text>
+  <text x="27" y="445" fill="#dbeafe" font-family="Arial,sans-serif" font-size="14" font-weight="700">STEVE McCONNELL</text>
+</svg>

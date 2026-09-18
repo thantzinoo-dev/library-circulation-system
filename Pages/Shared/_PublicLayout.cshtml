@@ -1,0 +1,91 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+    var isHomePage = currentPage.Equals("/Index", StringComparison.OrdinalIgnoreCase);
+    var isBrowsePage = currentPage.Equals("/Public/Borrow", StringComparison.OrdinalIgnoreCase);
+    var isBorrowingsPage = currentPage.Equals("/Public/MyBorrowings", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Agile Based Library Circulation Control System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <partial name="_ThemeBootstrap" />
+</head>
+<body class="public-shell flex min-h-dvh flex-col bg-surface-page font-sans text-ink-900 antialiased">
+    <header class="public-header sticky top-0 z-40 border-b border-line-200 bg-white/95 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+            <a asp-page="/Index" class="flex min-w-0 items-center gap-3" aria-label="Agile Based Library home">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center text-brand-600" aria-hidden="true">
+                    <svg class="h-9 w-9" viewBox="0 0 48 48" fill="none">
+                        <path d="M5 8.5h13.5A5.5 5.5 0 0 1 24 14v25c-2.6-3-6.2-4.5-10.8-4.5H5v-26Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                        <path d="M43 8.5H29.5A5.5 5.5 0 0 0 24 14v25c2.6-3 6.2-4.5 10.8-4.5H43v-26Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                        <path d="M10 15h7M10 20h7M31 15h7M31 20h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </span>
+                <span class="min-w-0 leading-tight">
+                    <span class="block truncate text-base font-bold text-ink-900">Agile Based Library</span>
+                    <span class="block truncate text-xs text-ink-500">Circulation Control System</span>
+                </span>
+            </a>
+
+            <nav data-public-navigation data-public-page="@currentPage" class="order-3 flex w-full items-center gap-1 overflow-x-auto sm:order-2 sm:w-auto" aria-label="Public navigation">
+                <a asp-page="/Index" data-public-nav-link="home" aria-current="@(isHomePage ? "page" : null)" class="public-nav-link">Home</a>
+                <a asp-page="/Index" asp-fragment="books" data-public-nav-link="books" aria-current="@(isBrowsePage ? "page" : null)" class="public-nav-link whitespace-nowrap">Browse Books</a>
+                <a asp-page="/Public/MyBorrowings" data-public-nav-link="borrowings" aria-current="@(isBorrowingsPage ? "page" : null)" class="public-nav-link whitespace-nowrap">My Borrowings</a>
+            </nav>
+
+            <div class="order-2 flex shrink-0 items-center gap-2 sm:order-3">
+                <button type="button"
+                        data-theme-toggle
+                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-300 bg-white text-ink-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
+                        aria-label="Toggle dark mode"
+                        title="Toggle dark mode">
+                    <svg class="theme-icon-sun hidden h-4.5 w-4.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" />
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                    </svg>
+                    <svg class="theme-icon-moon block h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                    </svg>
+                </button>
+
+                @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+                {
+                    <a asp-page="/Admin/Index" class="inline-flex min-h-9 items-center justify-center rounded-lg bg-brand-600 px-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                        Admin Dashboard
+                    </a>
+                }
+                else
+                {
+                    <a asp-page="/Login" class="inline-flex min-h-9 items-center justify-center rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                        Login
+                    </a>
+                }
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1">
+        @RenderBody()
+    </main>
+
+    <footer class="public-footer border-t border-line-200 bg-white">
+        <div class="mx-auto flex max-w-[1440px] flex-col gap-2 px-4 py-6 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+            <p>© 2026 Agile Based Library Circulation Control System. All rights reserved.</p>
+            <p>Discover. Borrow. Learn.</p>
+        </div>
+    </footer>
+
+    <partial name="_ToastNotifications" />
+    <script src="~/js/theme.js" asp-append-version="true"></script>
+    <script src="~/js/toast.js" asp-append-version="true"></script>
+    <script src="~/js/custom-select.js" asp-append-version="true"></script>
+    <script src="~/js/public-nav.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

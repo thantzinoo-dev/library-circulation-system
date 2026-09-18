@@ -119,10 +119,12 @@ public class LoginModel(ApplicationDbContext context) : PageModel
             authenticationProperties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30);
         }
 
+        var principal = AdminAuthentication.CreatePrincipal(account);
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            AdminAuthentication.CreatePrincipal(account),
+            principal,
             authenticationProperties);
+        HttpContext.User = principal;
 
         if (account.MustChangePassword)
         {
@@ -141,9 +143,14 @@ public class LoginModel(ApplicationDbContext context) : PageModel
 
     private IActionResult RedirectToLocalPage()
     {
-        if (!string.IsNullOrWhiteSpace(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+        if (User.IsInRole("Administrator"))
         {
-            return LocalRedirect(ReturnUrl);
+            if (!string.IsNullOrWhiteSpace(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+            {
+                return LocalRedirect(ReturnUrl);
+            }
+
+            return RedirectToPage("/Admin/Index");
         }
 
         return RedirectToPage("/Index");

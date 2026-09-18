@@ -14,6 +14,7 @@
         .Take(2)
         .Select(part => char.ToUpperInvariant(part[0])));
     accountInitials = string.IsNullOrWhiteSpace(accountInitials) ? "A" : accountInitials;
+    var isDashboardPage = currentPage?.StartsWith("/Admin", StringComparison.OrdinalIgnoreCase) == true;
     var isBooksPage = currentPage?.StartsWith("/Books", StringComparison.OrdinalIgnoreCase) == true;
     var isMembersPage = currentPage?.StartsWith("/Members", StringComparison.OrdinalIgnoreCase) == true;
     var isBorrowPage = currentPage?.StartsWith("/Borrow", StringComparison.OrdinalIgnoreCase) == true;
@@ -43,8 +44,8 @@
                 </svg>
             </span>
             <span class="sidebar-label min-w-0 flex-1 leading-tight" data-sidebar-label>
-                <span class="block truncate text-[17px] font-bold text-ink-900">Agile Library</span>
-                <span class="mt-0.5 block truncate text-[13px] text-ink-500">Control System</span>
+                <span class="block truncate text-[17px] font-bold text-ink-900">Library Control</span>
+                <span class="mt-0.5 block truncate text-[13px] text-ink-500">Agile Based System</span>
             </span>
         </div>
         <button type="button"
@@ -66,9 +67,9 @@
     <nav class="min-h-0 flex-1 overflow-y-auto px-3 py-4 group-data-[collapsed=true]/sidebar:px-2 group-data-[collapsed=true]/sidebar:py-3.5" aria-label="Library sections">
         <ul class="space-y-1.5">
             <li>
-                <a asp-page="/Index"
-                   class="@navigationItemClasses @(currentPage == "/Index" ? activeNavigationItemClasses : null)"
-                   aria-current="@(currentPage == "/Index" ? "page" : null)"
+                <a asp-page="/Admin/Index"
+                   class="@navigationItemClasses @(isDashboardPage ? activeNavigationItemClasses : null)"
+                   aria-current="@(isDashboardPage ? "page" : null)"
                    title="Dashboard">
                     <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

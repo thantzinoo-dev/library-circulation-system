@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">Grokking Algorithms book cover</title>
+  <defs><linearGradient id="bg" y2="1"><stop stop-color="#713f12"/><stop offset="1" stop-color="#ca8a04"/></linearGradient></defs>
+  <rect width="320" height="480" rx="12" fill="url(#bg)"/><g fill="none" stroke="#fef3c7" stroke-width="6"><circle cx="160" cy="195" r="25"/><circle cx="90" cy="275" r="20"/><circle cx="230" cy="275" r="20"/><circle cx="160" cy="340" r="20"/><path d="m143 214-40 45m74-45 40 45M108 289l37 39m67-39-37 39"/></g>
+  <text x="28" y="62" fill="#fff" font-family="Arial,sans-serif" font-size="30" font-weight="800"><tspan x="28">GROKKING</tspan><tspan x="28" dy="39">ALGORITHMS</tspan></text>
+  <text x="28" y="445" fill="#fef3c7" font-family="Arial,sans-serif" font-size="14" font-weight="700">ADITYA Y. BHARGAVA</text>
+</svg>

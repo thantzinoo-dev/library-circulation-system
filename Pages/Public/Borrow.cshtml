@@ -1,0 +1,131 @@
+@page "/BorrowBook/{bookId:int}"
+@model School_Library_Management.Pages.Public.BorrowModel
+@using School_Library_Management.Models
+@{
+    ViewData["Title"] = "Borrow a Book";
+    Layout = "_PublicLayout";
+}
+
+<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <a asp-page="/Index" asp-fragment="books" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6" /></svg>
+        Back to books
+    </a>
+
+    @if (Model.Confirmation is not null)
+    {
+        <section class="public-panel mt-6 overflow-hidden rounded-2xl border border-emerald-200 bg-white shadow-[0_16px_45px_-28px_rgba(15,23,42,0.4)]" aria-labelledby="confirmation-title">
+            <div class="border-b border-emerald-100 bg-emerald-50 px-5 py-6 text-center sm:px-8">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"><path d="m5 12 4 4L19 6" /></svg>
+                </span>
+                <h1 id="confirmation-title" class="mt-4 text-2xl font-bold text-ink-900">Borrowing confirmed</h1>
+                <p class="mt-1 text-sm text-ink-500">Keep your loan ID and return the book by its due date.</p>
+            </div>
+            <dl class="grid gap-x-8 gap-y-5 p-5 sm:grid-cols-2 sm:p-8">
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Loan ID</dt><dd class="mt-1 font-semibold text-brand-600">@Model.Confirmation.LoanId</dd></div>
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Book</dt><dd class="mt-1 font-medium text-ink-900">@Model.Confirmation.BookTitle</dd></div>
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Borrower</dt><dd class="mt-1 font-medium text-ink-900">@Model.Confirmation.BorrowerName</dd></div>
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Student ID</dt><dd class="mt-1 font-medium text-ink-900">@Model.Confirmation.StudentId</dd></div>
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Borrow date</dt><dd class="mt-1 font-medium text-ink-900">@Model.Confirmation.BorrowDate.ToString("MMMM d, yyyy")</dd></div>
+                <div><dt class="text-xs font-semibold uppercase tracking-wide text-ink-400">Due date</dt><dd class="mt-1 font-medium text-ink-900">@Model.Confirmation.DueDate.ToString("MMMM d, yyyy")</dd></div>
+            </dl>
+            <div class="flex flex-col gap-3 border-t border-line-200 px-5 py-5 sm:flex-row sm:justify-end sm:px-8">
+                <a asp-page="/Public/MyBorrowings" asp-route-studentId="@Model.Confirmation.StudentId" class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 hover:bg-slate-50">View My Borrowings</a>
+                <a asp-page="/Index" asp-fragment="books" class="inline-flex min-h-10 items-center justify-center rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700">Borrow Another Book</a>
+            </div>
+        </section>
+    }
+    else if (Model.Book is not null)
+    {
+        <header class="mt-6">
+            <p class="text-sm font-semibold text-brand-600">Guest borrowing</p>
+            <h1 class="mt-1 text-3xl font-bold tracking-tight text-ink-900">Borrow a book</h1>
+            <p class="mt-2 text-sm text-ink-500">No account is required. Existing members are matched by Student ID.</p>
+        </header>
+
+        <div class="mt-7 grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
+            <aside class="public-panel overflow-hidden rounded-2xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
+                <div class="flex h-72 items-center justify-center bg-slate-100 p-6">
+                    @if (!string.IsNullOrWhiteSpace(Model.Book.CoverImagePath))
+                    {
+                        <img src="@Model.Book.CoverImagePath" alt="Cover of @Model.Book.Title" class="h-full max-w-full rounded-md object-contain shadow-[0_16px_28px_-15px_rgba(15,23,42,0.6)]" />
+                    }
+                    else
+                    {
+                        <span class="flex h-44 w-28 items-center justify-center rounded-md bg-brand-600 text-2xl font-bold text-white">@Model.Book.Title[..1]</span>
+                    }
+                </div>
+                <div class="p-5">
+                    <span class="inline-flex rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-brand-700">@Model.Book.Category</span>
+                    <h2 class="mt-3 text-lg font-bold leading-7 text-ink-900">@Model.Book.Title</h2>
+                    <p class="mt-1 text-sm text-ink-500">@Model.Book.Author · @Model.Book.PublishedYear</p>
+                    <p class="mt-4 text-sm font-semibold @(Model.Book.AvailableCopies > 0 ? "text-emerald-600" : "text-rose-600")">
+                        @(Model.Book.AvailableCopies > 0 ? $"{Model.Book.AvailableCopies} copies available" : "Currently unavailable")
+                    </p>
+                </div>
+            </aside>
+
+            <form method="post" class="public-panel rounded-2xl border border-line-200 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.04)] sm:p-7">
+                <div asp-validation-summary="ModelOnly" class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 empty:hidden" role="alert"></div>
+
+                <div class="grid gap-x-5 gap-y-5 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Input.Name" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.Name" autocomplete="name" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="Your full name" />
+                        <span asp-validation-for="Input.Name" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.StudentId" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.StudentId" autocomplete="off" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="For example, STU0012" />
+                        <span asp-validation-for="Input.StudentId" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.MembershipType" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <select asp-for="Input.MembershipType" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15">
+                            @foreach (var type in MemberType.All)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Input.MembershipType" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.Department" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.Department" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="Optional department" />
+                        <span asp-validation-for="Input.Department" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.Phone" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.Phone" autocomplete="tel" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="Optional phone number" />
+                        <span asp-validation-for="Input.Phone" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Input.Email" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.Email" autocomplete="email" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" placeholder="Optional email address" />
+                        <span asp-validation-for="Input.Email" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-semibold text-ink-700" for="public-borrow-date">Borrow Date</label>
+                        <input id="public-borrow-date" type="date" value="@Model.BorrowDateValue" readonly aria-readonly="true" class="min-h-11 w-full cursor-not-allowed rounded-lg border border-line-300 bg-slate-50 px-3.5 text-sm text-ink-700" />
+                        <p class="mt-1 text-xs text-ink-400">Borrowing always starts today.</p>
+                    </div>
+                    <div>
+                        <label asp-for="Input.DueDate" class="mb-1.5 block text-sm font-semibold text-ink-700"></label>
+                        <input asp-for="Input.DueDate" type="date" min="@Model.MinimumDueDate" max="@Model.MaximumDueDate" class="min-h-11 w-full rounded-lg border border-line-300 bg-white px-3.5 text-sm text-ink-900 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15" />
+                        <p class="mt-1 text-xs text-ink-400">Choose a date from today through @DateTime.Today.AddDays(7).ToString("MMMM d").</p>
+                        <span asp-validation-for="Input.DueDate" class="mt-1 block text-xs text-red-600"></span>
+                    </div>
+                </div>
+
+                <div class="mt-7 flex flex-col gap-3 border-t border-line-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                    <p class="text-xs leading-5 text-ink-500">Members may hold up to 3 active books. By borrowing, you agree to return this book by the selected due date.</p>
+                    <button type="submit" disabled="@(Model.Book.AvailableCopies <= 0 ? "disabled" : null)" class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-brand-600 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-slate-300">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+                        Confirm Borrowing
+                    </button>
+                </div>
+            </form>
+        </div>
+    }
+</div>

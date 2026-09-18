@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">Artificial Intelligence: A Modern Approach book cover</title>
+  <defs><linearGradient id="bg" y2="1"><stop stop-color="#581c87"/><stop offset="1" stop-color="#7e22ce"/></linearGradient></defs>
+  <rect width="320" height="480" rx="12" fill="url(#bg)"/><path d="M105 320v-93c0-43 25-72 60-72 36 0 61 29 61 72v93" fill="none" stroke="#e9d5ff" stroke-width="10"/><g fill="#d8b4fe"><circle cx="130" cy="220" r="10"/><circle cx="190" cy="220" r="10"/><circle cx="160" cy="270" r="12"/></g><path d="M130 220l30 50 30-50" fill="none" stroke="#d8b4fe" stroke-width="5"/>
+  <text x="25" y="54" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="800"><tspan x="25">ARTIFICIAL</tspan><tspan x="25" dy="32">INTELLIGENCE</tspan><tspan x="25" dy="32">A MODERN APPROACH</tspan></text>
+  <text x="26" y="445" fill="#f3e8ff" font-family="Arial,sans-serif" font-size="14" font-weight="700">RUSSELL · NORVIG</text>
+</svg>

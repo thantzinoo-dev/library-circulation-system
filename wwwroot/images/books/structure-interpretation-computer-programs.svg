@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 480" role="img" aria-labelledby="title">
+  <title id="title">Structure and Interpretation of Computer Programs book cover</title>
+  <defs><linearGradient id="bg" y2="1"><stop stop-color="#134e4a"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs>
+  <rect width="320" height="480" rx="12" fill="url(#bg)"/><g fill="none" stroke="#99f6e4" stroke-width="6"><rect x="68" y="188" width="184" height="130" rx="12"/><path d="M95 220h55M95 252h95M95 284h70"/></g><circle cx="220" cy="220" r="15" fill="#5eead4"/>
+  <text x="25" y="52" fill="#fff" font-family="Arial,sans-serif" font-size="23" font-weight="800"><tspan x="25">STRUCTURE AND</tspan><tspan x="25" dy="31">INTERPRETATION OF</tspan><tspan x="25" dy="31">COMPUTER PROGRAMS</tspan></text>
+  <text x="26" y="445" fill="#ccfbf1" font-family="Arial,sans-serif" font-size="12" font-weight="700">ABELSON · SUSSMAN · SUSSMAN</text>
+</svg>

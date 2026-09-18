@@ -1,295 +1,223 @@
 @page
-@model IndexModel
+@model School_Library_Management.Pages.IndexModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Explore the Library";
+    Layout = "_PublicLayout";
+    var firstVisiblePage = Math.Max(1, Model.PageIndex - 2);
+    var lastVisiblePage = Math.Min(Model.TotalPages, firstVisiblePage + 4);
+    firstVisiblePage = Math.Max(1, lastVisiblePage - 4);
 }
 
-<div class="dashboard-shell min-w-0">
-    <section class="dashboard-motion dashboard-motion-header flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" aria-labelledby="dashboard-title">
-        <div class="min-w-0">
-            <h1 id="dashboard-title" class="text-[28px] font-bold leading-tight tracking-[-0.02em] text-ink-900">Dashboard</h1>
-            <p class="mt-1.5 text-[14px] text-ink-700">Welcome back, Admin! Here's what's happening in your library.</p>
+<section class="public-hero overflow-hidden border-b border-line-200">
+    <div class="mx-auto grid max-w-[1440px] gap-10 px-4 py-14 sm:px-6 sm:py-18 lg:grid-cols-[minmax(0,1.2fr)_minmax(20rem,0.8fr)] lg:items-center lg:px-8 lg:py-22">
+        <div class="max-w-3xl">
+            <span class="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                Your library, always within reach
+            </span>
+            <h1 class="mt-5 text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-ink-900 sm:text-5xl lg:text-[3.5rem]">
+                Find your next great read.
+            </h1>
+            <p class="mt-5 max-w-2xl text-base leading-7 text-ink-500 sm:text-lg">
+                Search the Agile Based Library collection, check live availability, and borrow a book in a few simple steps—no account required.
+            </p>
+
+            <form method="get" asp-page="/Index" asp-fragment="books" class="mt-8 flex max-w-2xl flex-col gap-2 rounded-xl border border-line-300 bg-white p-2 shadow-[0_18px_45px_-24px_rgba(15,23,42,0.35)] sm:flex-row" role="search">
+                <label asp-for="Search" class="sr-only">Search books</label>
+                <span class="relative min-w-0 flex-1">
+                    <svg class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" />
+                    </svg>
+                    <input asp-for="Search"
+                           class="min-h-11 w-full rounded-lg border-0 bg-transparent py-2.5 pl-11 pr-3 text-sm text-ink-900 outline-none placeholder:text-ink-400 focus:ring-0"
+                           placeholder="Search by title, author, ISBN, or category" />
+                </span>
+                <button type="submit" class="inline-flex min-h-11 items-center justify-center rounded-lg bg-brand-600 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                    Search Books
+                </button>
+            </form>
+
+            <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-sm text-ink-500">
+                <span><strong class="text-ink-900">@Model.TotalTitles</strong> titles in the catalog</span>
+                <span><strong class="text-ink-900">@Model.AvailableTitles</strong> available to borrow</span>
+                <span><strong class="text-ink-900">7 days</strong> standard loan period</span>
+            </div>
         </div>
-        <div class="flex items-center gap-2 sm:mt-1.5 sm:shrink-0">
-            <div class="inline-flex items-center gap-2.5 rounded-lg border border-line-200 bg-white px-3.5 py-1.5 text-[13.5px] font-medium text-ink-800 shadow-[0_1px_2px_rgba(16,24,40,0.04)]">
-                <svg class="h-4.5 w-4.5 text-ink-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="3.5" y="5" width="17" height="15" rx="2" /><path d="M8 3v4M16 3v4M3.5 9.5h17" />
-                </svg>
-                <time datetime="@Model.CurrentDateIso">@Model.CurrentDateFormatted</time>
+
+        <div class="public-hero-art relative hidden min-h-[21rem] lg:block" aria-hidden="true">
+            <div class="absolute inset-5 rounded-[2rem] bg-brand-600/10 blur-2xl"></div>
+            <div class="absolute left-[8%] top-[7%] flex h-72 w-44 -rotate-6 flex-col rounded-2xl bg-brand-700 p-5 text-white shadow-2xl">
+                <svg class="h-10 w-10" viewBox="0 0 48 48" fill="none"><path d="M5 8.5h13.5A5.5 5.5 0 0 1 24 14v25c-2.6-3-6.2-4.5-10.8-4.5H5v-26ZM43 8.5H29.5A5.5 5.5 0 0 0 24 14v25c2.6-3 6.2-4.5 10.8-4.5H43v-26Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" /></svg>
+                <div class="mt-auto">
+                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/65">Agile Based</p>
+                    <p class="mt-2 text-[1.65rem] font-bold leading-[1.08]">Stories for every curious mind.</p>
+                </div>
             </div>
-            <button type="button"
-                    data-theme-toggle
-                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-200 bg-white text-ink-700 shadow-[0_1px_2px_rgba(16,24,40,0.04)] transition-colors hover:bg-slate-100 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30"
-                    aria-label="Toggle dark mode"
-                    title="Toggle dark mode">
-                <svg class="theme-icon-sun hidden h-4.5 w-4.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="4" />
-                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-                </svg>
-                <svg class="theme-icon-moon block h-4.5 w-4.5 text-ink-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-                </svg>
-            </button>
+            <div class="absolute bottom-[6%] right-[5%] h-64 w-44 rotate-6 rounded-2xl border border-line-200 bg-white p-5 shadow-2xl">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6" /></svg>
+                </span>
+                <p class="mt-16 text-xs font-semibold uppercase tracking-[0.2em] text-ink-400">Simple borrowing</p>
+                <p class="mt-2 text-xl font-bold leading-tight text-ink-900">Choose a book. Borrow as a guest.</p>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="dashboard-stats mt-6 grid gap-4" aria-label="Library statistics">
-        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-3.5 sm:gap-4">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z" /><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z" />
-                    </svg>
-                </span>
-                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">@Model.TotalBooks.ToString("N0")</p><p class="mt-1 truncate text-[13px] text-ink-500">Total Books</p></div>
-            </div>
-            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ @Model.BooksAddedThisMonth</span> this month</p>
-        </article>
-
-        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-3.5 sm:gap-4">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="9" cy="8" r="3" /><path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20" /><path d="M15.5 5.4a3 3 0 0 1 0 5.2M17 14a4.5 4.5 0 0 1 3.5 4.4V20" />
-                    </svg>
-                </span>
-                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">@Model.TotalMembers.ToString("N0")</p><p class="mt-1 truncate text-[13px] text-ink-500">Members</p></div>
-            </div>
-            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ @Model.MembersAddedThisMonth</span> this month</p>
-        </article>
-
-        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-3.5 sm:gap-4">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v16H5z" /><path d="m8.5 11 2.2 2.2 4.8-4.7" /></svg>
-                </span>
-                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">@Model.BooksBorrowed.ToString("N0")</p><p class="mt-1 truncate text-[13px] text-ink-500">Books Borrowed</p></div>
-            </div>
-            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ @Model.BorrowedThisWeek</span> this week</p>
-        </article>
-
-        <article class="rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-3.5 sm:gap-4">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-500">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                </span>
-                <div class="min-w-0"><p class="text-[20px] font-bold leading-6 text-ink-900">@Model.OverdueBooks.ToString("N0")</p><p class="mt-1 truncate text-[13px] text-ink-500">Overdue Books</p></div>
-            </div>
-            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-red-600">↗ @Model.NewlyOverdueToday</span> today</p>
-        </article>
-
-        <article class="dashboard-fees-card rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center gap-3.5 sm:gap-4">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-600">
-                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6z" /><path d="M15 3.5V7h3M9 12h6M9 15.5h6" /></svg>
-                </span>
-                <div class="min-w-0">
-                    <p class="whitespace-nowrap text-[16px] font-bold leading-6 tracking-tight text-ink-900 min-[1360px]:text-[17px] min-[1500px]:text-[18px]">MMK @Model.TotalFeesCollected.ToString("N0")</p>
-                    <p class="mt-1 whitespace-nowrap text-[12.5px] text-ink-500 min-[1360px]:text-[13px]">Total Fees Collected</p>
-                </div>
-            </div>
-            <p class="mt-4 flex items-center gap-1.5 text-[13px] text-ink-500"><span class="font-semibold text-emerald-600">↗ @Model.FeesCollectedThisMonth.ToString("N0")</span> this month</p>
-        </article>
-    </section>
-
-    <section class="dashboard-widget-grid dashboard-motion dashboard-motion-analytics mt-5 grid min-w-0 gap-5">
-        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center justify-between gap-4">
-                <h2 class="text-[15px] font-semibold text-ink-900">Borrowings Over Time</h2>
-                <select id="borrowing-period" data-custom-select class="min-w-32.5">
-                    <option value="This Month" selected>This Month</option>
-                </select>
-            </div>
-            <div id="borrowings-chart-container" class="relative mt-4 aspect-2.25/1 min-h-55 w-full" role="img" aria-label="Daily borrowing quantities for the current month">
-                <svg class="h-full w-full" viewBox="0 0 720 320" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
-                    <defs><linearGradient id="borrowings-area" x1="0" y1="35" x2="0" y2="270" gradientUnits="userSpaceOnUse"><stop stop-color="#2563EB" stop-opacity="0.22" /><stop offset="1" stop-color="#2563EB" stop-opacity="0.02" /></linearGradient></defs>
-                    <g stroke="#E7E8EE" stroke-width="1"><path d="M48 35H700M48 93H700M48 151H700M48 209H700M48 267H700" /></g>
-                    <g fill="#4A5578" font-size="12" font-family="Segoe UI, Arial, sans-serif">
-                        <text x="12" y="271">0</text><text x="7" y="213">@((Model.ChartMaximum * 1) / 4)</text><text x="7" y="155">@((Model.ChartMaximum * 2) / 4)</text><text x="7" y="97">@((Model.ChartMaximum * 3) / 4)</text><text x="7" y="39">@Model.ChartMaximum</text>
-                        @foreach (var label in Model.ChartLabels)
-                        {
-                            <g><text x="@label.X.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" y="302" text-anchor="middle">@label.Text</text></g>
-                        }
-                    </g>
-                    <path d="@Model.BorrowingChartAreaPath" fill="url(#borrowings-area)" />
-                    <polyline points="@Model.BorrowingChartPoints" stroke="#1468E8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <g fill="#1468E8" stroke="#FFFFFF" stroke-width="2">
-                        @foreach (var point in Model.DailyBorrowings)
-                        {
-                            <circle class="chart-dot" data-date="Day @point.Day" data-count="@point.Count" cx="@point.X.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" cy="@point.Y.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" r="4.5" tabindex="0" role="graphics-symbol" aria-label="Day @point.Day: @point.Count borrowed" />
-                        }
-                    </g>
-                </svg>
-                <div id="chart-tooltip"
-                     class="pointer-events-none absolute z-20 rounded-md border border-slate-700/60 bg-ink-900/95 px-2.5 py-1.5 text-center shadow-lg backdrop-blur-sm transition-[opacity,transform] duration-150 ease-out"
-                     style="left: 0; top: 0; opacity: 0; transform: translate(-50%, -100%) scale(0.95); display: none;"
-                     role="tooltip"
-                     aria-hidden="true">
-                    <div id="chart-tooltip-date" class="text-[11px] font-medium text-slate-300">Date</div>
-                    <div class="text-[13px] font-bold text-white"><span id="chart-tooltip-count">0</span> <span class="text-[11px] font-normal text-slate-300">borrowed</span></div>
-                    <div class="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink-900/95"></div>
-                </div>
-            </div>
-        </article>
-
-        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center justify-between gap-4"><h2 class="text-[15px] font-semibold text-ink-900">Recent Borrowings</h2><a asp-page="/History/Index" asp-route-period="All" class="shrink-0 text-[13px] font-medium text-brand-link hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">View all</a></div>
-            <ul class="mt-3 divide-y divide-line-200">
-                @foreach (var item in Model.RecentBorrowings)
-                {
-                    var badgeClass = item.Status switch { "Returned" => "border-green-200 bg-green-50 text-green-700", "Overdue" => "border-red-200 bg-red-50 text-red-600", _ => "border-blue-200 bg-blue-50 text-brand-600" };
-                    <li class="grid grid-cols-1 items-center gap-3 py-2 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
-                        <div class="flex min-w-0 items-center gap-3">@if (!string.IsNullOrWhiteSpace(item.CoverImagePath)) { <img src="@item.CoverImagePath" alt="Cover of @item.BookTitle" class="h-12 w-9 shrink-0 rounded object-cover shadow-sm" loading="lazy" /> } else { <span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-brand-600 px-1 text-center text-[8px] font-bold text-white shadow-sm">@item.Initials</span> }<span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">@item.BookTitle</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">@item.MemberName</span></span></div>
-                        <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border px-2.5 py-0.5 text-[11px] font-medium @badgeClass">@item.Status</span><time class="mt-1 block whitespace-nowrap text-[11px] text-ink-500" datetime="@item.BorrowDate.ToString("yyyy-MM-dd")">@item.BorrowDate.ToString("MMM dd, yyyy")</time></div>
-                    </li>
-                }
-                @if (Model.RecentBorrowings.Count == 0) { <li class="py-10 text-center text-sm text-ink-500">No borrowing records yet.</li> }
-            </ul>
-        </article>
-    </section>
-
-    <section class="dashboard-widget-grid dashboard-motion dashboard-motion-lower mt-5 grid min-w-0 gap-5">
-        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <div class="flex items-center justify-between gap-4"><h2 class="text-[15px] font-semibold text-ink-900">Overdue Books</h2><a asp-page="/History/Index" asp-route-status="Overdue" asp-route-period="All" class="shrink-0 text-[13px] font-medium text-brand-link hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">View all</a></div>
-            <ul class="mt-3 divide-y divide-line-200">
-                @foreach (var item in Model.OverdueItems)
-                {
-                    <li class="grid grid-cols-1 items-center gap-3 py-2.5 min-[480px]:grid-cols-[minmax(0,1fr)_auto]">
-                        <div class="flex min-w-0 items-center gap-3">@if (!string.IsNullOrWhiteSpace(item.CoverImagePath)) { <img src="@item.CoverImagePath" alt="Cover of @item.BookTitle" class="h-12 w-9 shrink-0 rounded object-cover shadow-sm" loading="lazy" /> } else { <span class="flex h-12 w-9 shrink-0 items-center justify-center rounded bg-amber-100 px-1 text-center text-[8px] font-bold text-amber-800 shadow-sm">@item.Initials</span> }<span class="min-w-0"><span class="block truncate text-[13px] font-medium text-ink-900">@item.BookTitle</span><span class="mt-0.5 block truncate text-[12px] text-ink-500">@item.MemberName</span></span></div>
-                        <div class="text-left min-[480px]:text-right"><span class="inline-flex rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-[11px] font-medium text-red-600">Overdue</span><span class="mt-1 block whitespace-nowrap text-[11px] font-medium text-red-600">@item.DaysOverdue day@(item.DaysOverdue == 1 ? "" : "s") overdue</span></div>
-                    </li>
-                }
-                @if (Model.OverdueItems.Count == 0) { <li class="py-10 text-center text-sm text-ink-500">No overdue books.</li> }
-            </ul>
-        </article>
-
-        <article class="min-w-0 rounded-xl border border-line-300 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-            <h2 class="text-[15px] font-semibold text-ink-900">Members Summary</h2>
-            <div class="mt-4 flex flex-col items-center gap-6 sm:flex-row sm:justify-around">
-                <div class="relative h-44 w-44 shrink-0" role="img" aria-label="@Model.TotalMembers total members by membership type">
-                    <svg class="h-full w-full -rotate-90" viewBox="0 0 42 42" aria-hidden="true">
-                        <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#EEF1F6" stroke-width="7" />
-                        @foreach (var item in Model.MemberSummaries) { <circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="@item.Color" stroke-width="7" pathLength="100" stroke-dasharray="@item.Percentage.ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) 100" stroke-dashoffset="@((-item.Offset).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture))" /> }
-                    </svg>
-                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center"><span class="text-[22px] font-bold leading-none text-ink-900">@Model.TotalMembers</span><span class="mt-1 text-[11px] text-ink-500">Total Members</span></div>
-                </div>
-                <dl class="w-full max-w-65 space-y-4 text-[13px]">
-                    @foreach (var item in Model.MemberSummaries)
+<section id="books" class="scroll-mt-28">
+    <div class="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+                <p class="text-sm font-semibold text-brand-600">Library catalog</p>
+                <h2 class="mt-1 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">Browse books</h2>
+                <p class="mt-2 text-sm text-ink-500">
+                    @if (string.IsNullOrWhiteSpace(Model.Search) && string.IsNullOrWhiteSpace(Model.Category))
                     {
-                        <div class="flex items-center justify-between gap-5"><dt class="flex items-center gap-2.5 text-ink-700"><span class="h-3 w-3 rounded-full" style="background-color: @item.Color"></span>@(item.Type == "Staff" ? "Staff" : $"{item.Type}s")</dt><dd class="whitespace-nowrap text-ink-500">@item.Count (@item.Percentage.ToString("0.#")%)</dd></div>
+                        <span>Explore all @Model.TotalTitles titles currently in the collection.</span>
                     }
-                </dl>
+                    else
+                    {
+                        <span>
+                            @Model.FilteredTitles result@(Model.FilteredTitles == 1 ? "" : "s")
+                            @if (!string.IsNullOrWhiteSpace(Model.Search))
+                            {
+                                <text> for “@Model.Search”</text>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Category))
+                            {
+                                <text> in @Model.Category</text>
+                            }.
+                        </span>
+                    }
+                </p>
             </div>
-        </article>
-    </section>
 
-    <footer class="mt-6 flex flex-col gap-1 border-t border-line-200 pt-5 text-[11px] text-ink-500 sm:flex-row sm:items-center sm:justify-between">
-        <p>&copy; 2026 Agile Library Circulation Control System. All rights reserved.</p><p>Version 1.0.0</p>
-    </footer>
-</div>
-
-@section Scripts {
-    <script src="~/js/dashboard.js" asp-append-version="true"></script>
-    <script>
-        (function () {
-            var container = document.getElementById("borrowings-chart-container");
-            var tooltip = document.getElementById("chart-tooltip");
-            var tooltipDate = document.getElementById("chart-tooltip-date");
-            var tooltipCount = document.getElementById("chart-tooltip-count");
-
-            if (!container || !tooltip || !tooltipDate || !tooltipCount) return;
-
-            var dots = Array.from(container.querySelectorAll(".chart-dot"));
-            var activeDot = null;
-            var hideTimer = null;
-
-            function showTooltip(dot) {
-                if (hideTimer !== null) {
-                    clearTimeout(hideTimer);
-                    hideTimer = null;
+            <form method="get" asp-page="/Index" asp-fragment="books" class="public-panel flex w-full flex-col gap-2 rounded-xl border border-line-200 bg-white p-2 shadow-[0_1px_2px_rgba(16,24,40,0.04)] sm:flex-row lg:w-auto" aria-label="Filter books by category">
+                @if (!string.IsNullOrWhiteSpace(Model.Search))
+                {
+                    <input type="hidden" name="Search" value="@Model.Search" />
                 }
-
-                if (activeDot && activeDot !== dot) {
-                    activeDot.classList.remove("is-active");
+                <label asp-for="Category" class="sr-only">Book category</label>
+                <div class="w-full sm:w-64">
+                    <select asp-for="Category" data-custom-select class="min-h-10 w-full rounded-lg border border-line-300 bg-white px-3 text-sm font-medium text-ink-700 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15">
+                        <option value="">All categories</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 5h16M7 12h10M10 19h4" />
+                    </svg>
+                    Filter
+                </button>
+                @if (!string.IsNullOrWhiteSpace(Model.Search) || !string.IsNullOrWhiteSpace(Model.Category))
+                {
+                    <a asp-page="/Index" asp-fragment="books" class="inline-flex min-h-10 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50">
+                        Clear
+                    </a>
                 }
+            </form>
+        </div>
 
-                activeDot = dot;
-                dot.classList.add("is-active");
-
-                var date = dot.getAttribute("data-date");
-                var count = dot.getAttribute("data-count");
-                tooltipDate.textContent = date;
-                tooltipCount.textContent = count;
-
-                var dotRect = dot.getBoundingClientRect();
-                var containerRect = container.getBoundingClientRect();
-
-                var x = dotRect.left - containerRect.left + dotRect.width / 2;
-                var y = dotRect.top - containerRect.top - 8;
-
-                tooltip.style.display = "block";
-                tooltip.style.left = x + "px";
-                tooltip.style.top = y + "px";
-
-                window.requestAnimationFrame(function () {
-                    tooltip.style.opacity = "1";
-                    tooltip.style.transform = "translate(-50%, -100%) scale(1)";
-                });
-            }
-
-            function hideTooltip() {
-                if (activeDot) {
-                    activeDot.classList.remove("is-active");
-                    activeDot = null;
+        @if (Model.Books.Count == 0)
+        {
+            <div class="mt-8 rounded-2xl border border-dashed border-line-300 bg-white px-6 py-16 text-center">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-brand-600">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+                </span>
+                <h3 class="mt-4 text-base font-semibold text-ink-900">No books found</h3>
+                <p class="mt-1 text-sm text-ink-500">Try a different title, author, ISBN, or category.</p>
+            </div>
+        }
+        else
+        {
+            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                @foreach (var book in Model.Books)
+                {
+                    var isAvailable = book.AvailableCopies > 0;
+                    <article class="public-book-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-line-300 hover:shadow-[0_18px_35px_-22px_rgba(15,23,42,0.4)]">
+                        <div class="relative flex h-56 items-center justify-center overflow-hidden bg-slate-100 p-5">
+                            @if (!string.IsNullOrWhiteSpace(book.CoverImagePath))
+                            {
+                                <img src="@book.CoverImagePath" alt="Cover of @book.Title" loading="lazy" decoding="async" class="h-full max-w-full rounded-md object-contain shadow-[0_12px_25px_-12px_rgba(15,23,42,0.55)] transition-transform duration-300 group-hover:scale-[1.03]" />
+                            }
+                            else
+                            {
+                                <span class="flex h-36 w-24 items-center justify-center rounded-md bg-brand-600 text-xl font-bold text-white shadow-lg">@book.Initials</span>
+                            }
+                            <span class="absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold @(isAvailable ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700")">
+                                @(isAvailable ? $"{book.AvailableCopies} available" : "Unavailable")
+                            </span>
+                        </div>
+                        <div class="flex flex-1 flex-col p-5">
+                            <div class="flex items-center justify-between gap-3 text-xs text-ink-500">
+                                <span class="truncate rounded-full bg-blue-50 px-2.5 py-1 font-medium text-brand-700">@book.Category</span>
+                                <span>@book.PublishedYear</span>
+                            </div>
+                            <h3 class="mt-3 line-clamp-2 text-base font-semibold leading-6 text-ink-900" title="@book.Title">@book.Title</h3>
+                            <p class="mt-1 truncate text-sm text-ink-500" title="@book.Author">@book.Author</p>
+                            @if (!string.IsNullOrWhiteSpace(book.Isbn))
+                            {
+                                <p class="mt-2 text-xs text-ink-400">ISBN @book.Isbn</p>
+                            }
+                            <div class="mt-auto pt-5">
+                                @if (isAvailable)
+                                {
+                                    <a asp-page="/Public/Borrow" asp-route-bookId="@book.Id" class="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
+                                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+                                        Borrow Book
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button type="button" disabled class="inline-flex min-h-10 w-full cursor-not-allowed items-center justify-center rounded-lg border border-line-300 bg-slate-100 px-4 text-sm font-semibold text-ink-400">
+                                        Unavailable
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </article>
                 }
+            </div>
 
-                tooltip.style.opacity = "0";
-                tooltip.style.transform = "translate(-50%, -100%) scale(0.95)";
-                hideTimer = window.setTimeout(function () {
-                    tooltip.style.display = "none";
-                    hideTimer = null;
-                }, 150);
-            }
+            <div class="public-panel mt-8 flex flex-col gap-4 rounded-xl border border-line-200 bg-white px-5 py-4 shadow-[0_1px_2px_rgba(16,24,40,0.04)] sm:flex-row sm:items-center sm:justify-between">
+                <p class="text-sm text-ink-500">
+                    Showing <span class="font-medium text-ink-900">@Model.StartItem</span>
+                    to <span class="font-medium text-ink-900">@Model.EndItem</span>
+                    of <span class="font-medium text-ink-900">@Model.FilteredTitles</span> books
+                </p>
 
-            dots.forEach(function (dot) {
-                dot.addEventListener("mouseenter", function () { showTooltip(dot); });
-                dot.addEventListener("focus", function () { showTooltip(dot); });
-                dot.addEventListener("mouseleave", hideTooltip);
-                dot.addEventListener("blur", hideTooltip);
-            });
+                @if (Model.TotalPages > 1)
+                {
+                    <nav class="flex flex-wrap items-center gap-1" aria-label="Book catalog pages">
+                        <a asp-page="/Index" asp-route-Search="@Model.Search" asp-route-Category="@Model.Category" asp-route-PageIndex="1" asp-fragment="books"
+                           class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasPreviousPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="First page" aria-disabled="@(!Model.HasPreviousPage)">«</a>
+                        <a asp-page="/Index" asp-route-Search="@Model.Search" asp-route-Category="@Model.Category" asp-route-PageIndex="@Math.Max(1, Model.PageIndex - 1)" asp-fragment="books"
+                           class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasPreviousPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Previous page" aria-disabled="@(!Model.HasPreviousPage)">‹</a>
 
-            container.addEventListener("mousemove", function (event) {
-                if (dots.length === 0) return;
-                var mouseX = event.clientX;
-                var mouseY = event.clientY;
-                var closestDot = null;
-                var closestDistSq = Infinity;
+                        @for (var pageNumber = firstVisiblePage; pageNumber <= lastVisiblePage; pageNumber++)
+                        {
+                            <a asp-page="/Index" asp-route-Search="@Model.Search" asp-route-Category="@Model.Category" asp-route-PageIndex="@pageNumber" asp-fragment="books"
+                               aria-current="@(pageNumber == Model.PageIndex ? "page" : null)"
+                               class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg px-2 text-sm font-semibold transition-colors @(pageNumber == Model.PageIndex ? "bg-brand-600 text-white" : "border border-line-300 bg-white text-ink-700 hover:bg-slate-50")">
+                                @pageNumber
+                            </a>
+                        }
 
-                dots.forEach(function (dot) {
-                    var rect = dot.getBoundingClientRect();
-                    var centerX = rect.left + rect.width / 2;
-                    var centerY = rect.top + rect.height / 2;
-                    var dx = mouseX - centerX;
-                    var dy = mouseY - centerY;
-                    var distSq = dx * dx + dy * dy;
-
-                    if (distSq < closestDistSq) {
-                        closestDistSq = distSq;
-                        closestDot = dot;
-                    }
-                });
-
-                if (closestDot && Math.sqrt(closestDistSq) <= 48) {
-                    showTooltip(closestDot);
-                } else if (activeDot) {
-                    hideTooltip();
+                        <a asp-page="/Index" asp-route-Search="@Model.Search" asp-route-Category="@Model.Category" asp-route-PageIndex="@Math.Min(Model.TotalPages, Model.PageIndex + 1)" asp-fragment="books"
+                           class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasNextPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Next page" aria-disabled="@(!Model.HasNextPage)">›</a>
+                        <a asp-page="/Index" asp-route-Search="@Model.Search" asp-route-Category="@Model.Category" asp-route-PageIndex="@Model.TotalPages" asp-fragment="books"
+                           class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(!Model.HasNextPage ? "pointer-events-none opacity-40" : null)"
+                           aria-label="Last page" aria-disabled="@(!Model.HasNextPage)">»</a>
+                    </nav>
                 }
-            });
-
-            container.addEventListener("mouseleave", hideTooltip);
-        })();
-    </script>
-}
+            </div>
+        }
+    </div>
+</section>

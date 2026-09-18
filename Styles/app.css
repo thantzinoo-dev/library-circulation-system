@@ -701,7 +701,7 @@ html.theme-transitioning *::after {
 }
 
 /* ==========================================================================
-   Dark Mode Theme System (Obsidian & Deep Indigo Reference Palette)
+   Dark Mode Theme System (Obsidian & Electric Cyan Reference Palette)
    ========================================================================== */
 html[data-theme="dark"],
 html.dark {
@@ -714,9 +714,9 @@ html.dark {
   --color-line-200: #1e293b;
   --color-line-300: #1e293b;
   --color-line-400: #334155;
-  --color-brand-600: #8b5cf6;
-  --color-brand-700: #7c3aed;
-  --color-brand-link: #8b5cf6;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-link: #22d3ee;
   color-scheme: dark;
 }
 
@@ -740,7 +740,7 @@ html.dark .app-sidebar [data-sidebar-brand] {
 
 html[data-theme="dark"] .app-sidebar [data-sidebar-brand-mark],
 html.dark .app-sidebar [data-sidebar-brand-mark] {
-  color: #8b5cf6 !important;
+  color: #06b6d4 !important;
 }
 
 html[data-theme="dark"] .app-sidebar .sidebar-toggle,
@@ -783,9 +783,9 @@ html.dark .app-sidebar nav a:hover svg {
 /* Active navigation item pill */
 html[data-theme="dark"] .app-sidebar nav a[aria-current="page"],
 html.dark .app-sidebar nav a[aria-current="page"] {
-  background-color: #5b4dee !important;
+  background-color: #0891b2 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(91, 77, 238, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35) !important;
 }
 
 html[data-theme="dark"] .app-sidebar nav a[aria-current="page"] svg,
@@ -813,7 +813,7 @@ html.dark .account-trigger:hover {
 
 html[data-theme="dark"] .account-trigger span.bg-brand-600,
 html.dark .account-trigger span.bg-brand-600 {
-  background-color: #7c3aed !important;
+  background-color: #0891b2 !important;
 }
 
 html[data-theme="dark"] .account-menu,
@@ -825,7 +825,7 @@ html.dark .account-menu {
 
 html[data-theme="dark"] .account-menu span.bg-brand-600,
 html.dark .account-menu span.bg-brand-600 {
-  background-color: #7c3aed !important;
+  background-color: #0891b2 !important;
 }
 
 html[data-theme="dark"] .account-menu a,
@@ -850,8 +850,8 @@ html.dark .account-menu [role="separator"] {
 
 html[data-theme="dark"] .theme-status-badge,
 html.dark .theme-status-badge {
-  background-color: rgba(139, 92, 246, 0.2) !important;
-  color: #8b5cf6 !important;
+  background-color: rgba(6, 182, 212, 0.18) !important;
+  color: #22d3ee !important;
 }
 
 /* Shared destructive alert dialog */
@@ -915,8 +915,8 @@ html.dark .dashboard-stats article p.text-ink-500 {
 
 html[data-theme="dark"] .dashboard-stats article:nth-child(1) span.rounded-full,
 html.dark .dashboard-stats article:nth-child(1) span.rounded-full {
-  background-color: rgba(139, 92, 246, 0.18) !important;
-  color: #8b5cf6 !important;
+  background-color: rgba(6, 182, 212, 0.18) !important;
+  color: #06b6d4 !important;
 }
 
 html[data-theme="dark"] .dashboard-stats article:nth-child(2) span.rounded-full,
@@ -966,25 +966,25 @@ html.dark #borrowings-chart-container svg g[fill="#4A5578"] text {
 
 html[data-theme="dark"] #borrowings-area stop:first-child,
 html.dark #borrowings-area stop:first-child {
-  stop-color: #8b5cf6 !important;
-  stop-opacity: 0.28 !important;
+  stop-color: #06b6d4 !important;
+  stop-opacity: 0.32 !important;
 }
 
 html[data-theme="dark"] #borrowings-area stop:last-child,
 html.dark #borrowings-area stop:last-child {
-  stop-color: #8b5cf6 !important;
+  stop-color: #06b6d4 !important;
   stop-opacity: 0.01 !important;
 }
 
 html[data-theme="dark"] #borrowings-chart-container svg path[stroke="#1468E8"],
 html.dark #borrowings-chart-container svg path[stroke="#1468E8"] {
-  stroke: #8b5cf6 !important;
+  stroke: #06b6d4 !important;
   stroke-width: 3 !important;
 }
 
 html[data-theme="dark"] .chart-dot,
 html.dark .chart-dot {
-  fill: #8b5cf6 !important;
+  fill: #06b6d4 !important;
   stroke: #0b0f17 !important;
 }
 
@@ -995,9 +995,9 @@ html.dark .chart-dot:hover,
 html.dark .chart-dot:focus-visible,
 html.dark .chart-dot.is-active {
   r: 6.5;
-  fill: #c084fc !important;
+  fill: #67e8f9 !important;
   stroke: #ffffff !important;
-  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.8)) !important;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.85)) !important;
 }
 
 html[data-theme="dark"] #chart-tooltip,
@@ -1030,8 +1030,8 @@ html[data-theme="dark"] .shadcn-select-trigger:focus-visible,
 html[data-theme="dark"] .shadcn-select-trigger[aria-expanded="true"],
 html.dark .shadcn-select-trigger:focus-visible,
 html.dark .shadcn-select-trigger[aria-expanded="true"] {
-  border-color: #8b5cf6 !important;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
+  border-color: #06b6d4 !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25) !important;
 }
 
 html[data-theme="dark"] .shadcn-select-menu,
@@ -1056,16 +1056,16 @@ html.dark .shadcn-select-option[data-focused="true"] {
 
 html[data-theme="dark"] .shadcn-select-option[aria-selected="true"],
 html.dark .shadcn-select-option[aria-selected="true"] {
-  background-color: rgba(139, 92, 246, 0.2) !important;
-  color: #8b5cf6 !important;
+  background-color: rgba(6, 182, 212, 0.18) !important;
+  color: #22d3ee !important;
 }
 
 html[data-theme="dark"] .borrow-member-result[data-focused="true"],
 html.dark .borrow-member-result[data-focused="true"],
 html[data-theme="dark"] .borrow-book-card[aria-selected="true"],
 html.dark .borrow-book-card[aria-selected="true"] {
-  background-color: rgba(139, 92, 246, 0.14) !important;
-  border-color: #8b5cf6 !important;
+  background-color: rgba(6, 182, 212, 0.14) !important;
+  border-color: #06b6d4 !important;
 }
 
 html[data-theme="dark"] .return-active-badge,
@@ -1078,7 +1078,7 @@ html.dark .return-active-badge {
 /* Recent Borrowings & Overdue Books in dark mode */
 html[data-theme="dark"] a.text-brand-link,
 html.dark a.text-brand-link {
-  color: #8b5cf6 !important;
+  color: #22d3ee !important;
 }
 
 html[data-theme="dark"] ul.divide-line-200 > li,
@@ -1108,7 +1108,12 @@ html.dark circle[stroke="#EEF1F6"] {
 
 html[data-theme="dark"] circle[stroke="#6557E8"],
 html.dark circle[stroke="#6557E8"] {
-  stroke: #7c3aed !important;
+  stroke: #06b6d4 !important;
+}
+
+html[data-theme="dark"] span[style*="#6557E8"],
+html.dark span[style*="#6557E8"] {
+  background-color: #06b6d4 !important;
 }
 
 html[data-theme="dark"] circle[stroke="#2785EA"],
@@ -1270,9 +1275,10 @@ html.dark .pagination a:hover {
 
 html[data-theme="dark"] .pagination [aria-current="page"],
 html.dark .pagination [aria-current="page"] {
-  background-color: #5b4dee !important;
+  background-color: #0891b2 !important;
   color: #ffffff !important;
-  border-color: #5b4dee !important;
+  border-color: #0891b2 !important;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3) !important;
 }
 
 /* Partial table updates: soften the old rows while loading, then introduce
@@ -1464,8 +1470,8 @@ html.dark .sonner-toast-error .sonner-toast-icon {
 
 html[data-theme="dark"] .sonner-toast-info .sonner-toast-icon,
 html.dark .sonner-toast-info .sonner-toast-icon {
-  color: #a78bfa;
-  background: rgba(139, 92, 246, 0.14);
+  color: #22d3ee;
+  background: rgba(6, 182, 212, 0.14);
 }
 
 html[data-theme="dark"] .sonner-toast-close:hover,
@@ -1487,6 +1493,116 @@ html.dark .sonner-toast-close:hover {
   .sonner-toast {
     transition-duration: 1ms;
   }
+}
+
+/* Public library experience */
+.public-hero {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(0, 72, 198, 0.14), transparent 28rem),
+    linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.public-nav-link {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0 0.75rem;
+  color: var(--color-ink-700);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.public-nav-link:hover {
+  color: var(--color-brand-600);
+  background-color: #eff6ff;
+}
+
+.public-nav-link[aria-current="page"] {
+  color: var(--color-brand-700);
+  background-color: #dbeafe;
+  box-shadow: inset 0 0 0 1px #bfdbfe;
+}
+
+.public-nav-link:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-brand-600) 35%, transparent);
+  outline-offset: 2px;
+}
+
+html[data-theme="dark"] .public-header,
+html.dark .public-header,
+html[data-theme="dark"] .public-footer,
+html.dark .public-footer {
+  background-color: rgba(11, 15, 23, 0.96) !important;
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .public-header button,
+html.dark .public-header button {
+  background-color: #111726 !important;
+  border-color: #28344a !important;
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .public-hero,
+html.dark .public-hero {
+  background:
+    radial-gradient(circle at 82% 22%, rgba(6, 182, 212, 0.16), transparent 28rem),
+    linear-gradient(180deg, #0b0f17 0%, #0e1420 100%);
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .public-nav-link:hover,
+html.dark .public-nav-link:hover {
+  color: #67e8f9;
+  background-color: #161f33;
+}
+
+html[data-theme="dark"] .public-nav-link[aria-current="page"],
+html.dark .public-nav-link[aria-current="page"] {
+  color: #67e8f9;
+  background-color: rgba(6, 182, 212, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.32);
+}
+
+html[data-theme="dark"] main .public-panel,
+html.dark main .public-panel,
+html[data-theme="dark"] main .public-book-card,
+html.dark main .public-book-card {
+  background-color: #111726 !important;
+  border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] main .bg-slate-100,
+html.dark main .bg-slate-100 {
+  background-color: #161f33 !important;
+}
+
+html[data-theme="dark"] main .bg-blue-50,
+html.dark main .bg-blue-50 {
+  background-color: rgba(6, 182, 212, 0.14) !important;
+  color: #22d3ee !important;
+}
+
+html[data-theme="dark"] main .bg-emerald-50,
+html.dark main .bg-emerald-50,
+html[data-theme="dark"] main .bg-emerald-100,
+html.dark main .bg-emerald-100 {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+}
+
+html[data-theme="dark"] main .bg-rose-50,
+html.dark main .bg-rose-50 {
+  background-color: rgba(239, 68, 68, 0.14) !important;
+}
+
+html[data-theme="dark"] main .bg-amber-50,
+html.dark main .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.14) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  color: #fbbf24 !important;
 }
 
 
