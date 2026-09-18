@@ -4,18 +4,13 @@
     ViewData["Title"] = "Borrow Book";
 }
 
-<section class="space-y-5">
+<section class="space-y-5" data-ajax-table-page="borrow">
     <header class="page-motion page-motion-header">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Borrow Book</h1>
             <p class="mt-1 text-sm text-ink-500">Manage new and recent borrowing records</p>
         </div>
     </header>
-
-    @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
-    {
-        <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">@Model.StatusMessage</div>
-    }
 
     <a asp-page="./Create"
        class="page-motion page-motion-filter group flex flex-col gap-4 rounded-xl border border-line-200 bg-white p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)] hover:border-brand-600/40 hover:shadow-[0_8px_24px_rgba(16,24,40,0.06)] sm:flex-row sm:items-center sm:justify-between">
@@ -44,7 +39,7 @@
         <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg></span><div><p class="text-sm text-ink-500">Overdue</p><p class="text-2xl font-bold text-red-600">@Model.OverdueLoans</p><p class="text-xs text-ink-500">Books overdue</p></div></article>
     </div>
 
-    <div class="page-motion page-motion-table overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
+    <div data-ajax-table-region="borrow" class="page-motion page-motion-table overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
         <div class="flex items-center justify-between border-b border-line-200 px-4 py-3 sm:px-5"><h2 class="flex items-center gap-2 font-semibold text-ink-900"><svg class="h-5 w-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Recently Borrowed Books</h2><a asp-page="/History/Index" class="text-sm font-semibold text-brand-600 hover:text-brand-700">View all</a></div>
         <div class="overflow-x-auto"><table class="w-full min-w-225 text-left text-sm"><thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-ink-500"><tr><th class="px-5 py-3">Loan ID</th><th class="px-5 py-3">Member Name</th><th class="px-5 py-3">Book Title</th><th class="px-5 py-3">Borrow Date</th><th class="px-5 py-3">Due Date</th><th class="px-5 py-3">Status</th><th class="px-5 py-3 text-center">Action</th></tr></thead><tbody class="divide-y divide-line-200">
         @foreach (var loan in Model.RecentLoans)
@@ -61,7 +56,7 @@
 
             @if (Model.TotalPages > 1)
             {
-                <nav class="flex items-center gap-1" aria-label="Borrowing records pagination">
+                <nav data-ajax-pagination class="flex items-center gap-1" aria-label="Borrowing records pagination">
                     <a asp-page="./Index" asp-route-pageIndex="1"
                        class="inline-flex h-8 min-w-8 items-center justify-center rounded-lg border border-line-300 bg-white px-2 text-xs font-semibold text-ink-700 transition-colors hover:bg-slate-50 @(Model.PageIndex == 1 ? "pointer-events-none opacity-40" : null)"
                        aria-label="First page" title="First page">«</a>

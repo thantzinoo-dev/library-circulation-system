@@ -7,7 +7,7 @@
                            (!string.IsNullOrWhiteSpace(Model.Type) && !Model.Type.Equals("All", StringComparison.OrdinalIgnoreCase));
 }
 
-<section class="space-y-6">
+<section class="space-y-6" data-ajax-table-page="books">
     <div class="page-motion page-motion-header flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Books</h1>
@@ -22,22 +22,9 @@
         </a>
     </div>
 
-    @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
-    {
-        <div class="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800" role="status">
-            @Model.StatusMessage
-        </div>
-    }
-    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
-    {
-        <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
-            @Model.ErrorMessage
-        </div>
-    }
-
     <!-- Search and Filters -->
     <div class="page-motion page-motion-filter rounded-xl border border-line-200 bg-white p-4 sm:p-5 shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
-        <form method="get" class="flex flex-col gap-3 lg:flex-row lg:items-center" role="search">
+        <form method="get" data-ajax-table-form="books" class="flex flex-col gap-3 lg:flex-row lg:items-center" role="search">
             <div class="relative min-w-0 flex-1">
                 <label asp-for="Search" class="sr-only">Search by title, author, ISBN, category, or language</label>
                 <input asp-for="Search"
@@ -86,7 +73,7 @@
                     <span>Search</span>
                 </button>
 
-                <a asp-page="./Index"
+                <a asp-page="./Index" data-ajax-table-link="books"
                    class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600/30">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
@@ -99,7 +86,7 @@
     </div>
 
     <!-- Table Container -->
-    <div class="page-motion page-motion-table rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)] overflow-hidden">
+    <div data-ajax-table-region="books" class="page-motion page-motion-table rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)] overflow-hidden">
         @if (Model.Books.Count == 0)
         {
             <div class="flex min-h-72 flex-col items-center justify-center px-6 py-12 text-center">
@@ -113,7 +100,7 @@
                 {
                     <h2 class="mt-4 text-base font-semibold text-ink-900">No books match your search.</h2>
                     <p class="mt-1 text-sm text-ink-500">Try adjusting your filters or search terms.</p>
-                    <a asp-page="./Index" class="mt-4 inline-flex min-h-9 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 hover:bg-slate-50">
+                    <a asp-page="./Index" data-ajax-table-link="books" class="mt-4 inline-flex min-h-9 items-center justify-center rounded-lg border border-line-300 bg-white px-4 text-sm font-semibold text-ink-700 hover:bg-slate-50">
                         Reset filters
                     </a>
                 }
@@ -203,7 +190,7 @@
 
                 @if (Model.TotalPages > 1)
                 {
-                    <nav class="flex items-center gap-1" aria-label="Pagination">
+                    <nav data-ajax-pagination class="flex items-center gap-1" aria-label="Pagination">
                         <!-- First -->
                         <a asp-page="./Index"
                            asp-route-PageIndex="1"

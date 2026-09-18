@@ -11,11 +11,6 @@
         <p class="mt-1 text-sm text-ink-500">Manage reporting and appearance preferences.</p>
     </header>
 
-    @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
-    {
-        <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">@Model.StatusMessage</div>
-    }
-
     <form method="post" class="page-motion page-motion-content overflow-hidden rounded-xl border border-line-200 bg-white shadow-[0_1px_2px_rgba(16,24,40,0.03)]">
         <div class="border-b border-line-200 px-5 py-4 sm:px-6">
             <h2 class="font-semibold text-ink-900">Application preferences</h2>

@@ -1,4 +1,4 @@
-# 📚 School Library Management System
+# 📚 Agile Library Circulation Control System
 
 A modern, high-performance web application for managing school library operations, book catalogues, members, borrowing workflows, and analytical reporting. Built with **ASP.NET Core 10 Razor Pages**, **Entity Framework Core 10**, **Microsoft SQL Server**, and styled with **Tailwind CSS v4**.
 

@@ -6,13 +6,13 @@
     var visibleCategoryShares = Model.CategoryShares.Take(6).ToList();
 }
 
-<section class="space-y-5">
+<section class="space-y-5" data-ajax-table-page="reports">
     <header class="page-motion page-motion-header">
         <h1 class="text-2xl font-bold tracking-tight text-ink-900 sm:text-[28px]">Reports</h1>
         <p class="mt-1 text-sm text-ink-500">View library analytics and summary reports</p>
     </header>
 
-    <form method="get" class="page-motion page-motion-filter rounded-xl border border-line-200 bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-5">
+    <form method="get" data-ajax-table-form="reports" class="page-motion page-motion-filter rounded-xl border border-line-200 bg-white p-4 shadow-[0_1px_2px_rgba(16,24,40,0.03)] sm:p-5">
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <div class="report-control-field relative min-w-0"><label for="report-range" class="sr-only">Selected reporting range</label><svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg><input id="report-range" value="Database reporting period" readonly class="h-11 w-full min-w-0 rounded-lg border border-line-300 bg-slate-50 pl-10 pr-3 text-sm leading-none text-ink-500" /></div>
             <div class="report-control-field min-w-0"><label asp-for="ReportType" class="sr-only">Report type</label><select asp-for="ReportType" data-custom-select class="h-11 w-full min-w-0 rounded-lg border border-line-300 bg-white px-3 text-sm text-ink-700"><option value="All">All Report Types</option><option value="Borrowings">Borrowings</option><option value="Returns">Returns</option><option value="Fines">Fines</option></select></div>
@@ -32,6 +32,7 @@
         </div>
     </form>
 
+    <div data-ajax-table-region="reports" class="space-y-5">
     <div class="page-motion page-motion-content grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5v-16Z"/></svg></span><div><p class="text-sm text-ink-500">Total Borrowings</p><p class="text-2xl font-bold text-brand-600">@Model.TotalBorrowings</p><p class="text-xs text-ink-500">Selected period</p></div></article>
         <article class="flex items-center gap-4 rounded-xl border border-line-200 bg-white p-5"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-50 text-green-600"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 7-5 5 5 5M4 12h11a5 5 0 0 1 5 5v2"/></svg></span><div><p class="text-sm text-ink-500">Returned Books</p><p class="text-2xl font-bold text-green-600">@Model.ReturnedBooks</p><p class="text-xs text-ink-500">Selected period</p></div></article>
@@ -91,5 +92,6 @@
         @if (Model.PopularBooks.Count == 0) { <tr><td colspan="6" class="px-5 py-10 text-center text-ink-500">No borrowing data for the selected period.</td></tr> }
         </tbody></table></div>
         <div class="border-t border-line-200 px-5 py-3 text-sm text-ink-500">Showing @Model.PopularBooks.Count popular book@(Model.PopularBooks.Count == 1 ? "" : "s")</div>
+    </div>
     </div>
 </section>

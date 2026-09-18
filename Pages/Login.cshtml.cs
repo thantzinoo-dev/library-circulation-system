@@ -13,6 +13,8 @@ namespace School_Library_Management.Pages;
 
 public class LoginModel(ApplicationDbContext context) : PageModel
 {
+    public const string DemoUsername = "admin";
+    public const string DemoPassword = "Admin@123456";
     private const int MaximumFailedAttempts = 5;
     private static readonly TimeSpan LockoutDuration = TimeSpan.FromMinutes(15);
     private readonly ApplicationDbContext _context = context;
@@ -34,6 +36,8 @@ public class LoginModel(ApplicationDbContext context) : PageModel
     {
         if (User.Identity?.IsAuthenticated != true)
         {
+            UsernameOrEmail ??= DemoUsername;
+            Password ??= DemoPassword;
             return null;
         }
 

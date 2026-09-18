@@ -36,6 +36,8 @@ public class CreateModel(ApplicationDbContext context) : PageModel
     public int TotalActiveLoans { get; private set; }
     public int TotalPages { get; private set; }
     public const int PageSize = 8;
+    public int StartItem => TotalActiveLoans == 0 ? 0 : ((PageNumber - 1) * PageSize) + 1;
+    public int EndItem => Math.Min(PageNumber * PageSize, TotalActiveLoans);
 
     public async Task OnGetAsync()
     {
@@ -43,6 +45,39 @@ public class CreateModel(ApplicationDbContext context) : PageModel
         Input.ReturnDate = DateTime.Today;
         Input.ReturnCondition = "Good";
         await LoadPageDataAsync();
+    }
+
+    public async Task<JsonResult> OnGetLoanPageAsync()
+    {
+        NormalizeFilters();
+        await LoadActiveLoansAsync();
+
+        return new JsonResult(new
+        {
+            loans = ActiveLoans.Select(loan => new
+            {
+                loan.Id,
+                loan.LoanId,
+                loan.MemberName,
+                loan.MemberCode,
+                loan.MembershipType,
+                loan.BookTitle,
+                loan.Isbn,
+                loan.CoverImagePath,
+                borrowDate = loan.BorrowDate.ToString("MMM dd, yyyy"),
+                borrowDateIso = loan.BorrowDate.ToString("yyyy-MM-dd"),
+                dueDate = loan.DueDate.ToString("MMM dd, yyyy"),
+                loan.Quantity,
+                loan.IsOverdue,
+                loan.DaysOverdue
+            }),
+            totalActiveLoans = TotalActiveLoans,
+            totalPages = TotalPages,
+            pageNumber = PageNumber,
+            pageSize = PageSize,
+            startItem = StartItem,
+            endItem = EndItem
+        });
     }
 
     public async Task<IActionResult> OnPostAsync()
@@ -118,14 +153,19 @@ public class CreateModel(ApplicationDbContext context) : PageModel
 
     private async Task LoadPageDataAsync()
     {
+        NormalizeFilters();
+
+        await LoadActiveLoansAsync();
+        await LoadSelectedLoanAsync();
+    }
+
+    private void NormalizeFilters()
+    {
         Search = Search?.Trim();
         DueStatus = DueStatus is "Active" or "Overdue" ? DueStatus : "All";
         MembershipType = MemberType.All.Contains(MembershipType, StringComparer.OrdinalIgnoreCase)
             ? MembershipType
             : "All";
-
-        await LoadActiveLoansAsync();
-        await LoadSelectedLoanAsync();
     }
 
     private async Task LoadActiveLoansAsync()

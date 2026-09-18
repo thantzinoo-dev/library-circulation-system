@@ -1,0 +1,59 @@
+@{
+    var successMessage = TempData["StatusMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+<div class="sonner-toaster"
+     data-sonner-toaster
+     aria-label="Notifications"
+     aria-live="polite"
+     aria-relevant="additions removals">
+    @if (!string.IsNullOrWhiteSpace(successMessage))
+    {
+        <article class="sonner-toast sonner-toast-success"
+                 data-sonner-toast
+                 data-sonner-type="success"
+                 data-sonner-duration="5000"
+                 role="status">
+            <span class="sonner-toast-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m5 12 4 4L19 6" />
+                </svg>
+            </span>
+            <span class="sonner-toast-content">
+                <strong class="sonner-toast-title">Success</strong>
+                <span class="sonner-toast-description">@successMessage</span>
+            </span>
+            <button type="button" class="sonner-toast-close" data-sonner-close aria-label="Dismiss notification">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
+            </button>
+        </article>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <article class="sonner-toast sonner-toast-error"
+                 data-sonner-toast
+                 data-sonner-type="error"
+                 data-sonner-duration="7000"
+                 role="alert">
+            <span class="sonner-toast-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v5M12 16h.01" />
+                </svg>
+            </span>
+            <span class="sonner-toast-content">
+                <strong class="sonner-toast-title">Something went wrong</strong>
+                <span class="sonner-toast-description">@errorMessage</span>
+            </span>
+            <button type="button" class="sonner-toast-close" data-sonner-close aria-label="Dismiss notification">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <path d="m6 6 12 12M18 6 6 18" />
+                </svg>
+            </button>
+        </article>
+    }
+</div>
