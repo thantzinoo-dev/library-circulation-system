@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Chapter 3: Implementation and Design of School Library Management System</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #525659;
+            margin: 0;
+            padding: 20px 0;
+            color: #000000;
+            line-height: 1.15;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25.4mm 25.4mm 25.4mm 31.75mm; /* Top, Right, Bottom, Left (1.25in) */
+            margin: 20px auto;
+            background: #ffffff;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            position: relative;
+            page-break-after: always;
+        }
+        @media print {
+            body { background: none; padding: 0; }
+            .page { margin: 0; box-shadow: none; width: 100%; min-height: 100vh; padding: 25.4mm 25.4mm 25.4mm 31.75mm; }
+            .no-print { display: none !important; }
+        }
+        h1 {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 0 0 4pt 0;
+            text-transform: uppercase;
+        }
+        h2 {
+            text-align: center;
+            font-size: 13pt;
+            font-weight: bold;
+            margin: 0 0 12pt 0;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+        h3 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin: 10pt 0 6pt 0;
+        }
+        p {
+            font-size: 12pt;
+            text-align: justify;
+            margin: 0 0 6pt 0;
+        }
+        .figure-container {
+            text-align: center;
+            margin: 6pt 0 4pt 0;
+        }
+        .figure-img {
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #cbd5e1;
+            max-width: 100%;
+            height: auto;
+        }
+        .caption {
+            font-size: 11pt;
+            text-align: center;
+            margin: 4pt 0 6pt 0;
+            color: #000000;
+        }
+        .footer-page-num {
+            position: absolute;
+            bottom: 15mm;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11pt;
+        }
+        .toolbar {
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            z-index: 1000;
+            background: #1e293b;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .toolbar button {
+            background: #0891b2;
+            color: #ffffff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .toolbar a {
+            color: #22d3ee;
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class='toolbar no-print'>
+        <button onclick='window.print()'>🖨️ Print / Save as PDF</button>
+        <a href='Chapter_3_User_Interface_Design.docx' download>📥 Download Word (.docx)</a>
+    </div>
+    <div class='page'>
+        <h1>CHAPTER 3</h1>
+        <h2>IMPLEMENTATION AND DESIGN OF SCHOOL LIBRARY<br>MANAGEMENT SYSTEM</h2>
+        <p>This paper presents school library management system by using C# programming language in ASP.NET Core framework to manage school library circulation and book catalogues. This system allows admins and users to view the book information and circulation records. In this system, admins only can manage book details, categories, members, borrow and return transactions, and system settings. Admins only can manage users.</p>
+        <h3>3.1 User Interface Design</h3>
+        <div class='figure-container'>
+            <img src='screenshots/01. public_home_screen.png' alt='Figure 3.1 User Interface for Home Page Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.1 User Interface for Home Page Window</div>
+        <p>When the system starts, the user will see the home page as shown in Figure 3.1. Any user can browse available books, search the catalogue, or click the "Login" button to login.</p>
+        <div class='footer-page-num'>10</div>
+    </div>
+    <div class='page'>
+        <div class='figure-container'>
+            <img src='screenshots/02. public_browse_books.png' alt='Figure 3.2 Displaying the Browse Books Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.2 Displaying the Browse Books Window</div>
+        <p>Figure 3.2 shows the browse books catalogue window. In this window, users can explore available book titles, view real-time availability badges, and filter books by category.</p>
+        <p>Figure 3.3 shows the member self-service borrowing history window. The window provides users with the search tool to lookup their personal borrowing records, due dates, and fine balances.</p>
+        <div class='figure-container'>
+            <img src='screenshots/02. my_borrowing_list.png' alt='Figure 3.3 Displaying the Member Borrowing Lookup Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.3 Displaying the Member Borrowing Lookup Window</div>
+        <div class='footer-page-num'>11</div>
+    </div>
+    <div class='page'>
+        <div class='figure-container'>
+            <img src='screenshots/03. admin_login.png' alt='Figure 3.4 Displaying the User/Admin Login Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.4 Displaying the User/Admin Login Window</div>
+        <p>Figure 3.4 shows the User/Admin login window. Admin and users can login by filling username/email and password in the form to authenticate into the system.</p>
+        <p>Figure 3.5 shows the logged in admin home page window. The window provides admin with the navigation bar with Home, Books, Members, Borrow, Return, Reports, Settings and Logout buttons.</p>
+        <div class='figure-container'>
+            <img src='screenshots/05. admin_dashboard_light.png' alt='Figure 3.5 Displaying the Admin's Home Page Window' class='figure-img' style='max-width: 121.9mm;'>
+        </div>
+        <div class='caption'>Figure 3.5 Displaying the Admin's Home Page Window</div>
+        <div class='footer-page-num'>12</div>
+    </div>
+    <div class='page'>
+        <p>After clicking on the "Books" button, the user will be taken to the "Book Catalogue" window as shown in Figure 3.6. User can see the list of books and search by title, author, category or ISBN from the search bar.</p>
+        <div class='figure-container'>
+            <img src='screenshots/06. books_screen.png' alt='Figure 3.6 Displaying the Book Catalogue Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.6 Displaying the Book Catalogue Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/06. add_book_screen.png' alt='Figure 3.7 Displaying the Add New Book Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.7 Displaying the Add New Book Window</div>
+        <p>Figure 3.7 shows the add new book modal window. Admin can register new books by filling title, author, ISBN, category, publisher, publish year, total copies, and uploading a cover image.</p>
+        <div class='footer-page-num'>13</div>
+    </div>
+    <div class='page'>
+        <p>Figure 3.8 shows the library members administration window. The admin can view all registered members across Student, Teacher, and Staff tiers, search member records, and check active loan counts.</p>
+        <div class='figure-container'>
+            <img src='screenshots/07. members_screen_light.png' alt='Figure 3.8 Displaying the Members Administration Directory Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.8 Displaying the Members Administration Directory Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/07. add_new_member.png' alt='Figure 3.9 Displaying the Add New Member Registration Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.9 Displaying the Add New Member Registration Window</div>
+        <p>Figure 3.9 shows the new member registration modal window. The admin can register new patrons by providing their full name, member code, membership tier, department, contact number, and email address.</p>
+        <div class='footer-page-num'>14</div>
+    </div>
+    <div class='page'>
+        <p>Figure 3.10 shows the book borrowing circulation management window. Librarians can view active checkouts, search by member code or transaction ID, monitor return due dates, and track overdue items.</p>
+        <div class='figure-container'>
+            <img src='screenshots/08. borrow_book_screen.png' alt='Figure 3.10 Displaying the Book Borrowing Circulation Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.10 Displaying the Book Borrowing Circulation Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/08. make_a_new_borrow.png' alt='Figure 3.11 Displaying the New Book Checkout and Issue Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.11 Displaying the New Book Checkout and Issue Window</div>
+        <p>Figure 3.11 shows the checkout window for issuing books to members. The librarian selects an active member, selects one or more books, specifies the due date, and confirms the checkout transaction.</p>
+        <div class='footer-page-num'>15</div>
+    </div>
+    <div class='page'>
+        <p>Figure 3.12 shows the book returns directory window. The admin can review all completed book returns, return timestamps, condition gradings, and recorded fine payments.</p>
+        <div class='figure-container'>
+            <img src='screenshots/09. return_book_screen.png' alt='Figure 3.12 Displaying the Book Return Directory Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.12 Displaying the Book Return Directory Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/09. process_a_book_return.png' alt='Figure 3.13 Displaying the Process Return and Fine Assessment Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.13 Displaying the Process Return and Fine Assessment Window</div>
+        <p>Figure 3.13 shows the process return modal dialog. The librarian inspects the returned book, records condition notes (Good, Damaged, or Lost), checks overdue days, and collects any assessed overdue fines.</p>
+        <div class='footer-page-num'>16</div>
+    </div>
+    <div class='page'>
+        <p>Figure 3.14 shows the circulation borrowing history window. This window provides a comprehensive audit trail of all historical circulation transactions with date range filters.</p>
+        <div class='figure-container'>
+            <img src='screenshots/10. borrowing history_screen_dark.png' alt='Figure 3.14 Displaying the Circulation History Audit Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.14 Displaying the Circulation History Audit Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/11. report_screen_dark.png' alt='Figure 3.15 Displaying the Analytical Reports and Periodic Statistics Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.15 Displaying the Analytical Reports and Periodic Statistics Window</div>
+        <p>Figure 3.15 shows the analytical reports window. Admins can generate circulation performance statistics, overdue summaries, and top-borrowed book rankings filtered by month, year, or custom date ranges.</p>
+        <div class='footer-page-num'>17</div>
+    </div>
+    <div class='page'>
+        <p>Figure 3.16 shows the administrator profile window. The logged-in admin can view their profile details, assigned system role, registered email address, and last login activity.</p>
+        <div class='figure-container'>
+            <img src='screenshots/12. profile_screen.png' alt='Figure 3.16 Displaying the Administrator Account Profile Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.16 Displaying the Administrator Account Profile Window</div>
+        <div class='figure-container'>
+            <img src='screenshots/13. change_password_screen.png' alt='Figure 3.17 Displaying the Password Rotation and Security Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.17 Displaying the Password Rotation and Security Window</div>
+        <p>Figure 3.17 shows the password rotation window. Admins and staff can update their login password with mandatory complexity requirements to ensure system account security.</p>
+        <div class='footer-page-num'>18</div>
+    </div>
+    <div class='page'>
+        <div class='figure-container'>
+            <img src='screenshots/14. settings.png' alt='Figure 3.18 Displaying the Global System Settings Window' class='figure-img' style='max-width: 132.1mm;'>
+        </div>
+        <div class='caption'>Figure 3.18 Displaying the Global System Settings Window</div>
+        <p>Figure 3.18 shows the global library settings window. The admin can configure system-wide rules including loan period durations, maximum borrow allowances, daily fine rates, and notification preferences.</p>
+        <h3>3.2 Summary</h3>
+        <p>In this chapter, the user interface design and operational workflows of the School Library Management System were presented. The interface provides accessible and responsive interactions for both public patrons and administrative personnel, ensuring efficient circulation management, inventory tracking, and institutional reporting.</p>
+        <div class='footer-page-num'>19</div>
+    </div>
+</body>
+</html>

@@ -11,9 +11,9 @@ Features a responsive design with **full Light and Dark Mode support**, instant 
 ### 1. Public Library Portal & Self-Service Circulation
 Students and faculty can discover available literature, check real-time copy counts, and track their personal borrow records.
 
-| Public Catalogue (Light Mode) | Public Catalogue (Dark Mode) |
+| Public Library Showcase & Hero | Public Book Catalogue & Availability Grid |
 | :---: | :---: |
-| ![Public Home - Light Mode](docs/screenshots/01.%20public_home_screen_light.png) | ![Public Home - Dark Mode](docs/screenshots/01.%20public_home_screen_dark.png) |
+| ![Public Home Screen](docs/screenshots/01.%20public_home_screen.png) | ![Browse Books Catalogue](docs/screenshots/02.%20public_browse_books.png) |
 
 | Member Self-Service Borrowing History | Secure Administrator Login |
 | :---: | :---: |
