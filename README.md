@@ -8,53 +8,74 @@ Features a responsive design with **full Light and Dark Mode support**, instant 
 
 ## 📸 Interface Previews
 
-### 1. Dashboard Overview
+### 1. Public Library Portal & Self-Service Circulation
+Students and faculty can discover available literature, check real-time copy counts, and track their personal borrow records.
 
-#### Light Mode
-| Expanded Sidebar | Collapsed Sidebar |
+| Public Catalogue (Light Mode) | Public Catalogue (Dark Mode) |
 | :---: | :---: |
-| ![Dashboard - Light Mode Expanded](docs/screenshots/dashboard-light-expanded.png) | ![Dashboard - Light Mode Collapsed](docs/screenshots/dashboard-light-collapsed.png) |
+| ![Public Home - Light Mode](docs/screenshots/01.%20public_home_screen_light.png) | ![Public Home - Dark Mode](docs/screenshots/01.%20public_home_screen_dark.png) |
 
-#### Dark Mode
-| Expanded Sidebar | Collapsed Sidebar |
+| Member Self-Service Borrowing History | Secure Administrator Login |
 | :---: | :---: |
-| ![Dashboard - Dark Mode Expanded](docs/screenshots/dashboard-dark-expanded.png) | ![Dashboard - Dark Mode Collapsed](docs/screenshots/dashboard-dark-collapsed.png) |
+| ![My Borrowing List](docs/screenshots/02.%20my_borrowing_list.png) | ![Admin Login](docs/screenshots/03.%20admin_login.png) |
 
 ---
 
-### 2. Books Catalogue & Unified Filters
+### 2. Analytical Dashboard
+Real-time KPI metric tracking, vector borrowing trend curves, live overdue feeds, and interactive membership breakdown.
 
-Featuring instant search by Title, Author, ISBN, or Category, accompanied by real-time status and genre dropdown filters.
-
-#### Light Mode
-| Expanded Sidebar | Collapsed Sidebar |
+| Admin Dashboard (Light Mode) | Admin Dashboard (Dark Mode - Electric Cyan) |
 | :---: | :---: |
-| ![Books - Light Mode Expanded](docs/screenshots/books-light-expanded.png) | ![Books - Light Mode Collapsed](docs/screenshots/books-light-collapsed.png) |
-
-#### Dark Mode
-| Expanded Sidebar | Collapsed Sidebar |
-| :---: | :---: |
-| ![Books - Dark Mode Expanded](docs/screenshots/books-dark-expanded.png) | ![Books - Dark Mode Collapsed](docs/screenshots/books-dark-collapsed.png) |
+| ![Admin Dashboard Light](docs/screenshots/05.%20admin_dashboard_light.png) | ![Admin Dashboard Dark](docs/screenshots/05.%20admin_dashboard_dark.png) |
 
 ---
 
-### 3. Members & Administration
+### 3. Book Catalogue & Inventory Management
+Search across titles, authors, categories, and ISBNs with real-time status and genre filters, complete with full cover uploads.
 
-| Members Directory (Light Mode) | Members Directory (Dark Mode) |
+| Book Catalogue & Filtering | Add New Book & Cover Upload |
 | :---: | :---: |
-| ![Members - Light Mode Expanded](docs/screenshots/members-light-expanded.png) | ![Members - Dark Mode Expanded](docs/screenshots/members-dark-expanded.png) |
-
-| Borrowing Management | Admin Login |
-| :---: | :---: |
-| ![Borrow Management](docs/screenshots/borrow-light.png) | ![Admin Login](docs/screenshots/login.png) |
+| ![Books Catalogue](docs/screenshots/06.%20books_screen.png) | ![Add Book Screen](docs/screenshots/06.%20add_book_screen.png) |
 
 ---
 
-### 4. Circulation Reports & Analytics
+### 4. Members Administration
+Classified membership tiers for Students, Teachers, and Staff with department and contact tracking.
 
-| Reports & Analytics (Light Mode) | Reports & Analytics (Dark Mode) |
+| Members Directory | Add New Member Registration |
 | :---: | :---: |
-| ![Reports - Light Mode](docs/screenshots/reports-light.png) | ![Reports - Dark Mode](docs/screenshots/reports-dark.png) |
+| ![Members Directory](docs/screenshots/07.%20members_screen_light.png) | ![Add New Member](docs/screenshots/07.%20add_new_member.png) |
+
+---
+
+### 5. Circulation - Borrow & Return Workflows
+Transaction-safe checkout and return workflows with real-time stock deduction, inspection condition grading, and automatic overdue fine calculation.
+
+| Borrowing Management Overview | New Book Checkout Flow |
+| :---: | :---: |
+| ![Borrow Management](docs/screenshots/08.%20borrow_book_screen.png) | ![Make a New Borrow](docs/screenshots/08.%20make_a_new_borrow.png) |
+
+| Book Returns Directory | Process Return & Fine Assessment |
+| :---: | :---: |
+| ![Returns Directory](docs/screenshots/09.%20return_book_screen.png) | ![Process a Book Return](docs/screenshots/09.%20process_a_book_return.png) |
+
+---
+
+### 6. Circulation History, Reports & Analytics
+Comprehensive audit trail of library transactions and customizable periodic reporting.
+
+| Circulation & Borrowing History | Analytics & Periodic Reports |
+| :---: | :---: |
+| ![Borrowing History](docs/screenshots/10.%20borrowing%20history_screen_dark.png) | ![Reports Screen](docs/screenshots/11.%20report_screen_dark.png) |
+
+---
+
+### 7. Account Profile, Security & System Settings
+Administrator profile editing, secure password rotation with complexity validation, and global system configuration.
+
+| Administrator Profile | Password Rotation Flow | Global System Settings |
+| :---: | :---: | :---: |
+| ![Profile Screen](docs/screenshots/12.%20profile_screen.png) | ![Change Password](docs/screenshots/13.%20change_password_screen.png) | ![Settings](docs/screenshots/14.%20settings.png) |
 
 ---
 
