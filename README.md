@@ -9,9 +9,9 @@ Features a responsive design with **full Light and Dark Mode support**, instant 
 ## 📸 Interface Previews
 
 ### 1. Public Library Portal & Self-Service Circulation
-Students and faculty can discover available literature, check real-time copy counts, and track their personal borrow records.
+Students and faculty can discover available literature, check real-time copy counts, and track their personal borrow records without requiring prior administrative login.
 
-| Public Library Showcase & Hero | Public Book Catalogue & Availability Grid |
+| Public Home Screen & Hero Showcase | Browse Books Catalogue & Availability Grid |
 | :---: | :---: |
 | ![Public Home Screen](docs/screenshots/01.%20public_home_screen.png) | ![Browse Books Catalogue](docs/screenshots/02.%20public_browse_books.png) |
 
@@ -102,7 +102,8 @@ Administrator profile editing, secure password rotation with complexity validati
 - **Condition Grading**: Inspection notes and book condition status tracking (*Good*, *Late*, *Damaged*).
 
 ### 🌐 Public Portal & Self-Service Circulation
-- **Public Book Discovery**: Clean, responsive public showcase (`/Index`) where students and teachers can browse, search, and check copy availability.
+- **Public Book Discovery & Hero Showcase**: Clean, responsive public showcase (`/Index`) with search toolbar, quick collection metrics, and interactive featured reading showcases.
+- **Browse Books Catalogue Grid**: Dedicated catalogue view with dynamic category filtering dropdown, real-time availability badges, publication years, ISBN identifiers, and instant `+ Borrow Book` action cards.
 - **Self-Service Borrowing**: Streamlined borrowing checkout flow (`/Public/Borrow`) with instant borrow code confirmation.
 - **Personal Borrowing Lookup**: Fast lookup tool (`/Public/MyBorrowings`) allowing members to check active loans, due dates, and return history by Student ID or Email.
 
